@@ -21,6 +21,9 @@ performances:
     venue:
       ja: インテックス大阪
       en: INTEX Osaka
+    halls:
+      ja: 4号館・5号館A・5号館B
+      en: Halls 4, 5A and 5B
     shows:
       - id: day1-evening
         date: 2022-08-12
@@ -51,6 +54,9 @@ performances:
     venue:
       ja: 幕張メッセ 国際展示場
       en: Makuhari Messe
+    halls:
+      ja: 9・10・11ホール
+      en: Halls 9, 10 and 11
     shows:
       - id: day1-matinee
         date: 2022-09-02

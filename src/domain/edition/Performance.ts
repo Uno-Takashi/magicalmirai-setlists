@@ -10,6 +10,17 @@ export interface Performance {
   readonly city: LocalizedText
   /** 会場名。未確定なら undefined。 */
   readonly venue?: LocalizedText
+  /**
+   * 会場内で使った施設。公式サイトの表記をそのまま持つ
+   * (例: 大ホール・展示イベントホール・コングレスセンター 2・3F)。
+   * 公式サイトが会場名しか出していない年は undefined。
+   */
+  readonly halls?: LocalizedText
+  /**
+   * 地図を引くための検索語。会場名だけでは目的の場所に定まらないときに書く。
+   * 省略時は会場名から引く (venueMapUrl を参照)。
+   */
+  readonly mapQuery?: string
   readonly shows: readonly Show[]
 }
 

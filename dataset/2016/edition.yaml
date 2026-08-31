@@ -19,6 +19,9 @@ performances:
     venue:
       ja: 幕張メッセ 国際展示場
       en: Makuhari Messe
+    halls:
+      ja: 9ホール(ライブ)・10・11ホール(企画展)
+      en: Hall 9 (live), Halls 10 & 11 (exhibition)
     shows:
       - id: day1-matinee
         date: 2016-09-10

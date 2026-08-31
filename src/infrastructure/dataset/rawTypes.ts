@@ -34,6 +34,8 @@ export interface RawPerformance {
   region: string
   city: RawLocalizedText
   venue?: RawLocalizedText
+  halls?: RawLocalizedText
+  mapQuery?: string
   shows: RawShow[]
 }
 
