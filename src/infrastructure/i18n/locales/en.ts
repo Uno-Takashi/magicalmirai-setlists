@@ -67,7 +67,7 @@ export const en: Translations = {
   'statistics.open': 'View statistics',
   'statistics.title': 'Statistics',
   'statistics.description': 'Aggregated across every edition on record.',
-  'statistics.editionCount': 'Editions',
+  'statistics.editionCount': 'Magical Mirai editions',
   'statistics.performanceCount': 'Performances (total)',
   'statistics.producerCount': 'Producers',
   'statistics.backToOverview': 'Back to statistics',
