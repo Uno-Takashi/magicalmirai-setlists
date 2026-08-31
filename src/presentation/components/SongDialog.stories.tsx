@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
+import { FloatingPlayer } from './FloatingPlayer'
 import { SongDialog } from './SongDialog'
 
 const catalog = loadCatalog()
@@ -15,6 +16,15 @@ const meta = {
   component: SongDialog,
   parameters: { layout: 'fullscreen' },
   args: { onClose: () => {}, onSelectEdition: () => {} },
+  // 動画はアプリ本体と同じく詳細の外側で持つ。ここでも並べて再生を確かめられるようにする。
+  decorators: [
+    (Story) => (
+      <>
+        <Story />
+        <FloatingPlayer onExpand={() => {}} />
+      </>
+    ),
+  ],
 } satisfies Meta<typeof SongDialog>
 
 export default meta

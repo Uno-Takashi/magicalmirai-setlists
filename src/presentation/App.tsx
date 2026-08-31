@@ -6,6 +6,7 @@ import { AppFooter } from '@/presentation/components/AppFooter'
 import { AppHeader } from '@/presentation/components/AppHeader'
 import { EditionCarousel } from '@/presentation/components/EditionCarousel'
 import { EditionSideNav } from '@/presentation/components/EditionSideNav'
+import { FloatingPlayer } from '@/presentation/components/FloatingPlayer'
 import { SearchOverlay } from '@/presentation/components/SearchOverlay'
 import { SongDialog } from '@/presentation/components/SongDialog'
 import { RankingView } from '@/presentation/components/RankingView'
@@ -153,6 +154,8 @@ export function App() {
       />
       <SongDialog song={selectedSong} onClose={closeSong} onSelectEdition={selectEditionFromSong} />
       <AboutDialog open={aboutOpen} onClose={closeAbout} />
+      {/* 詳細を閉じても再生を続けるので、どの画面でも描いておく。 */}
+      <FloatingPlayer onExpand={setSelectedSong} />
     </>
   )
 

@@ -20,8 +20,12 @@ function query(song: Song): string {
   return encodeURIComponent(`${song.title} ${producerLabel(song)}`.trim())
 }
 
+/**
+ * 埋め込み再生の URL。押されてから作るので `autoplay=1` を付ける。
+ * `enablejsapi=1` は、再生が終わったことを親ページが受け取れるようにするため。
+ */
 export function youtubeEmbedUrl(videoId: string): string {
-  return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`
+  return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`
 }
 
 export function youtubeThumbnailUrl(videoId: string): string {
