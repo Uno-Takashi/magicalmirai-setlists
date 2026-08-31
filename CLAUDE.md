@@ -7,7 +7,7 @@
 初音ミク「マジカルミライ」歴代公演のセットリストを閲覧するファンページ。
 完全に static な SPA として GitHub Pages で配信する。バックエンドは持たない。
 
-- 公開先: https://uno-takashi.github.io/setlist/
+- 公開先: https://uno-takashi.github.io/magicalmirai_setlist_page/
 - 公式サイト (一次情報源): https://magicalmirai.com/
 
 ---
@@ -302,12 +302,13 @@ Storybook にはストーリーがあるので、使いどころを探すとき�
   `%VITE_SITE_URL%` 置換で、アプリ側は `import.meta.env` で同じ値を見ている。
   型は `src/vite-env.d.ts` の `ImportMetaEnv` に書く。
 
-- GitHub Pages はリポジトリ名のサブパス配信なので `VITE_BASE_PATH` を `/setlist/` にしている。
+- GitHub Pages はリポジトリ名のサブパス配信なので `VITE_BASE_PATH` を
+  `/magicalmirai_setlist_page/` にしている。
 - 検索向けの `sitemap.xml` と `robots.txt` は `vite.config.ts` の `seoFiles` プラグインが
   ビルド時に生成する。dataset に年を足せば URL が増えるので手で並べ直さなくてよい。
 - 静的ホスティングではどの URL も同じ HTML が返るため、HTML の `title` / `description` は
   サイト全体の既定値でしかない。ページごとの文言は `useDocumentMeta` が描画後に差し替える。
-- ルーティングは History API による実パス (`/setlist/2023` `/setlist/statics`)。
+- ルーティングは History API による実パス (base の下の `2023` や `statics`)。
   静的ホスティングは実体の無いパスに 404 を返すので、`vite.config.ts` の
   `spaFallback` プラグインが `index.html` を `404.html` に複製している。
   **GitHub Pages はこの 404.html を返すため、これでディープリンクが動く。**

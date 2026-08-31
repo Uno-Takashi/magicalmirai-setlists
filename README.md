@@ -2,7 +2,7 @@
 
 初音ミク「マジカルミライ」歴代公演のセットリストを年ごとに振り返るファンページ。
 
-**公開先:** https://uno-takashi.github.io/setlist/
+**公開先:** https://uno-takashi.github.io/magicalmirai_setlist_page/
 
 > 本サイトはファンによる非公式のアーカイブです。
 
