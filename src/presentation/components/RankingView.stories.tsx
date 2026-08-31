@@ -5,7 +5,7 @@ const meta = {
   title: 'Statistics/RankingView',
   component: RankingView,
   parameters: { layout: 'fullscreen' },
-  args: { onSelectSong: () => {} },
+  args: { onBack: () => {}, onSelectSong: () => {} },
 } satisfies Meta<typeof RankingView>
 
 export default meta
