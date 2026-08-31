@@ -1,5 +1,7 @@
 # magicalmirai-setlists
 
+[![CI](https://github.com/Uno-Takashi/magicalmirai-setlists/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Uno-Takashi/magicalmirai-setlists/actions/workflows/ci.yml?query=branch%3Amain)
+
 初音ミク「マジカルミライ」歴代公演のセットリストを年ごとに振り返るファンページ。
 
 **公開先:** https://uno-takashi.github.io/magicalmirai-setlists/
