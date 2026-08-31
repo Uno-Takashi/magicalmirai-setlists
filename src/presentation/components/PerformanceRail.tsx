@@ -1,8 +1,9 @@
-import { LuCalendarDays, LuMapPin, LuMoon, LuSun } from 'react-icons/lu'
+import { LuCalendarDays, LuInfo, LuMapPin } from 'react-icons/lu'
 import { showsByDate, type Performance } from '@/domain/edition/Performance'
 import { regionColorVar } from '@/domain/edition/Region'
-import { showDate, type Session } from '@/domain/edition/Show'
+import { showDate } from '@/domain/edition/Show'
 import { localize } from '@/domain/vocaloid/Vocaloid'
+import { SessionMark } from '@/presentation/components/SessionMark'
 import { useDateFormatters } from '@/presentation/hooks/useFormatters'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
@@ -13,32 +14,17 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
  * 幅の狭い画面では縦に積む。横並びのままだと 2 枚目以降が画面の外に出てしまい、
  * 年送りの横スワイプと競合して、そこまでスクロールして選ぶことができない。
  */
-const SESSION_ICON = { matinee: LuSun, evening: LuMoon } as const
-const SESSION_COLOR = {
-  matinee: 'var(--color-session-matinee)',
-  evening: 'var(--color-session-evening)',
-} as const
-
-/** 昼夜をアイコンで示す。アイコンだけでは伝わらないので読み上げ用の文言も置く。 */
-function SessionMark({ session }: { session: Session }) {
-  const { t } = useLocale()
-  const Icon = SESSION_ICON[session]
-  return (
-    <span className="inline-flex items-center" style={{ color: SESSION_COLOR[session] }}>
-      <Icon aria-hidden />
-      <span className="sr-only">{t(`session.${session}`)}</span>
-    </span>
-  )
-}
-
 export function PerformanceRail({
   performances,
   selectedId,
   onSelect,
+  onShowDetail,
 }: {
   performances: readonly Performance[]
   selectedId: string
   onSelect: (id: string) => void
+  /** 会場情報のモーダルを開く。 */
+  onShowDetail: (performance: Performance) => void
 }) {
   const { t, locale } = useLocale()
   const formatters = useDateFormatters()
@@ -52,7 +38,10 @@ export function PerformanceRail({
           const selected = performance.id === selectedId
           const color = regionColorVar(performance.region)
           return (
-            <li key={performance.id}>
+            <li key={performance.id} className="relative h-full">
+              {/* 右肩は詳細ボタンの場所なので、本体の文字を pr-10 で避けておく。
+                  選択中は公演地の色で縁取る。どの公演のセットリストを見ているかは
+                  ここでしか分からないので、色は必ず出す */}
               <button
                 type="button"
                 onClick={() => onSelect(performance.id)}
@@ -60,7 +49,12 @@ export function PerformanceRail({
                 aria-label={t('a11y.selectPerformance', {
                   city: localize(performance.city, locale),
                 })}
-                className="surface-card h-full w-full rounded-xl p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg sm:w-56"
+                className={`surface-card h-full w-full rounded-xl p-3 pr-10 text-left transition hover:-translate-y-0.5 hover:shadow-lg sm:w-56 ${
+                  selected ? '-translate-y-0.5 shadow-md' : ''
+                }`}
+                style={
+                  selected ? { outline: `2px solid ${color}`, outlineOffset: '2px' } : undefined
+                }
               >
                 {/* 狭いときは公演地と会場を同じ行に流し込み、1 枚あたりの高さを抑える */}
                 <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 sm:block">
@@ -97,6 +91,18 @@ export function PerformanceRail({
                     ))}
                   </span>
                 </span>
+              </button>
+
+              {/* カード本体は button なので入れ子にできない。兄弟として重ねる */}
+              <button
+                type="button"
+                onClick={() => onShowDetail(performance)}
+                aria-label={t('a11y.performanceDetail', {
+                  city: localize(performance.city, locale),
+                })}
+                className="text-muted absolute top-2 right-2 rounded-lg p-1.5 transition hover:bg-black/5 hover:text-current"
+              >
+                <LuInfo aria-hidden />
               </button>
             </li>
           )

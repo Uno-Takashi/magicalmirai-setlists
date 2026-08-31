@@ -4,10 +4,12 @@ import { LuGlobe } from 'react-icons/lu'
 import { performedTracks, setlistFor } from '@/domain/setlist/Setlist'
 import type { EditionEntry } from '@/domain/catalog/Catalog'
 import { editionPeriod } from '@/domain/edition/Edition'
+import type { Performance } from '@/domain/edition/Performance'
 import { parseEventDate } from '@/domain/edition/Show'
 import type { Song } from '@/domain/song/Song'
 import { localize } from '@/domain/vocaloid/Vocaloid'
 import { titleImageOf } from '@/infrastructure/dataset/titleImages'
+import { PerformanceDialog } from '@/presentation/components/PerformanceDialog'
 import { PerformanceRail } from '@/presentation/components/PerformanceRail'
 import { SetlistTimeline } from '@/presentation/components/SetlistTimeline'
 import { useDateFormatters } from '@/presentation/hooks/useFormatters'
@@ -31,6 +33,8 @@ export function EditionView({
   const [selectedPerformanceId, setSelectedPerformanceId] = useState(
     () => edition.performances[0]?.id ?? '',
   )
+  // 会場情報のモーダル。公演の選択とは独立で、見ている公演を変えずに開ける。
+  const [detailPerformance, setDetailPerformance] = useState<Performance | null>(null)
 
   const selectedPerformance =
     edition.performances.find((p) => p.id === selectedPerformanceId) ?? edition.performances[0]
@@ -106,6 +110,7 @@ export function EditionView({
               performances={edition.performances}
               selectedId={selectedPerformance.id}
               onSelect={setSelectedPerformanceId}
+              onShowDetail={setDetailPerformance}
             />
           </div>
         ) : null}
@@ -129,6 +134,11 @@ export function EditionView({
           </div>
         )}
       </div>
+
+      <PerformanceDialog
+        performance={detailPerformance}
+        onClose={() => setDetailPerformance(null)}
+      />
     </section>
   )
 }

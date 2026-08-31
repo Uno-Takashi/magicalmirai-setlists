@@ -24,6 +24,10 @@ export const en: Translations = {
   'edition.officialSite': 'Official site',
   'edition.venueUnknown': 'Venue TBA',
 
+  'performance.halls': 'Venue',
+  'performance.schedule': 'Schedule',
+  'performance.close': 'Close',
+
   'session.matinee': 'Matinee',
   'session.evening': 'Evening',
 
@@ -96,6 +100,8 @@ export const en: Translations = {
   'a11y.viewEdition': 'View the {year} setlist',
   'a11y.help': 'Show explanation',
   'a11y.selectPerformance': 'Show the setlist for {city}',
+  'a11y.performanceDetail': 'Open venue information for {city}',
+  'a11y.venueMap': 'Map of {venue}',
   'a11y.authorOnX': "Open {name}'s profile on X",
   'a11y.songDetail': 'Open details for {title}',
   'a11y.pictureInPicture': 'Keep playing in the corner',

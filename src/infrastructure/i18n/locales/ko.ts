@@ -24,6 +24,10 @@ export const ko: Translations = {
   'edition.officialSite': '공식 사이트',
   'edition.venueUnknown': '공연장 미정',
 
+  'performance.halls': '공연장',
+  'performance.schedule': '공연 일정',
+  'performance.close': '닫기',
+
   'session.matinee': '낮 공연',
   'session.evening': '밤 공연',
 
@@ -94,6 +98,8 @@ export const ko: Translations = {
   'a11y.viewEdition': '{year}년 세트리스트 보기',
   'a11y.help': '설명 보기',
   'a11y.selectPerformance': '{city} 공연의 세트리스트 표시',
+  'a11y.performanceDetail': '{city} 공연의 공연장 정보 열기',
+  'a11y.venueMap': '{venue} 지도',
   'a11y.authorOnX': '{name}의 X 프로필 열기',
   'a11y.songDetail': '「{title}」의 상세 정보 열기',
   'a11y.pictureInPicture': '오른쪽 아래에서 계속 재생',

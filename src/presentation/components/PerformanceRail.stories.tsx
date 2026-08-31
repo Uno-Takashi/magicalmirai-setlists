@@ -13,7 +13,7 @@ const meta = {
   title: 'Setlist/PerformanceRail',
   component: PerformanceRail,
   parameters: { layout: 'padded' },
-  args: { onSelect: () => {} },
+  args: { onSelect: () => {}, onShowDetail: () => {} },
 } satisfies Meta<typeof PerformanceRail>
 
 export default meta
