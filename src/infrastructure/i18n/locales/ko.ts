@@ -66,7 +66,7 @@ export const ko: Translations = {
   'statistics.open': '통계 보기',
   'statistics.title': '통계',
   'statistics.description': '역대 세트리스트를 기준으로 집계합니다.',
-  'statistics.editionCount': '집계한 공연 횟수',
+  'statistics.editionCount': '개최 횟수',
   'statistics.performanceCount': '연주 횟수(누적)',
   'statistics.producerCount': '보카로 P',
   'statistics.backToOverview': '통계로 돌아가기',
