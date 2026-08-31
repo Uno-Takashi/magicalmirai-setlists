@@ -4,6 +4,7 @@ import '../src/index.css'
 import { loadCatalog } from '../src/infrastructure/dataset/loadCatalog'
 import { CatalogProvider } from '../src/presentation/providers/CatalogProvider'
 import { LocaleProvider } from '../src/presentation/providers/LocaleProvider'
+import { PlayerProvider } from '../src/presentation/providers/PlayerProvider'
 
 // 実データを使う。ストーリーがデータセットの変更に追従する。
 const catalog = loadCatalog()
@@ -29,9 +30,11 @@ const preview: Preview = {
     (Story) => (
       <LocaleProvider>
         <CatalogProvider catalog={catalog}>
-          <div className="w-full max-w-3xl p-6">
-            <Story />
-          </div>
+          <PlayerProvider>
+            <div className="w-full max-w-3xl p-6">
+              <Story />
+            </div>
+          </PlayerProvider>
         </CatalogProvider>
       </LocaleProvider>
     ),

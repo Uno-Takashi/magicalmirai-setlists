@@ -96,6 +96,9 @@ export const en: Translations = {
   'a11y.selectPerformance': 'Show the setlist for {city}',
   'a11y.authorOnX': "Open {name}'s profile on X",
   'a11y.songDetail': 'Open details for {title}',
+  'a11y.pictureInPicture': 'Keep playing in the corner',
+  'a11y.expandPlayer': 'Reopen details for {title}',
+  'a11y.closePlayer': 'Close the playing video',
   'a11y.vocaloidTrend': 'Line chart of songs per edition for each Vocaloid',
   'a11y.vocaloidTrendTotal': 'Line chart of cumulative songs per edition for each Vocaloid',
 
