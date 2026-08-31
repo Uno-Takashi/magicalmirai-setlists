@@ -1,0 +1,231 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 出典: 公式サイト アフターレポート https://magicalmirai.com/2024/special_afterreport.html
+#
+# shows は「その候補がどの公演回で演奏されたか」。edition.yaml の
+# <公演 id>/<公演回 id> を指す。省略した枠はその公演すべてで演奏された固定曲。
+# 会場替わり / 日程替わり / 日替わり の区別は、この shows から計算する。
+sets:
+  - performances: [fukuoka, osaka, tokyo]
+    tracks:
+      - order: 1
+        song: 'ブリキノダンス'
+        singers: [miku]
+      - order: 2
+        song: '混沌ブギ'
+        singers: [miku]
+      - order: 3
+        variants:
+          - song: '愛の詩'
+            shows:
+              - fukuoka/day1-evening
+              - fukuoka/day1-matinee
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+          - song: 'すきなことだけでいいです'
+            shows:
+              - fukuoka/day2-evening
+              - fukuoka/day2-matinee
+              - osaka/day1-evening
+              - osaka/day1-matinee
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+      - order: 4
+        variants:
+          - song: 'HERO'
+            shows:
+              - fukuoka/day1-evening
+              - fukuoka/day1-matinee
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+          - song: 'フューチャー・イヴ'
+            shows:
+              - fukuoka/day2-evening
+              - fukuoka/day2-matinee
+              - osaka/day1-evening
+              - osaka/day1-matinee
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+      - order: 5
+        song: 'SUPERHERO'
+        singers: [len]
+      - order: 6
+        song: 'Call!!'
+        singers: [kaito]
+      - order: 7
+        song: 'TYQOON'
+        singers: [meiko]
+      - order: 8
+        song: 'REALITY'
+        singers: [meiko, kaito]
+      - order: 9
+        song: '新人類'
+        singers: [rin]
+      - order: 10
+        song: '流星のパルス'
+        singers: [len]
+      - order: 11
+        song: '踊'
+        singers: [rin, len]
+      - order: 12
+        song: 'lost and found'
+        singers: [luka]
+      - order: 13
+        song: 'letter song'
+        singers: [miku]
+      - order: 14
+        song: '陽だまりのセツナ'
+        singers: [miku, luka]
+      - order: 15
+        variants:
+          - song: 'アンハッピーリフレイン'
+            shows:
+              - fukuoka/day1-evening
+              - fukuoka/day1-matinee
+              - fukuoka/day2-evening
+              - fukuoka/day2-matinee
+            singers: [miku]
+          - song: 'すろぉもぉしょん'
+            shows:
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+          - song: 'サイハテ'
+            shows:
+              - osaka/day1-evening
+              - osaka/day1-matinee
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - osaka/day3-evening
+              - osaka/day3-matinee
+            singers: [miku]
+      - order: 16
+        variants:
+          - song: '快晴'
+            shows:
+              - fukuoka/day1-evening
+              - fukuoka/day1-matinee
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+          - song: 'Calc.'
+            shows:
+              - fukuoka/day2-evening
+              - fukuoka/day2-matinee
+              - osaka/day1-evening
+              - osaka/day1-matinee
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+      - order: 17
+        variants:
+          - song: '僕が夢を捨てて大人になるまで'
+            shows:
+              - fukuoka/day1-evening
+              - fukuoka/day1-matinee
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+          - song: '命に嫌われている。'
+            shows:
+              - fukuoka/day2-evening
+              - fukuoka/day2-matinee
+              - osaka/day1-evening
+              - osaka/day1-matinee
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+      - order: 18
+        variants:
+          - song: 'Satisfaction'
+            shows:
+              - fukuoka/day1-evening
+              - fukuoka/day1-matinee
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+          - song: 'テオ'
+            shows:
+              - fukuoka/day2-evening
+              - fukuoka/day2-matinee
+              - osaka/day1-evening
+              - osaka/day1-matinee
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+      - order: 19
+        variants:
+          - song: 'グリーンライツ・セレナーデ'
+            shows:
+              - fukuoka/day1-evening
+              - fukuoka/day1-matinee
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+          - song: 'ブレス・ユア・ブレス'
+            shows:
+              - fukuoka/day2-evening
+              - fukuoka/day2-matinee
+              - osaka/day1-evening
+              - osaka/day1-matinee
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+      - order: 20
+        song: 'ノヴァ'
+        singers: [miku]
+      - order: 21
+        song: '初めての恋が終わる時'
+        singers: [miku]
+      - order: 22
+        song: 'アンテナ39'
+        singers: [miku]
+      - order: 23
+        song: 'ボルテッカー'
+        singers: [miku]
+      - order: 24
+        song: 'Hand in Hand'
+        singers: [miku, rin, len, luka, meiko, kaito]

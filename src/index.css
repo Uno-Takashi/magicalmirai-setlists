@@ -1,0 +1,151 @@
+/* インポート順は必ず tailwindcss が先。逆にすると HeroUI のトークンが上書きされる。 */
+@import 'tailwindcss';
+@import '@heroui/styles';
+
+@theme {
+  /* 公演地のテーマカラー。dataset の region に対応する。 */
+  --color-region-tokyo: #3366cc;
+  --color-region-osaka: #dd4444;
+  --color-region-other: #ffcc11;
+
+  /* 昼夜のアイコン色。小さいアイコンなので、背景に対して 3:1 以上を確保する。
+     黄は鏡音リンの #FFCC11 だと 1.5:1 しかなく見えないため、黄みを保って暗くした。 */
+  --color-session-matinee: #dd4444;
+  --color-session-evening: #b58600;
+
+  /* ボーカロイドのテーマカラー。 */
+  --color-miku: #39c5bb;
+  --color-rin: #ffcc11;
+  --color-len: #ffee11;
+  --color-luka: #ffbacc;
+  --color-meiko: #dd4444;
+  --color-kaito: #3366cc;
+
+  /* 日本語・中国語・韓国語が混在するので CJK フォントを OS ごとに拾えるよう広めに並べる。 */
+  --font-sans:
+    system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+    'Yu Gothic UI', 'Noto Sans JP', 'Noto Sans CJK JP', 'Noto Sans KR', 'Noto Sans TC', 'Meiryo',
+    'Malgun Gothic', 'Microsoft JhengHei', sans-serif;
+}
+
+/* 配色は現在ライトのみ。ダークを戻すときはここにもう 1 セット定義を足す。 */
+:root {
+  /* HeroUI のツールチップの表示遅延。既定の 1.5s は待たされる感じが強いので短くする。
+     閉じるほうは、隣のツールチップへ移るときにちらつかない程度に残す。 */
+  --tooltip-delay: 300ms;
+  --tooltip-close-delay: 300ms;
+
+  --surface: #f7f9fb;
+  --surface-raised: #ffffff;
+  --surface-border: rgb(15 23 42 / 0.1);
+  --text-strong: #0f172a;
+  --text-muted: #64748b;
+  color-scheme: light;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--text-strong);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  /* 年切り替えの横スワイプを OS の戻る操作に取られないようにする。 */
+  #root {
+    overscroll-behavior-x: contain;
+  }
+}
+
+@utility surface-card {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--surface-border);
+}
+
+@utility text-muted {
+  color: var(--text-muted);
+}
+
+/* アニメーションを減らす設定を尊重する。 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* 背景アニメーション。位置決めは親要素に任せ、ここでは変形と不透明度だけを扱う。 */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, 4%, 0) scale(1.12);
+  }
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.32;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* スクロールバーを隠す。年のタブは矢印ボタンと端のフェードで操作を示すため、
+   バー自体は見せない (公演年が増えても見た目が破綻しないようにする)。 */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 横スクロール領域の端をフェードさせて、続きがあることを示す。
+   フェード幅は --fade-start / --fade-end で出し分ける (端に着いたら 0)。 */
+@utility fade-edges-x {
+  --fade-start: 0px;
+  --fade-end: 0px;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--fade-start),
+    black calc(100% - var(--fade-end)),
+    transparent 100%
+  );
+}
+
+/* 統計グラフのバー色。ミクのテーマカラーを暗くしたステップで、
+   背景 (#f7f9fb) に対して 3.27:1・カード (#fff) に対して 3.45:1 と
+   3:1 のコントラスト下限を満たす。 */
+:root {
+  --chart-bar: #1e9a90;
+  --chart-track: rgb(15 23 42 / 0.06);
+}

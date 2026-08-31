@@ -1,0 +1,89 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 曲順の枠が日替わり/会場別の場合は variants に候補を並べる。
+# 出典: 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67115.html
+# singers は出典の表の色から判定した、この公演での歌唱ボーカロイド。
+sets:
+  - performances: [tokyo]
+    tracks:
+      - order: 1
+        song: '39みゅーじっく!'
+        singers: [miku]
+        tags: [theme-song]
+      - order: 2
+        song: 'ゴーストルール'
+        singers: [miku]
+      - order: 3
+        song: 'ヒビカセ'
+        singers: [miku]
+      - order: 4
+        song: 'Strangers'
+        singers: [miku]
+      - order: 5
+        song: 'すろぉもぉしょん'
+        singers: [miku]
+      - order: 6
+        song: '独りんぼエンヴィー'
+        singers: [miku]
+      - order: 7
+        song: 'タイムマシン'
+        singers: [miku]
+      - order: 8
+        song: 'Hello, Worker'
+        singers: [luka]
+      - order: 9
+        song: 'どりーみんチュチュ'
+        singers: [luka]
+      - order: 10
+        song: '愛Dee'
+        singers: [miku, luka]
+      - order: 11
+        song: 'ドクター=ファンクビート'
+        singers: [kaito]
+      - order: 12
+        song: 'Nostalogic(MEIKO-SAN mix)'
+        singers: [meiko]
+      - order: 13
+        song: 'どうぶつ占い'
+        singers: [miku]
+      - order: 14
+        song: 'Calc.'
+        singers: [miku]
+      - order: 15
+        song: 'ウミユリ海底譚'
+        singers: [miku]
+      - order: 16
+        song: 'テレカクシ思春期'
+        singers: [len]
+      - order: 17
+        song: 'スイートマジック'
+        singers: [rin]
+      - order: 18
+        song: 'リモコン'
+        singers: [rin, len]
+      - order: 19
+        song: 'Baby Maniacs -Eight Mix-'
+        singers: [miku]
+      - order: 20
+        song: 'ラズベリー*モンスター'
+        singers: [miku]
+      - order: 21
+        song: '39'
+        singers: [miku]
+      - order: 22
+        song: 'shake it!'
+        singers: [miku, rin, len]
+      - order: 23
+        song: 'ray'
+        singers: [miku]
+      - order: 24
+        song: 'Satisfaction'
+        singers: [miku]
+        tags: [encore]
+      - order: 25
+        song: 'なりすましゲンガー'
+        singers: [miku, rin]
+        tags: [encore]
+      - order: 26
+        song: 'Hand in Hand'
+        singers: [miku]
+        tags: [encore]

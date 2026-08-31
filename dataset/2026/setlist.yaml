@@ -1,0 +1,123 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 曲順の枠が日替わり/会場別の場合は variants に候補を並べる。
+# 出典: 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/71541.html
+# 全26曲 (昼夜替わり5曲・会場替わり1曲)。MC とバンドメンバー紹介の枠は含めていない。
+# singers は出典の表の左に付いた色から判定した、この公演での歌唱ボーカロイド。
+sets:
+  - performances: [hamamatsu, osaka, tokyo]
+    tracks:
+      - order: 1
+        song: 'ドーピングダンス'
+        singers: [miku]
+      - order: 2
+        song: 'ジェヘナ'
+        singers: [miku]
+      - order: 3
+        variants:
+          - song: '気まぐれメルシィ'
+            note: '昼公演'
+            singers: [miku]
+          - song: 'アンハッピーリフレイン'
+            note: '夜公演'
+            singers: [miku]
+      - order: 4
+        song: 'バッドシャーク'
+        singers: [rin]
+      - order: 5
+        song: '青炎'
+        singers: [kaito]
+      - order: 6
+        variants:
+          - song: 'あったかいと'
+            note: '昼公演'
+            singers: [kaito]
+          - song: 'FLASH'
+            note: '夜公演'
+            singers: [kaito]
+      - order: 7
+        song: 'サロメ'
+        singers: [meiko]
+      - order: 8
+        variants:
+          - song: 'ヒビカセ'
+            note: '昼公演'
+            singers: [miku]
+          - song: 'ヴァンパイア'
+            note: '夜公演'
+            singers: [miku]
+      - order: 9
+        variants:
+          - song: 'ウミユリ海底譚'
+            note: '浜松公演'
+            singers: [miku]
+          - song: 'カゲロウデイズ'
+            note: '大阪公演'
+            singers: [miku]
+          - song: '快晴'
+            note: '東京公演'
+            singers: [miku]
+      - order: 10
+        song: 'HELLO, NEW WORLD!'
+        singers: [luka]
+      - order: 11
+        variants:
+          - song: 'vivid'
+            note: '昼公演'
+            singers: [miku, luka]
+          - song: '陽だまりのセツナ'
+            note: '夜公演'
+            singers: [miku, luka]
+      - order: 12
+        song: '死にたくない'
+        singers: [len]
+      - order: 13
+        song: 'Amazing Dolce'
+        singers: [rin, len, meiko]
+      - order: 14
+        song: '泥中に咲く'
+        singers: [miku]
+      - order: 15
+        song: '積乱雲グラフィティ'
+        singers: [miku]
+      - order: 16
+        song: 'エル・タンゴ・エゴイスタ'
+        singers: [luka, kaito]
+      - order: 17
+        song: 'フェレス'
+        singers: [miku, meiko]
+      - order: 18
+        song: '天樂 -双響-'
+        singers: [rin, len]
+      - order: 19
+        song: '39みゅーじっく!'
+        singers: [miku]
+      - order: 20
+        variants:
+          - song: 'HERO'
+            note: '昼公演'
+            singers: [miku]
+          - song: 'ブレス・ユア・ブレス'
+            note: '夜公演'
+            singers: [miku]
+      - order: 21
+        song: 'ラストラス'
+        singers: [miku]
+      - order: 22
+        song: 'ハジメテノオト'
+        singers: [miku]
+      - order: 23
+        song: '空に免じて'
+        singers: [miku]
+        tags: [theme-song]
+      - order: 24
+        song: 'Over Flow(er)'
+        singers: [miku]
+        tags: [encore]
+      - order: 25
+        song: 'Hand in Hand'
+        singers: [miku, rin, len, luka, meiko, kaito]
+        tags: [encore]
+      - order: 26
+        song: 'こたえて'
+        singers: [miku, rin, len, luka, meiko, kaito]
+        tags: [encore, grand-prix]

@@ -1,0 +1,83 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 曲順の枠が日替わり/会場別の場合は variants に候補を並べる。
+# 出典: 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67111.html
+# singers は出典の表の色から判定した、この公演での歌唱ボーカロイド。
+sets:
+  - performances: [yokohama]
+    tracks:
+      - order: 1
+        song: 'Sweet Devil'
+        singers: [miku]
+      - order: 2
+        song: '二次元ドリームフィーバー'
+        singers: [miku]
+      - order: 3
+        song: 'キャットフード'
+        singers: [miku]
+      - order: 4
+        song: 'からくりピエロ'
+        singers: [miku]
+      - order: 5
+        song: 'ありふれたせかいせいふく'
+        singers: [miku]
+      - order: 6
+        song: 'どうぶつ占い'
+        singers: [miku]
+      - order: 7
+        song: '深海少女'
+        singers: [miku]
+      - order: 8
+        song: 'Hello, Worker'
+        singers: [luka]
+      - order: 9
+        song: 'erase or zero'
+        singers: [len, kaito]
+      - order: 10
+        song: 'ピアノ×フォルテ×スキャンダル'
+        singers: [meiko]
+      - order: 11
+        song: 'スキキライ'
+        singers: [rin, len]
+      - order: 12
+        song: 'shake it!'
+        singers: [miku, rin, len]
+      - order: 13
+        song: 'Weekender Girl'
+        note: '夜公演'
+        singers: [miku]
+      - order: 14
+        song: 'FREELY TOMORROW'
+        note: '夜公演'
+        singers: [miku]
+      - order: 15
+        song: 'Last Night, Good Night(Re:Dialed)'
+        singers: [miku]
+      - order: 16
+        song: 'Leia'
+        singers: [luka]
+      - order: 17
+        song: '東京テディベア'
+        singers: [rin]
+      - order: 18
+        song: 'アンハッピーリフレイン'
+        singers: [miku]
+      - order: 19
+        song: 'glow'
+        singers: [miku]
+      - order: 20
+        song: 'Tell Your World'
+        singers: [miku]
+      - order: 21
+        song: '39'
+        singers: [miku]
+      - order: 22
+        song: 'ODDS&ENDS'
+        singers: [miku]
+      - order: 23
+        song: '1/6 -out of the gravity-'
+        note: '夜公演'
+        singers: [miku]
+      - order: 24
+        song: 'ゆめゆめ'
+        singers: [miku]
+        tags: [encore]

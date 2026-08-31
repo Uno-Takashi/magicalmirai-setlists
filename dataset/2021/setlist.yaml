@@ -1,0 +1,202 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 出典: 公式サイト アフターレポート https://magicalmirai.com/2021/special_afterreport.html
+#
+# shows は「その候補がどの公演回で演奏されたか」。edition.yaml の
+# <公演 id>/<公演回 id> を指す。省略した枠はその公演すべてで演奏された固定曲。
+# 会場替わり / 日程替わり / 日替わり の区別は、この shows から計算する。
+sets:
+  - performances: [osaka, tokyo]
+    tracks:
+      - order: 1
+        song: 'ダーリンダンス'
+        singers: [miku]
+      - order: 2
+        song: '脳内革命ガール'
+        singers: [miku]
+      - order: 3
+        song: 'テレキャスタービーボーイ'
+        singers: [len]
+      - order: 4
+        song: 'テルミーアンサー'
+        singers: [rin]
+      - order: 5
+        song: 'Parades'
+        singers: [miku]
+      - order: 6
+        song: '恋色病棟'
+        singers: [miku]
+      - order: 7
+        variants:
+          - song: '千本桜'
+            shows:
+              - osaka/day1-evening
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+          - song: 'ヒビカセ'
+            shows:
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+      - order: 8
+        song: '星空クロノグラフ'
+        singers: [meiko]
+      - order: 9
+        song: 'ダブルラリアット'
+        singers: [luka]
+      - order: 10
+        song: 'First Note'
+        singers: [miku]
+      - order: 11
+        variants:
+          - song: 'みかぼし'
+            shows:
+              - osaka/day1-evening
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+            singers: [kaito]
+          - song: 'ドクター=ファンクビート'
+            shows:
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [kaito]
+          - song: 'Pane dhiria'
+            shows:
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [kaito]
+      - order: 12
+        variants:
+          - song: 'スノーマン'
+            shows:
+              - osaka/day1-evening
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+            singers: [kaito]
+          - song: '千年の独奏歌'
+            shows:
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [kaito]
+          - song: 'あったかいと'
+            shows:
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [kaito]
+      - order: 13
+        song: 'サンドリヨン'
+        singers: [miku, kaito]
+      - order: 14
+        variants:
+          - song: 'erase or zero'
+            shows:
+              - osaka/day1-evening
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [len, kaito]
+          - song: 'on the rocks'
+            shows:
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [meiko, kaito]
+      - order: 15
+        song: 'レイニースノードロップ'
+        singers: [kaito]
+      - order: 16
+        variants:
+          - song: 'まるいうなばら'
+            shows:
+              - osaka/day1-evening
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+          - song: 'ある計画は今も密かに'
+            shows:
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+      - order: 17
+        song: '二息歩行'
+        singers: [miku]
+      - order: 18
+        variants:
+          - song: 'Singularity'
+            shows:
+              - osaka/day1-evening
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+          - song: 'METEOR'
+            shows:
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+      - order: 19
+        song: 'インタビュア'
+        singers: [luka]
+      - order: 20
+        variants:
+          - song: 'ロミオとシンデレラ'
+            shows:
+              - osaka/day1-evening
+              - osaka/day3-evening
+              - osaka/day3-matinee
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+          - song: 'ワールドイズマイン'
+            shows:
+              - osaka/day2-evening
+              - osaka/day2-matinee
+              - tokyo/day1-evening
+              - tokyo/day1-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+      - order: 21
+        song: 'リモコン'
+        singers: [rin, len]
+      - order: 22
+        song: 'Tell Your World'
+        singers: [miku]
+      - order: 23
+        song: '愛されなくても君がいる'
+        singers: [miku]
+      - order: 24
+        song: 'Hand in Hand'
+        singers: [miku]
+      - order: 25
+        song: '初音天地開闢神話'
+        singers: [miku]

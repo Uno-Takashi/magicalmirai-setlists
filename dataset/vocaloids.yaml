@@ -1,0 +1,49 @@
+# 登場するボーカロイドのマスタ。
+# ここの ID を songs.yaml / setlist.yaml の singers から参照する。
+miku:
+  name:
+    ja: 初音ミク
+    en: Hatsune Miku
+    zh-Hant: 初音未來
+    ko: 하츠네 미쿠
+  color: '#39C5BB'
+
+rin:
+  name:
+    ja: 鏡音リン
+    en: Kagamine Rin
+    zh-Hant: 鏡音鈴
+    ko: 카가미네 린
+  color: '#FFCC11'
+
+len:
+  name:
+    ja: 鏡音レン
+    en: Kagamine Len
+    zh-Hant: 鏡音連
+    ko: 카가미네 렌
+  color: '#FFEE11'
+
+luka:
+  name:
+    ja: 巡音ルカ
+    en: Megurine Luka
+    zh-Hant: 巡音流歌
+    ko: 메구리네 루카
+  color: '#FFBACC'
+
+meiko:
+  name:
+    ja: MEIKO
+    en: MEIKO
+    zh-Hant: MEIKO
+    ko: MEIKO
+  color: '#DD4444'
+
+kaito:
+  name:
+    ja: KAITO
+    en: KAITO
+    zh-Hant: KAITO
+    ko: KAITO
+  color: '#3366CC'

@@ -1,0 +1,102 @@
+import type { Translations } from './ja'
+
+export const zhHant: Translations = {
+  'app.title': 'MAGICAL MIRAI 歷年歌單',
+  'app.description': '依年份回顧初音未來「MAGICAL MIRAI」歷年公演的歌單',
+
+  'meta.editionTitle': '{name} 歌單',
+  'meta.editionDescription': '{name} 的公演歌單，依公演與日期列出曲目順序。',
+
+  'nav.newerEdition': '較新的年份',
+  'nav.olderEdition': '較舊的年份',
+  'nav.jumpToEdition': '選擇年份',
+
+  'search.open': '搜尋歌曲',
+  'search.placeholder': '以歌名或製作人搜尋',
+  'search.filterByVocaloid': '依 VOCALOID 篩選',
+  'search.empty': '沒有符合的歌曲',
+  'search.results': '{count} 首',
+  'search.appearedIn': '演出年份',
+  'search.close': '關閉',
+
+  'edition.performances': '公演',
+  'edition.noSetlist': '這一年的歌單尚未整理',
+  'edition.trackCount': '共 {count} 首',
+  'edition.officialSite': '官方網站',
+  'edition.venueUnknown': '場地未定',
+
+  'session.matinee': '日場',
+  'session.evening': '夜場',
+
+  'tag.encore': '安可',
+  'tag.theme-song': '主題曲',
+  'tag.grand-prix': '樂曲大獎',
+  'tag.band-intro': '樂團介紹',
+  'tag.bonus-track': '特典曲',
+
+  'track.variation.venue': '依會場而異',
+  'track.variation.schedule': '依日程而異',
+  'track.variation.daily': '每日輪替',
+  'track.singers': '演唱',
+
+  'song.preview': '預覽',
+  'song.playOnYoutube': '在 YouTube 播放',
+  'song.searchOnYoutube': '在 YouTube 搜尋',
+  'song.openSpotify': '在 Spotify 開啟',
+  'song.searchSpotify': '在 Spotify 搜尋',
+  'song.openAppleMusic': '在 Apple Music 開啟',
+  'song.searchAppleMusic': '在 Apple Music 搜尋',
+  'song.noEmbed': '這首歌尚未登錄影片',
+  'song.close': '關閉',
+
+  'about.open': '關於本站',
+  'about.title': '關於本站',
+  'about.description':
+    '這是一個可以回顧初音未來「MAGICAL MIRAI」歷年公演歌單的網站。內容由管理者參考 X 等非官方資訊來源整理而成。對於因資訊正確性而產生的損害，管理者概不負責。',
+  'about.data.title': '關於資料',
+  'about.data.description': '歌單參考官方網站與有志者的彙整。',
+  'about.author': '作者',
+  'about.sourceCode': '原始碼',
+  'about.sources': '資料來源',
+  'about.source.official': 'MAGICAL MIRAI 官方網站',
+  'about.source.wiki': '初音未來 Wiki',
+  'about.disclaimer': '樂曲與公演的相關權利歸各權利人所有。',
+  'about.close': '關閉',
+
+  'statistics.open': '查看統計',
+  'statistics.title': '統計',
+  'statistics.description': '依歷年歌單統計。',
+  'statistics.editionCount': '統計的公演回數',
+  'statistics.performanceCount': '演出次數（累計）',
+  'statistics.producerCount': 'VOCALOID 製作人',
+  'statistics.results': '共 {count} 筆',
+  'statistics.showMore': '顯示更多',
+  'statistics.unit.songs': '首',
+  'statistics.unit.editions': '回',
+  'statistics.appearances': '累計 {count} 回',
+  'statistics.producers.title': '各製作人的入選曲數',
+  'statistics.songs.title': '演出次數',
+  'statistics.songs.help': '該曲演出過的公演回數。同一回中即使多次出現，也只計為 1 次。',
+  'statistics.vocaloids.title': '各 VOCALOID 的演唱曲數',
+  'statistics.vocaloids.description': '依演唱的 VOCALOID 分別統計曲目數。',
+  'statistics.vocaloids.trend.title': '各屆公演的曲數',
+  'statistics.vocaloids.trend.perEdition': '各屆',
+  'statistics.vocaloids.trend.cumulative': '累計',
+  'statistics.vocaloids.trend.perEditionHelp': '該屆公演演唱的曲數。',
+  'statistics.vocaloids.trend.cumulativeHelp':
+    '截至該屆為止演唱的曲數。同一首歌於其他屆再次演唱仍只計 1 首，因此並非各屆數值的總和。',
+  'statistics.vocaloids.solo.title': '獨唱曲數',
+  'statistics.vocaloids.solo.help': '由該 VOCALOID 獨自演唱的曲數，不含多人合唱的曲目。',
+
+  'a11y.viewEdition': '查看 {year} 年的歌單',
+  'a11y.help': '顯示說明',
+  'a11y.selectPerformance': '顯示 {city} 公演的歌單',
+  'a11y.authorOnX': '開啟 {name} 的 X 個人檔案',
+  'a11y.songDetail': '開啟「{title}」的詳細資訊',
+  'a11y.vocaloidTrend': '各屆公演中各 VOCALOID 曲數的折線圖',
+  'a11y.vocaloidTrendTotal': '各屆公演中各 VOCALOID 曲數累計的折線圖',
+
+  'locale.select': '語言',
+
+  'footer.disclaimer': '本站為粉絲製作的非官方彙整',
+}

@@ -1,0 +1,117 @@
+name: Release and Deploy
+
+# main への push では動かさない。リリースするタイミングは人が決める。
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 上げるバージョン
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+# Pages へのデプロイに必要な権限。タグとリリースの作成は release job だけに許す
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 実行中のデプロイは中断せず、後続を 1 つだけ待たせる
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # 次のバージョンを決める。実際にタグを打つのは配信できたあと (release job)
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.next.outputs.tag }}
+      previous: ${{ steps.next.outputs.previous }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # 直近のタグを探すので、履歴とタグをすべて取る
+          fetch-depth: 0
+
+      - id: next
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          previous=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n 1)
+          # まだタグが無ければ v0.0.0 から数える (patch なら v0.0.1)
+          IFS=. read -r major minor patch <<< "${previous:-v0.0.0}"
+          major=${major#v}
+          case "$BUMP" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+            *) echo "不明な bump: $BUMP" >&2; exit 1 ;;
+          esac
+          echo "tag=v${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
+          echo "previous=${previous}" >> "$GITHUB_OUTPUT"
+          echo "${previous:-(タグなし)} -> v${major}.${minor}.${patch}"
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
+  # 実際に配信できたコミットにだけタグを打ち、リリースを作る
+  release:
+    needs: [version, deploy]
+    runs-on: ubuntu-latest
+    # タグとリリースの作成に必要。ここだけ書き込みを許す
+    permissions:
+      contents: write
+    steps:
+      - name: Create tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ needs.version.outputs.tag }}
+          PREVIOUS: ${{ needs.version.outputs.previous }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "$TAG は作成済みなので何もしない"
+            exit 0
+          fi
+          # --generate-notes が、前回のリリース以降にマージされた PR を一覧にする。
+          # タグはリリース作成時に $GITHUB_SHA へ打たれるので、事前の push は要らない
+          args=(--target "$GITHUB_SHA" --title "$TAG" --generate-notes)
+          if [ -n "$PREVIOUS" ]; then
+            args+=(--notes-start-tag "$PREVIOUS")
+          fi
+          gh release create "$TAG" "${args[@]}"

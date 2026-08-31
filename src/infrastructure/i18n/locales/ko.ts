@@ -1,0 +1,103 @@
+import type { Translations } from './ja'
+
+export const ko: Translations = {
+  'app.title': '매지컬 미라이 역대 세트리스트',
+  'app.description': '하츠네 미쿠 「매지컬 미라이」 역대 공연의 세트리스트를 연도별로 살펴봅니다',
+
+  'meta.editionTitle': '{name} 세트리스트',
+  'meta.editionDescription': '{name} 공연 세트리스트를 공연·날짜별로 정리했습니다.',
+
+  'nav.newerEdition': '최근 연도',
+  'nav.olderEdition': '이전 연도',
+  'nav.jumpToEdition': '연도 선택',
+
+  'search.open': '곡 검색',
+  'search.placeholder': '곡명이나 프로듀서로 검색',
+  'search.filterByVocaloid': '보컬로이드로 좁히기',
+  'search.empty': '일치하는 곡이 없습니다',
+  'search.results': '{count}곡',
+  'search.appearedIn': '공연된 해',
+  'search.close': '닫기',
+
+  'edition.performances': '공연',
+  'edition.noSetlist': '이 해의 세트리스트는 아직 수집되지 않았습니다',
+  'edition.trackCount': '전 {count}곡',
+  'edition.officialSite': '공식 사이트',
+  'edition.venueUnknown': '공연장 미정',
+
+  'session.matinee': '낮 공연',
+  'session.evening': '밤 공연',
+
+  'tag.encore': '앙코르',
+  'tag.theme-song': '테마송',
+  'tag.grand-prix': '악곡 그랑프리',
+  'tag.band-intro': '밴드 소개',
+  'tag.bonus-track': '보너스 트랙',
+
+  'track.variation.venue': '공연장별 교체',
+  'track.variation.schedule': '일정별 교체',
+  'track.variation.daily': '일자별 교체',
+  'track.singers': '보컬',
+
+  'song.preview': '미리보기',
+  'song.playOnYoutube': 'YouTube에서 재생',
+  'song.searchOnYoutube': 'YouTube에서 검색',
+  'song.openSpotify': 'Spotify에서 열기',
+  'song.searchSpotify': 'Spotify에서 검색',
+  'song.openAppleMusic': 'Apple Music에서 열기',
+  'song.searchAppleMusic': 'Apple Music에서 검색',
+  'song.noEmbed': '이 곡은 아직 영상이 등록되지 않았습니다',
+  'song.close': '닫기',
+
+  'about.open': '이 사이트에 대해',
+  'about.title': '이 사이트에 대해',
+  'about.description':
+    '하츠네 미쿠 「매지컬 미라이」 역대 공연의 세트리스트를 되돌아볼 수 있는 사이트입니다. X 등 비공식 정보 소스를 바탕으로 관리자가 정리한 것입니다. 정보의 정확성으로 인해 발생하는 손해에 대해 관리자는 책임지지 않습니다.',
+  'about.data.title': '데이터에 대해',
+  'about.data.description': '세트리스트는 공식 사이트와 유지들의 정리를 참고했습니다.',
+  'about.author': '제작자',
+  'about.sourceCode': '소스 코드',
+  'about.sources': '출처',
+  'about.source.official': '매지컬 미라이 공식 사이트',
+  'about.source.wiki': '하츠네 미쿠 Wiki',
+  'about.disclaimer': '악곡과 공연에 관한 권리는 각 권리자에게 있습니다.',
+  'about.close': '닫기',
+
+  'statistics.open': '통계 보기',
+  'statistics.title': '통계',
+  'statistics.description': '역대 세트리스트를 기준으로 집계합니다.',
+  'statistics.editionCount': '집계한 공연 횟수',
+  'statistics.performanceCount': '연주 횟수(누적)',
+  'statistics.producerCount': '보카로 P',
+  'statistics.results': '전체 {count}건',
+  'statistics.showMore': '더 보기',
+  'statistics.unit.songs': '곡',
+  'statistics.unit.editions': '회',
+  'statistics.appearances': '누적 {count}회',
+  'statistics.producers.title': '보카로 P별 채택 곡수',
+  'statistics.songs.title': '연주 횟수',
+  'statistics.songs.help': '그 곡이 연주된 공연 횟수. 같은 회차에 여러 번 나와도 1회로 셉니다.',
+  'statistics.vocaloids.title': '보컬로이드별 곡수',
+  'statistics.vocaloids.description': '노래한 보컬로이드별로 곡 수를 집계했습니다.',
+  'statistics.vocaloids.trend.title': '공연별 곡 수',
+  'statistics.vocaloids.trend.perEdition': '공연별',
+  'statistics.vocaloids.trend.cumulative': '누적',
+  'statistics.vocaloids.trend.perEditionHelp': '해당 공연에서 부른 곡 수입니다.',
+  'statistics.vocaloids.trend.cumulativeHelp':
+    '해당 공연까지 부른 곡 수입니다. 같은 곡을 다른 공연에서 다시 불러도 1곡으로 세므로 각 공연 값의 합계가 아닙니다.',
+  'statistics.vocaloids.solo.title': '솔로 곡 수',
+  'statistics.vocaloids.solo.help':
+    '해당 보컬로이드 혼자 부른 곡 수입니다. 여러 명이 함께 부른 곡은 세지 않습니다.',
+
+  'a11y.viewEdition': '{year}년 세트리스트 보기',
+  'a11y.help': '설명 보기',
+  'a11y.selectPerformance': '{city} 공연의 세트리스트 표시',
+  'a11y.authorOnX': '{name}의 X 프로필 열기',
+  'a11y.songDetail': '「{title}」의 상세 정보 열기',
+  'a11y.vocaloidTrend': '공연별 보컬로이드 곡 수 꺾은선 그래프',
+  'a11y.vocaloidTrendTotal': '공연별 보컬로이드 곡 수 누적 꺾은선 그래프',
+
+  'locale.select': '언어',
+
+  'footer.disclaimer': '팬이 만든 비공식 아카이브입니다',
+}

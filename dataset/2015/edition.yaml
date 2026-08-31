@@ -1,0 +1,34 @@
+# 初音ミク「マジカルミライ」2015 開催回のメタ情報。
+# 出典: 公式サイト / 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67114.html
+# 9/4 は夜公演のみ、9/5 は昼夜1回ずつの2公演。
+year: 2015
+slug: '2015'
+name:
+  ja: 初音ミク「マジカルミライ 2015」
+  en: 'Hatsune Miku "Magical Mirai 2015"'
+# その年の公式サイト。全年度 200 応答を確認済み。
+officialUrl: https://magicalmirai.com/2015/
+# その回のテーマカラー。キービジュアルなどから選んで並べる (単色でも複数でも可)。
+themeColors: []
+performances:
+  - id: tokyo
+    region: tokyo
+    city:
+      ja: 東京
+      en: Tokyo
+    venue:
+      ja: 日本武道館
+      en: Nippon Budokan
+    shows:
+      - id: day1-evening
+        date: 2015-09-04
+        label: Day.1 夜
+        session: evening
+      - id: day2-matinee
+        date: 2015-09-05
+        label: Day.2 昼
+        session: matinee
+      - id: day2-evening
+        date: 2015-09-05
+        label: Day.2 夜
+        session: evening

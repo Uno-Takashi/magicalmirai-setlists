@@ -1,0 +1,30 @@
+# 初音ミク「マジカルミライ」2013 開催回のメタ情報。
+# 出典: 公式サイト / 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67111.html
+# ライブは昼夜1回ずつの2公演。
+year: 2013
+slug: '2013'
+name:
+  ja: 初音ミク「マジカルミライ」
+  en: 'Hatsune Miku "Magical Mirai"'
+# その年の公式サイト。全年度 200 応答を確認済み。
+officialUrl: https://magicalmirai.com/2013/
+# その回のテーマカラー。キービジュアルなどから選んで並べる (単色でも複数でも可)。
+themeColors: []
+performances:
+  - id: yokohama
+    region: other
+    city:
+      ja: 横浜
+      en: Yokohama
+    venue:
+      ja: 横浜アリーナ
+      en: Yokohama Arena
+    shows:
+      - id: day1-matinee
+        date: 2013-08-30
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2013-08-30
+        label: Day.1 夜
+        session: evening

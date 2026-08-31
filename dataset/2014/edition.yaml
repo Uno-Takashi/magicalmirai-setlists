@@ -1,0 +1,48 @@
+# 初音ミク「マジカルミライ」2014 開催回のメタ情報。
+# 出典: 公式サイト / 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67113.html
+# ライブは昼夜1回ずつの2公演/日。
+year: 2014
+slug: '2014'
+name:
+  ja: 初音ミク「マジカルミライ 2014」
+  en: 'Hatsune Miku "Magical Mirai 2014"'
+# その年の公式サイト。全年度 200 応答を確認済み。
+officialUrl: https://magicalmirai.com/2014/
+# その回のテーマカラー。キービジュアルなどから選んで並べる (単色でも複数でも可)。
+themeColors: []
+performances:
+  - id: osaka
+    region: osaka
+    city:
+      ja: 大阪
+      en: Osaka
+    venue:
+      ja: インテックス大阪
+      en: INTEX Osaka
+    shows:
+      - id: day1-matinee
+        date: 2014-08-30
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2014-08-30
+        label: Day.1 夜
+        session: evening
+
+  - id: tokyo
+    region: tokyo
+    city:
+      ja: 東京
+      en: Tokyo
+    venue:
+      ja: 東京体育館 メインアリーナ
+      en: Tokyo Metropolitan Gymnasium
+    shows:
+      - id: day1-matinee
+        date: 2014-09-20
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2014-09-20
+        label: Day.1 夜
+        session: evening

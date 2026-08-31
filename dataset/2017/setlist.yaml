@@ -1,0 +1,152 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 出典: 公式サイト アフターレポート https://magicalmirai.com/2017/special_afterreport.html
+#
+# shows は「その候補がどの公演回で演奏されたか」。edition.yaml の
+# <公演 id>/<公演回 id> を指す。省略した枠はその公演すべてで演奏された固定曲。
+# 会場替わり / 日程替わり / 日替わり の区別は、この shows から計算する。
+sets:
+  - performances: [tokyo]
+    tracks:
+      - order: 1
+        song: 'みんなみくみくにしてあげる♪'
+        singers: [miku]
+      - order: 2
+        song: 'ストリーミングハート'
+        singers: [miku]
+      - order: 3
+        song: 'エイリアンエイリアン'
+        singers: [miku]
+      - order: 4
+        song: 'Singularity'
+        singers: [miku]
+      - order: 5
+        song: 'ヒビカセ'
+        singers: [miku]
+      - order: 6
+        song: 'ツギハギスタッカート'
+        singers: [miku]
+      - order: 7
+        song: 'スイートマジック'
+        singers: [rin]
+      - order: 8
+        song: '脱法ロック'
+        singers: [len]
+      - order: 9
+        song: 'ドクター=ファンクビート'
+        singers: [kaito]
+      - order: 10
+        song: '忘却心中'
+        singers: [meiko]
+      - order: 11
+        song: 'どりーみんちゅちゅ'
+        singers: [luka]
+      - order: 12
+        song: 'Birthday'
+        singers: [miku]
+      - order: 13
+        variants:
+          - song: 'サイハテ'
+            shows:
+              - tokyo/day1-evening
+            singers: [miku]
+          - song: 'えれくとりっく・えんじぇぅ'
+            shows:
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [miku]
+          - song: '千本桜'
+            shows:
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [miku]
+      - order: 14
+        variants:
+          - song: 'メランコリック'
+            shows:
+              - tokyo/day1-evening
+            singers: [rin]
+          - song: 'Fire◎Flower'
+            shows:
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [len]
+          - song: '右肩の蝶'
+            shows:
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [len]
+      - order: 15
+        variants:
+          - song: '右肩の蝶'
+            shows:
+              - tokyo/day1-evening
+            singers: [len]
+          - song: 'ココロ'
+            shows:
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [rin]
+          - song: '孤独の果て'
+            shows:
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [rin]
+      - order: 16
+        variants:
+          - song: 'リモコン'
+            shows:
+              - tokyo/day1-evening
+            singers: [rin, len]
+          - song: 'いーあるふぁんくらぶ'
+            shows:
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [rin, len]
+      - order: 17
+        variants:
+          - song: 'ダブルラリアット'
+            shows:
+              - tokyo/day1-evening
+              - tokyo/day3-evening
+              - tokyo/day3-matinee
+            singers: [luka]
+          - song: 'ルカルカ★ナイトフィーバー'
+            shows:
+              - tokyo/day2-evening
+              - tokyo/day2-matinee
+            singers: [luka]
+      - order: 18
+        song: 'Nyanyanyanyanyanyanya!'
+        singers: [miku]
+      - order: 19
+        song: '気まぐれメルシィ'
+        singers: [miku]
+      - order: 20
+        song: 'TODAY THE FUTURE'
+        singers: [miku]
+      - order: 21
+        song: 'なりすましゲンガー'
+        singers: [miku, rin]
+      - order: 22
+        song: 'shake it!'
+        singers: [miku, rin, len]
+      - order: 23
+        song: 'メルト'
+        singers: [miku]
+      - order: 24
+        song: '砂の惑星'
+        singers: [miku]
+      - order: 25
+        song: '39みゅーじっく!'
+        singers: [miku]
+      - order: 26
+        song: 'Hand in Hand'
+        singers: [miku]
+      - order: 27
+        song: 'DECORATOR'
+        singers: [miku]
+      - order: 28
+        song: 'ハジメテノオト'
+        singers: [miku]

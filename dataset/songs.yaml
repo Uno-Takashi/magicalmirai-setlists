@@ -1,0 +1,849 @@
+# 楽曲マスタ。全年度で共有し、setlist.yaml からは曲名で参照する。
+#
+#   producers  : 作曲者。合作があるので配列。「A×B」は 2 人に分けて入れる
+#   singers    : 原曲を歌唱するボーカロイド (dataset/vocaloids.yaml の ID)
+#                その年だけ歌唱者が違う場合は setlist.yaml 側で上書きする
+#   youtube    : YouTube の動画 ID。空なら UI は検索リンクにフォールバックする
+#   spotify    : Spotify の URL。空なら検索 URL を組み立てる
+#   appleMusic : Apple Music の URL。空なら検索 URL を組み立てる
+
+'39':
+  producers:
+    - sasakure.UK
+    - DECO*27
+  singers:
+    - miku
+'#心がどっか寂しいんだ':
+  producers:
+    - カンザキイオリ
+1/6 - out of the gravity -:
+  producers:
+    - ぼーかりおどP(noa)
+1/6 -out of the gravity-:
+  producers:
+    - ぼーかりおどP(noa)
+  singers:
+    - miku
+39みゅーじっく!:
+  producers:
+    - みきとP
+8HIT:
+  producers:
+    - じーざす(ワンダフル☆オポチュニティ!)
+Amazing Dolce:
+  producers:
+    - ひとしずく
+    - やま△
+Baby Maniacs -Eight Mix-:
+  producers:
+    - 八王子P
+Birthday:
+  producers:
+    - ryuryu
+Birthday Song for ミク:
+  producers:
+    - Mitchie M
+Blessing:
+  producers:
+    - halyosy
+  singers:
+    - miku
+    - rin
+    - len
+    - luka
+    - meiko
+    - kaito
+Calc.:
+  producers:
+    - ジミーサムP
+Call!!:
+  producers:
+    - 沫尾
+Catch the Wave:
+  producers:
+    - livetune
+Change me:
+  producers:
+    - shu-t
+DECORATOR:
+  producers:
+    - livetune
+  singers:
+    - miku
+EARTH DAY:
+  producers:
+    - Harry(はりーP)
+FLASH:
+  producers:
+    - 香椎モイミ
+FREELY TOMORROW:
+  producers:
+    - Mitchie M
+  singers:
+    - miku
+Fire◎Flower:
+  producers:
+    - halyosy
+  singers:
+    - len
+First Note:
+  producers:
+    - blues
+Flyway:
+  producers:
+    - halyosy
+GEDO:
+  producers:
+    - daraku
+Gimme×Gimme:
+  producers:
+    - 八王子P
+    - Giga
+HELLO, NEW WORLD!:
+  producers:
+    - Teary Planet
+HERO:
+  producers:
+    - Ayase
+Hand in Hand:
+  producers:
+    - livetune
+  singers:
+    - miku
+Hello, Worker:
+  producers:
+    - ハヤシケイ
+Jump for Joy:
+  producers:
+    - EasyPop
+Just Be Friends:
+  producers:
+    - Dixie Flatline
+  singers:
+    - luka
+Last Night, Good Night(Re:Dialed):
+  producers:
+    - livetune
+Leia:
+  producers:
+    - ゆよゆっぺ
+Loading Memories:
+  producers:
+    - せきこみごはん
+MAGA MAGA:
+  producers:
+    - 幽霊一文字
+METEOR:
+  producers:
+    - DIVELA
+Never Die:
+  producers:
+    - ゆよゆっぺ
+No Logic:
+  producers:
+    - ジミーサムP
+Nostalogic:
+  producers:
+    - yuukiss
+  singers:
+    - meiko
+Nostalogic (MEIKO-SAN mix):
+  producers:
+    - yuukiss
+Nostalogic(MEIKO-SAN mix):
+  producers:
+    - yuukiss
+Nyanyanyanyanyanyanya!:
+  producers:
+    - daniwellP
+ODDS&ENDS:
+  producers:
+    - ryo (supercell)
+  singers:
+    - miku
+Over Flow(er):
+  producers:
+    - Noz.
+Packaged:
+  producers:
+    - kz(livetune)
+  singers:
+    - miku
+Pane dhiria:
+  producers:
+    - 新城P
+Parades:
+  producers:
+    - whoo
+REALITY:
+  producers:
+    - マイナス(ワンダフル☆オポチュニティ!)
+SUPERHERO:
+  producers:
+    - めろくる
+Satisfaction:
+  producers:
+    - livetune
+Singularity:
+  producers:
+    - keisei
+SnowMix♪:
+  producers:
+    - まらしぃ
+Someday'z Coming:
+  producers:
+    - 書店太郎
+Starduster:
+  producers:
+    - ジミーサムP
+StargazeR:
+  producers:
+    - 骨盤P
+Strangers:
+  producers:
+    - Heavenz
+Sweet Devil:
+  producers:
+    - 八王子P
+  singers:
+    - miku
+TODAY THE FUTURE:
+  producers:
+    - 針原翼(はりーP)
+TYQOON:
+  producers:
+    - Sohbana
+Tell Your World:
+  producers:
+    - livetune
+  singers:
+    - miku
+  youtube: PqJNc9KVIZE
+Weekender Girl:
+  producers:
+    - kz(livetune)
+    - 八王子P
+  singers:
+    - miku
+YY:
+  producers:
+    - 23.exe
+drop pop candy:
+  producers:
+    - GigaReol
+erase or zero:
+  producers:
+    - HzEdge(クリスタルP)
+glow:
+  producers:
+    - keeno
+  singers:
+    - miku
+king妃jack躍:
+  producers:
+    - 宮守文学
+letter song:
+  producers:
+    - doriko
+lost and found:
+  producers:
+    - ashcolor
+magnet:
+  producers:
+    - minato
+  singers:
+    - miku
+    - luka
+on the rocks:
+  producers:
+    - OSTER project
+ray:
+  producers:
+    - BUMP OF CHICKEN
+shake it!:
+  producers:
+    - emon(Tes.)
+vivid:
+  producers:
+    - ゆよゆっぺ
+    - 鬱P
+あったかいと:
+  producers:
+    - halyosy
+ありふれたせかいせいふく:
+  producers:
+    - ピノキオピー
+  singers:
+    - miku
+ある計画は今も密かに:
+  producers:
+    - 森羅
+いいねってYEAH!:
+  producers:
+    - じーざす(ワンダフル☆オポチュニティ!)
+いーあるふぁんくらぶ:
+  producers:
+    - みきとP
+え?あぁ、そう。:
+  producers:
+    - 蝶々P
+えれくとりっく・えんじぇぅ:
+  producers:
+    - ヤスオ
+おこちゃま戦争:
+  producers:
+    - Giga
+  singers:
+    - rin
+    - len
+からくりピエロ:
+  producers:
+    - 40mP
+  singers:
+    - miku
+きみとぼくのレゾナンス:
+  producers:
+    - 斜め上P
+げんてん:
+  producers:
+    - 大漠波新
+こたえて:
+  producers:
+    - imie
+こちら、幸福安心委員会です。:
+  producers:
+    - うたたP
+すきなことだけでいいです:
+  producers:
+    - ピノキオピー
+すろぉもぉしょん:
+  producers:
+    - ピノキオピー
+すーぱーぬこになれんかった:
+  producers:
+    - まふまふ
+それがあなたの幸せとしても:
+  producers:
+    - Heavenz
+どうぶつ占い:
+  producers:
+    - すこっぷ
+どりーみんちゅちゅ:
+  producers:
+    - emon
+どりーみんチュチュ:
+  producers:
+    - emon(Tes.)
+なりすましゲンガー:
+  producers:
+    - KulfiQ
+はじめまして地球人さん:
+  producers:
+    - ピノキオピー
+ぶれないアイで:
+  producers:
+    - Mitchie M
+ぽかぽかの星:
+  producers:
+    - はるまきごはん
+まるいうなばら:
+  producers:
+    - ごーぶす
+みかぼし:
+  producers:
+    - 3106。
+みんなみくみくにしてあげる♪:
+  producers:
+    - MOSAIC.WAV
+    - 鶴田加茂
+ゆめゆめ:
+  producers:
+    - DECO*27
+アカツキアライヴァル:
+  producers:
+    - Last Note.
+アルビノ -revive-:
+  producers:
+    - buzzG
+アンテナ39:
+  producers:
+    - 柊マグネタイト
+アンノウン・マザーグース:
+  producers:
+    - wowaka
+アンハッピーリフレイン:
+  producers:
+    - wowaka
+  youtube: uMlv9VWAxko
+インタビュア:
+  producers:
+    - クワガタP
+ウミユリ海底譚:
+  producers:
+    - n-buna
+エイリアンエイリアン:
+  producers:
+    - ナユタン星人
+エル・タンゴ・エゴイスタ:
+  producers:
+    - nyanyannya(大天才P)
+エンヴィキャットウォーク:
+  producers:
+    - トーマ
+カゲロウデイズ:
+  producers:
+    - じん
+カルチャ:
+  producers:
+    - ツミキ
+  youtube: KAoY-tK1l0o
+キミぺディア:
+  producers:
+    - Junky
+キミペディア:
+  producers:
+    - Junky
+キャットフード:
+  producers:
+    - doriko
+  singers:
+    - miku
+キレキャリオン:
+  producers:
+    - ポリスピカデリー
+グリーンライツ・セレナーデ:
+  producers:
+    - Omoi
+  youtube: XSLhsjepelI
+ココロ:
+  producers:
+    - トラボルタ
+  singers:
+    - rin
+ゴーストルール:
+  producers:
+    - DECO*27
+  youtube: KushW6zvazM
+サイハテ:
+  producers:
+    - 小林オニキス
+サロメ:
+  producers:
+    - ⌘ハイノミ
+サンドリヨン:
+  producers:
+    - Dios
+  singers:
+    - miku
+    - kaito
+シャボン:
+  producers:
+    - 蜂屋ななし
+ジェヘナ:
+  producers:
+    - wotaku
+ジェミニ:
+  producers:
+    - Dixie Flatline
+スイートマジック:
+  producers:
+    - Junky
+スキキライ:
+  producers:
+    - HoneyWorks
+  singers:
+    - rin
+    - len
+ストリートライト:
+  producers:
+    - 加賀(ネギシャワーP)
+ストリーミングハート:
+  producers:
+    - DECO*27
+スノーマン:
+  producers:
+    - halyosy
+セカイ:
+  producers:
+    - DECO*27
+    - 堀江晶太(kemu)
+タイムマシン:
+  producers:
+    - 1640mP(164×40mP)
+ダブルラリアット:
+  producers:
+    - アゴアニキ
+  singers:
+    - luka
+ダーリンダンス:
+  producers:
+    - かいりきベア
+ツギハギスタッカート:
+  producers:
+    - とあ
+テオ:
+  producers:
+    - Omoi
+  youtube: bmkY2yc1K7Q
+テルミーアンサー:
+  producers:
+    - キノシタ
+テレカクシ思春期:
+  producers:
+    - HoneyWorks
+テレキャスタービーボーイ:
+  producers:
+    - すりぃ
+ドクター=ファンクビート:
+  producers:
+    - nyanyannya(大天才P)
+ドリームレス・ドリームス:
+  producers:
+    - はるまきごはん
+ドーピングダンス:
+  producers:
+    - STEAKA
+ネクストネスト:
+  producers:
+    - さつき が てんこもり
+ノヴァ:
+  producers:
+    - '*Luna'
+ハイパーリアリティショウ:
+  producers:
+    - 鬱P
+ハジメテノオト:
+  producers:
+    - malo
+  singers:
+    - miku
+バッドシャーク:
+  producers:
+    - niki
+ヒアソビ:
+  producers:
+    - かめりあ
+ヒバナ:
+  producers:
+    - DECO*27
+  youtube: hxSg2Ioz3LM
+ヒビカセ:
+  producers:
+    - GigaReol
+ビバハピ:
+  producers:
+    - Mitchie M
+ピアノ×フォルテ×スキャンダル:
+  producers:
+    - OSTER project
+  singers:
+    - miku
+フェレス:
+  producers:
+    - 栗山夕璃
+フューチャー・イヴ:
+  producers:
+    - sasakure.UK
+ブリキノダンス:
+  producers:
+    - 日向電工
+  youtube: 6EuR6FuOXXw
+ブループラネット:
+  producers:
+    - DECO*27
+ブレス・ユア・ブレス:
+  producers:
+    - 和田たけあき
+ヘッジホッグ:
+  producers:
+    - Noz.
+ボルテッカー:
+  producers:
+    - DECO*27
+メインキャラクター:
+  producers:
+    - '*Luna'
+メテオ:
+  producers:
+    - じょん
+メランコリック:
+  producers:
+    - Junky
+メルト:
+  producers:
+    - ryo (supercell)
+  singers:
+    - miku
+ラストラス:
+  producers:
+    - '*Luna'
+ラズベリー*モンスター:
+  producers:
+    - HoneyWorks
+ラムネイドブルーの憧憬:
+  producers:
+    - アオトケイ
+ラヴィ:
+  producers:
+    - すりぃ
+リバースユニバース:
+  producers:
+    - ナユタン星人
+リモコン:
+  producers:
+    - じーざす(ワンダフル☆オポチュニティ!)
+ルカルカ★ナイトフィーバー:
+  producers:
+    - samfree
+  singers:
+    - luka
+レイニースノードロップ:
+  producers:
+    - Re:nG
+レッドランドマーカー:
+  producers:
+    - Twinfield
+ロキ:
+  producers:
+    - みきとP
+ロストワンの号哭:
+  producers:
+    - Neru
+  singers:
+    - rin
+ロミオとシンデレラ:
+  producers:
+    - doriko
+  singers:
+    - miku
+ローリンガール:
+  producers:
+    - wowaka
+  youtube: vnw8zURAxkU
+ワンダーランドと羊の歌:
+  producers:
+    - ハチ
+ワールズエンド・ダンスホール:
+  producers:
+    - wowaka
+ワールドイズマイン:
+  producers:
+    - ryo (supercell)
+  singers:
+    - miku
+ヴァニッシュ:
+  producers:
+    - ぐちり
+ヴァンパイア:
+  producers:
+    - DECO*27
+  singers:
+    - miku
+  youtube: e1xCOsgWG0M
+二息歩行:
+  producers:
+    - DECO*27
+  singers:
+    - miku
+二次元ドリームフィーバー:
+  producers:
+    - PolyphonicBranch
+僕が夢を捨てて大人になるまで:
+  producers:
+    - 傘村トータ
+初めての恋が終わる時:
+  producers:
+    - ryo (supercell)
+初音ミクの消失:
+  producers:
+    - cosMo@暴走P
+  singers:
+    - miku
+  youtube: VWVtIg5cdDU
+初音ミクの激唱:
+  producers:
+    - Storyteller(GAiA×cosMo@暴走P)
+  singers:
+    - miku
+初音天地開闢神話:
+  producers:
+    - cosMo@暴走P
+  singers:
+    - miku
+劣等上等:
+  producers:
+    - Giga
+千年の独奏歌:
+  producers:
+    - yanagi
+千本桜:
+  producers:
+    - 黒うさP
+  singers:
+    - miku
+  youtube: shs0rAiwsGQ
+右肩の蝶:
+  producers:
+    - のりぴー
+命に嫌われている。:
+  producers:
+    - カンザキイオリ
+夜舞うシルエット:
+  producers:
+    - 宮守文学
+大江戸ジュリアナイト:
+  producers:
+    - Mitchie M
+天才ロック:
+  producers:
+    - カラスヤサボウ
+天樂 -双響-:
+  producers:
+    - ゆうゆ
+太陽系デスコ:
+  producers:
+    - ナユタン星人
+孤独の果て:
+  producers:
+    - 光収容
+完全性コンプレックス:
+  producers:
+    - やみくろ
+少女A:
+  producers:
+    - 椎名もた
+心臓デモクラシー:
+  producers:
+    - みきとP
+忘却心中:
+  producers:
+    - 0-9
+快晴:
+  producers:
+    - Orangestar
+  youtube: BwGpXK3W6tE
+恋愛裁判:
+  producers:
+    - 40mP
+  singers:
+    - miku
+恋色病棟:
+  producers:
+    - OSTER project
+愛Dee:
+  producers:
+    - Mitchie M
+愛されなくても君がいる:
+  producers:
+    - ピノキオピー
+愛の詩:
+  producers:
+    - LamazeP
+愛言葉:
+  producers:
+    - DECO*27
+  singers:
+    - miku
+抜錨:
+  producers:
+    - ナナホシ管弦楽団
+敗走:
+  producers:
+    - 傘村トータ
+新人類:
+  producers:
+    - まらしぃ
+    - じん
+星のカケラ:
+  producers:
+    - 平沢栄司
+星屑ユートピア:
+  producers:
+    - otetsu
+星空クロノグラフ:
+  producers:
+    - MINO-U
+東京テディベア:
+  producers:
+    - Neru
+  singers:
+    - rin
+歌に形はないけれど:
+  producers:
+    - doriko
+死にたくない:
+  producers:
+    - Usagi3
+気まぐれメルシィ:
+  producers:
+    - 八王子P
+泥中に咲く:
+  producers:
+    - 針原翼(はりーP)
+流星のパルス:
+  producers:
+    - '*Luna'
+深海シティアンダーグラウンド:
+  producers:
+    - 田中B
+深海少女:
+  producers:
+    - ゆうゆ
+  singers:
+    - miku
+混沌ブギ:
+  producers:
+    - jon-YAKITORY
+独りんぼエンヴィー:
+  producers:
+    - koyori
+砂の惑星:
+  producers:
+    - ハチ
+  youtube: AS4q9yaWJkI
+神っぽいな:
+  producers:
+    - ピノキオピー
+  singers:
+    - miku
+  youtube: EHBFKhLUVig
+私の恋はヘルファイア:
+  producers:
+    - SLAVE.V-V-R
+秘密警察:
+  producers:
+    - ぶりる
+積乱雲グラフィティ:
+  producers:
+    - ryo(supercell)
+空に免じて:
+  producers:
+    - 傘村トータ
+聖槍爆裂ボーイ:
+  producers:
+    - れるりり
+脱法ロック:
+  producers:
+    - Neru
+  singers:
+    - len
+脳内革命ガール:
+  producers:
+    - MARETU
+裏表ラバーズ:
+  producers:
+    - wowaka
+踊:
+  producers:
+    - Giga
+    - TeddyLoid
+    - DECO*27
+陽だまりのセツナ:
+  producers:
+    - 赤乃わい
+青炎:
+  producers:
+    - せきこみごはん
+黙ってロックをやれって言ってんの!:
+  producers:
+    - 猫舘 こたつ

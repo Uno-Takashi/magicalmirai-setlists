@@ -1,0 +1,48 @@
+# 初音ミク「マジカルミライ」2020 開催回のメタ情報。
+# 出典: 公式サイト / 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67124.html
+# この年はライブが 3公演/日。昼夜の区別ではないため session は入れていない。
+# 大阪 11/27・東京 12/18 の扱いは出典の日程に合わせている。
+year: 2020
+slug: '2020'
+name:
+  ja: 初音ミク「マジカルミライ 2020」
+  en: 'Hatsune Miku "Magical Mirai 2020"'
+# その年の公式サイト。全年度 200 応答を確認済み。
+officialUrl: https://magicalmirai.com/2020/
+# その回のテーマカラー。キービジュアルなどから選んで並べる (単色でも複数でも可)。
+themeColors: []
+performances:
+  - id: osaka
+    region: osaka
+    city:
+      ja: 大阪
+      en: Osaka
+    venue:
+      ja: インテックス大阪
+      en: INTEX Osaka
+    shows:
+      - id: day1
+        date: 2020-11-28
+        label: Day.1
+      - id: day2
+        date: 2020-11-29
+        label: Day.2
+
+  - id: tokyo
+    region: tokyo
+    city:
+      ja: 東京
+      en: Tokyo
+    venue:
+      ja: 幕張メッセ 国際展示場
+      en: Makuhari Messe
+    shows:
+      - id: day1
+        date: 2020-12-18
+        label: Day.1
+      - id: day2
+        date: 2020-12-19
+        label: Day.2
+      - id: day3
+        date: 2020-12-20
+        label: Day.3

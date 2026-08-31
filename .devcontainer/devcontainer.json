@@ -1,0 +1,90 @@
+{
+  "name": "magicalmirai-setlist-page",
+
+  // Ubuntu をベースにした Dev Container。言語ランタイムは Feature で追加する。
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "upgradePackages": true
+    },
+    // Node.js は Feature として導入する (pnpm は corepack 経由で有効化)
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts",
+      "installYarnUsingApt": false
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
+  },
+
+  "remoteUser": "vscode",
+
+  // ---------------------------------------------------------------------------
+  // ホスト OS の設定引き継ぎ
+  //
+  // `${localEnv:HOME}${localEnv:USERPROFILE}` は macOS / Linux では HOME、
+  // Windows では USERPROFILE だけが定義されるため、片方が空文字に展開される。
+  // これによりホーム配下のパスを 1 行で OS 非依存に指定できる。
+  //
+  // - ~/.claude ... Claude Code の設定・認証・履歴 (Windows でも %USERPROFILE%\.claude)
+  // - ~/.config/gh ... GitHub CLI の認証情報 (macOS / Linux / WSL)
+  //   Windows ネイティブのホストでは %AppData%\GitHub CLI が使われるためこのパスは
+  //   存在しない。その場合はホスト側で GH_TOKEN を設定すれば下の remoteEnv で
+  //   引き継がれる (`gh auth token` の値を入れる)。詳細は CONTRIBUTING.md 参照。
+  // ---------------------------------------------------------------------------
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh,target=/home/vscode/.config/gh,type=bind,consistency=cached"
+  ],
+
+  "remoteEnv": {
+    // Claude Code の設定一式をマウントした ~/.claude に集約する
+    "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
+    // gh 設定をマウントできないホスト (Windows ネイティブ等) 向けのフォールバック
+    "GH_TOKEN": "${localEnv:GH_TOKEN}",
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
+  },
+
+  "containerEnv": {
+    "PNPM_HOME": "/home/vscode/.local/share/pnpm"
+  },
+
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // Vite / Storybook
+  "forwardPorts": [5173, 6006],
+  "portsAttributes": {
+    "5173": { "label": "Vite dev server", "onAutoForward": "notify" },
+    "6006": { "label": "Storybook", "onAutoForward": "notify" }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "oxc.oxc-vscode",
+        "bradlc.vscode-tailwindcss",
+        "vitest.explorer",
+        "ms-playwright.playwright",
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "anthropic.claude-code",
+        "editorconfig.editorconfig"
+      ],
+      "settings": {
+        // フォーマットは oxfmt (Oxc 拡張が同梱) に統一する
+        "editor.defaultFormatter": "oxc.oxc-vscode",
+        "editor.formatOnSave": true,
+        "oxc.enable.oxfmt": true,
+        "oxc.fmt.experimental": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.oxc": "explicit"
+        },
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "files.eol": "\n",
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  }
+}
