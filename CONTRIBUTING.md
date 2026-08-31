@@ -58,7 +58,7 @@ GitHub Flow はブランチが 1 本 (`main`) だけのシンプルなフロー�
 6. **リリースする (配信したいときだけ)**
 
    **マージしても配信は起きません。** GitHub の Actions から
-   `Release and Deploy` を workflow_dispatch で実行します。
+   `release` を workflow_dispatch で実行します。
    `patch` / `minor` / `major` を選ぶと、直近のタグから次の版を計算して
    GitHub Pages へ配信し、タグと GitHub Release を作ります。
    リリースノートには前回のリリース以降にマージされた PR が並びます。

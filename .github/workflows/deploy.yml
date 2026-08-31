@@ -1,4 +1,4 @@
-name: Release and Deploy
+name: release
 
 # main への push では動かさない。リリースするタイミングは人が決める。
 on:
@@ -74,6 +74,9 @@ jobs:
         run: pnpm run build
 
       - uses: actions/configure-pages@v6
+        with:
+          # Pages が未設定なら、この実行で有効にする (要 public リポジトリ)
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v5
         with:
