@@ -32,4 +32,3 @@ coverage
 
 # pnpm がワークスペース内に作るストア (node_modules と別ファイルシステムのとき)
 .pnpm-store
-

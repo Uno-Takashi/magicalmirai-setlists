@@ -94,6 +94,9 @@ export const ja = {
   'a11y.selectPerformance': '{city}公演のセットリストを表示',
   'a11y.authorOnX': '{name} の X のプロフィールを開く',
   'a11y.songDetail': '「{title}」の詳細を開く',
+  'a11y.pictureInPicture': '右下に縮めて再生を続ける',
+  'a11y.expandPlayer': '「{title}」の詳細をもう一度開く',
+  'a11y.closePlayer': '再生中の動画を閉じる',
   'a11y.vocaloidTrend': '開催回ごとの、ボーカロイド別の曲数の折れ線グラフ',
   'a11y.vocaloidTrendTotal': '開催回ごとの、ボーカロイド別の曲数の累積の折れ線グラフ',
 

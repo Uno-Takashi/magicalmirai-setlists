@@ -94,6 +94,9 @@ export const ko: Translations = {
   'a11y.selectPerformance': '{city} 공연의 세트리스트 표시',
   'a11y.authorOnX': '{name}의 X 프로필 열기',
   'a11y.songDetail': '「{title}」의 상세 정보 열기',
+  'a11y.pictureInPicture': '오른쪽 아래에서 계속 재생',
+  'a11y.expandPlayer': '「{title}」의 상세 정보 다시 열기',
+  'a11y.closePlayer': '재생 중인 동영상 닫기',
   'a11y.vocaloidTrend': '공연별 보컬로이드 곡 수 꺾은선 그래프',
   'a11y.vocaloidTrendTotal': '공연별 보컬로이드 곡 수 누적 꺾은선 그래프',
 
