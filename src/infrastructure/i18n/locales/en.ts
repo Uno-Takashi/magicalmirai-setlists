@@ -67,7 +67,7 @@ export const en: Translations = {
   'statistics.open': 'View statistics',
   'statistics.title': 'Statistics',
   'statistics.description': 'Aggregated across every edition on record.',
-  'statistics.editionCount': 'Editions counted',
+  'statistics.editionCount': 'Editions',
   'statistics.performanceCount': 'Performances (total)',
   'statistics.producerCount': 'Producers',
   'statistics.results': '{count} entries',
