@@ -105,8 +105,8 @@ export function StatisticsView({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pt-6 pb-16">
+      {/* statistics.description は画面には出さない。検索向けの meta にだけ使う (App.tsx) */}
       <h2 className="text-miku text-2xl font-black sm:text-3xl">{t('statistics.title')}</h2>
-      <p className="text-muted mt-1 text-sm leading-relaxed">{t('statistics.description')}</p>
 
       <div className="mt-4 grid grid-cols-3 gap-2">
         <StatTile
