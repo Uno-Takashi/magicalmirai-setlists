@@ -1,0 +1,12 @@
+{
+  // ルートは参照のみを持つソリューションファイル。
+  // compilerOptions.paths は shadcn CLI (React Bits の取り込み) が
+  // エイリアスを解決するために参照するので、ここにも定義しておく。
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+}

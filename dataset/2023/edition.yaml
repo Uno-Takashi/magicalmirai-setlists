@@ -1,0 +1,80 @@
+# 初音ミク「マジカルミライ」2023 開催回のメタ情報。
+# 出典: 公式サイト / 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67126.html
+# ライブは昼夜1回ずつの2公演/日。
+year: 2023
+slug: '2023'
+name:
+  ja: 初音ミク「マジカルミライ 2023」
+  en: 'Hatsune Miku "Magical Mirai 2023"'
+# その年の公式サイト。全年度 200 応答を確認済み。
+officialUrl: https://magicalmirai.com/2023/
+# その回のテーマカラー。キービジュアルなどから選んで並べる (単色でも複数でも可)。
+themeColors: []
+performances:
+  - id: osaka
+    region: osaka
+    city:
+      ja: 大阪
+      en: Osaka
+    venue:
+      ja: インテックス大阪
+      en: INTEX Osaka
+    shows:
+      - id: day1-matinee
+        date: 2023-08-11
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2023-08-11
+        label: Day.1 夜
+        session: evening
+      - id: day2-matinee
+        date: 2023-08-12
+        label: Day.2 昼
+        session: matinee
+      - id: day2-evening
+        date: 2023-08-12
+        label: Day.2 夜
+        session: evening
+      - id: day3-matinee
+        date: 2023-08-13
+        label: Day.3 昼
+        session: matinee
+      - id: day3-evening
+        date: 2023-08-13
+        label: Day.3 夜
+        session: evening
+
+  - id: tokyo
+    region: tokyo
+    city:
+      ja: 東京
+      en: Tokyo
+    venue:
+      ja: 幕張メッセ 国際展示場
+      en: Makuhari Messe
+    shows:
+      - id: day1-matinee
+        date: 2023-09-01
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2023-09-01
+        label: Day.1 夜
+        session: evening
+      - id: day2-matinee
+        date: 2023-09-02
+        label: Day.2 昼
+        session: matinee
+      - id: day2-evening
+        date: 2023-09-02
+        label: Day.2 夜
+        session: evening
+      - id: day3-matinee
+        date: 2023-09-03
+        label: Day.3 昼
+        session: matinee
+      - id: day3-evening
+        date: 2023-09-03
+        label: Day.3 夜
+        session: evening

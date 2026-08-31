@@ -1,0 +1,85 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 曲順の枠が日替わり/会場別の場合は variants に候補を並べる。
+# 出典: 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67113.html
+# singers は出典の表の色から判定した、この公演での歌唱ボーカロイド。
+sets:
+  - performances: [osaka, tokyo]
+    tracks:
+      - order: 1
+        song: 'カゲロウデイズ'
+        singers: [miku]
+      - order: 2
+        song: '二次元ドリームフィーバー'
+        singers: [miku]
+      - order: 3
+        song: '心臓デモクラシー'
+        singers: [miku]
+      - order: 4
+        song: 'ありふれたせかいせいふく'
+        singers: [miku]
+      - order: 5
+        song: 'スキキライ'
+        singers: [rin, len]
+      - order: 6
+        song: 'からくりピエロ'
+        singers: [miku]
+      - order: 7
+        song: 'Weekender Girl'
+        singers: [miku]
+      - order: 8
+        song: 'FREELY TOMORROW'
+        singers: [miku]
+      - order: 9
+        song: '深海少女'
+        singers: [miku]
+      - order: 10
+        song: 'ピアノ×フォルテ×スキャンダル'
+        singers: [meiko]
+      - order: 11
+        song: 'erase or zero'
+        singers: [len, kaito]
+      - order: 12
+        song: 'glow'
+        singers: [miku]
+      - order: 13
+        song: 'Hello, Worker'
+        singers: [luka]
+      - order: 14
+        song: 'アカツキアライヴァル'
+        singers: [miku, luka]
+      - order: 15
+        song: 'ワンダーランドと羊の歌'
+        singers: [miku]
+      - order: 16
+        song: 'Tell Your World'
+        singers: [miku]
+      - order: 17
+        song: '東京テディベア'
+        singers: [rin]
+      - order: 18
+        song: 'Last Night, Good Night(Re:Dialed)'
+        singers: [miku]
+      - order: 19
+        song: 'キャットフード'
+        singers: [miku]
+      - order: 20
+        song: 'EARTH DAY'
+        singers: [miku]
+      - order: 21
+        song: 'ゆめゆめ'
+        singers: [miku]
+      - order: 22
+        song: 'ODDS&ENDS'
+        singers: [miku]
+      - order: 23
+        song: 'Sweet Devil'
+        singers: [miku]
+        tags: [encore]
+      - order: 24
+        song: 'shake it!'
+        singers: [miku, rin, len]
+        tags: [encore]
+      - order: 25
+        song: '39'
+        singers: [miku]
+        tags: [encore]

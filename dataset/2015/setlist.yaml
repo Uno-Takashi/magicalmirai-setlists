@@ -1,0 +1,91 @@
+# セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
+# 曲順の枠が日替わり/会場別の場合は variants に候補を並べる。
+# 出典: 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67114.html
+# singers は出典の表の色から判定した、この公演での歌唱ボーカロイド。
+sets:
+  - performances: [tokyo]
+    tracks:
+      - order: 1
+        song: 'Tell Your World'
+        singers: [miku]
+      - order: 2
+        song: 'ラズベリー*モンスター'
+        singers: [miku]
+      - order: 3
+        song: 'はじめまして地球人さん'
+        singers: [miku]
+      - order: 4
+        song: '独りんぼエンヴィー'
+        singers: [miku]
+      - order: 5
+        song: '恋愛裁判'
+        singers: [miku]
+      - order: 6
+        song: '聖槍爆裂ボーイ'
+        singers: [len]
+      - order: 7
+        song: 'ロストワンの号哭'
+        singers: [rin]
+      - order: 8
+        song: 'リモコン'
+        singers: [rin, len]
+      - order: 9
+        song: 'Nostalogic'
+        singers: [meiko]
+      - order: 10
+        song: 'スノーマン'
+        singers: [kaito]
+      - order: 11
+        song: 'エンヴィキャットウォーク'
+        singers: [miku]
+      - order: 12
+        song: '深海少女'
+        singers: [miku]
+      - order: 13
+        song: 'Sweet Devil'
+        singers: [miku]
+      - order: 14
+        song: '二次元ドリームフィーバー'
+        singers: [miku]
+      - order: 15
+        song: 'キャットフード'
+        singers: [miku]
+      - order: 16
+        song: 'アンハッピーリフレイン'
+        singers: [miku]
+      - order: 17
+        song: 'ロミオとシンデレラ'
+        singers: [miku]
+      - order: 18
+        song: 'glow'
+        singers: [miku]
+      - order: 19
+        song: '愛Dee'
+        singers: [miku, luka]
+      - order: 20
+        song: 'Just Be Friends'
+        singers: [luka]
+      - order: 21
+        song: 'shake it!'
+        singers: [miku, rin, len]
+      - order: 22
+        song: 'Packaged'
+        singers: [miku]
+      - order: 23
+        song: 'ワールドイズマイン'
+        singers: [miku]
+      - order: 24
+        song: 'ODDS&ENDS'
+        singers: [miku]
+      - order: 25
+        song: 'Hand in Hand'
+        singers: [miku]
+        tags: [encore, theme-song]
+      - order: 26
+        song: '39'
+        singers: [miku]
+        tags: [encore]
+      - order: 27
+        song: 'ハジメテノオト'
+        singers: [miku]
+        tags: [encore]

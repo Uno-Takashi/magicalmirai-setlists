@@ -1,0 +1,104 @@
+# 初音ミク「マジカルミライ」10th Anniversary 開催回のメタ情報。
+# 出典: 公式サイト / 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/66656.html
+# ライブは基本、昼夜1回ずつの2公演/日 (大阪初日は夜公演のみ)。
+# 札幌は 2 日とも昼夜 2 公演 (公式アフターレポートによる)。
+# 札幌公演は開催年をまたいで 2023 年 2 月に行われた。
+year: 2022
+slug: '10th'
+name:
+  ja: 初音ミク「マジカルミライ」10th Anniversary
+  en: 'Hatsune Miku "Magical Mirai" 10th Anniversary'
+# その年の公式サイト。全年度 200 応答を確認済み。
+officialUrl: https://magicalmirai.com/10th/
+# その回のテーマカラー。キービジュアルなどから選んで並べる (単色でも複数でも可)。
+themeColors: []
+performances:
+  - id: osaka
+    region: osaka
+    city:
+      ja: 大阪
+      en: Osaka
+    venue:
+      ja: インテックス大阪
+      en: INTEX Osaka
+    shows:
+      - id: day1-evening
+        date: 2022-08-12
+        label: Day.1 夜
+        session: evening
+      - id: day2-matinee
+        date: 2022-08-13
+        label: Day.2 昼
+        session: matinee
+      - id: day2-evening
+        date: 2022-08-13
+        label: Day.2 夜
+        session: evening
+      - id: day3-matinee
+        date: 2022-08-14
+        label: Day.3 昼
+        session: matinee
+      - id: day3-evening
+        date: 2022-08-14
+        label: Day.3 夜
+        session: evening
+
+  - id: tokyo
+    region: tokyo
+    city:
+      ja: 東京
+      en: Tokyo
+    venue:
+      ja: 幕張メッセ 国際展示場
+      en: Makuhari Messe
+    shows:
+      - id: day1-matinee
+        date: 2022-09-02
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2022-09-02
+        label: Day.1 夜
+        session: evening
+      - id: day2-matinee
+        date: 2022-09-03
+        label: Day.2 昼
+        session: matinee
+      - id: day2-evening
+        date: 2022-09-03
+        label: Day.2 夜
+        session: evening
+      - id: day3-matinee
+        date: 2022-09-04
+        label: Day.3 昼
+        session: matinee
+      - id: day3-evening
+        date: 2022-09-04
+        label: Day.3 夜
+        session: evening
+
+  - id: sapporo
+    region: other
+    city:
+      ja: 札幌
+      en: Sapporo
+    venue:
+      ja: 札幌文化芸術劇場 hitaru
+      en: Sapporo Cultural Arts Theater hitaru
+    shows:
+      - id: day1-matinee
+        date: 2023-02-04
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2023-02-04
+        label: Day.1 夜
+        session: evening
+      - id: day2-matinee
+        date: 2023-02-05
+        label: Day.2 昼
+        session: matinee
+      - id: day2-evening
+        date: 2023-02-05
+        label: Day.2 夜
+        session: evening

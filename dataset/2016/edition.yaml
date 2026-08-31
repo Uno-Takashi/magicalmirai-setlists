@@ -1,0 +1,38 @@
+# 初音ミク「マジカルミライ」2016 開催回のメタ情報。
+# 出典: 公式サイト / 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/67115.html
+# ライブは 9/10-11 のみ。昼夜1回ずつの2公演/日。
+year: 2016
+slug: '2016'
+name:
+  ja: 初音ミク「マジカルミライ 2016」
+  en: 'Hatsune Miku "Magical Mirai 2016"'
+# その年の公式サイト。全年度 200 応答を確認済み。
+officialUrl: https://magicalmirai.com/2016/
+# その回のテーマカラー。キービジュアルなどから選んで並べる (単色でも複数でも可)。
+themeColors: []
+performances:
+  - id: tokyo
+    region: tokyo
+    city:
+      ja: 東京
+      en: Tokyo
+    venue:
+      ja: 幕張メッセ 国際展示場
+      en: Makuhari Messe
+    shows:
+      - id: day1-matinee
+        date: 2016-09-10
+        label: Day.1 昼
+        session: matinee
+      - id: day1-evening
+        date: 2016-09-10
+        label: Day.1 夜
+        session: evening
+      - id: day2-matinee
+        date: 2016-09-11
+        label: Day.2 昼
+        session: matinee
+      - id: day2-evening
+        date: 2016-09-11
+        label: Day.2 夜
+        session: evening
