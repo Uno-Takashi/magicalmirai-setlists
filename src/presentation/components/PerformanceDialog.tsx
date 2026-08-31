@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react'
+import { createPortal } from 'react-dom'
 import { LuMapPin, LuX } from 'react-icons/lu'
 import type { Performance } from '@/domain/edition/Performance'
 import { showsByDate } from '@/domain/edition/Performance'
@@ -76,6 +77,14 @@ function VenueMap({ performance }: { performance: Performance }) {
  *
  * カードは 1 行に何枚も並ぶので会場名までしか置けない。会場で使った施設・
  * 地図・日程といった「その会場に行くための情報」はここにまとめる。
+ *
+ * **body へポータルで出すこと。** この中身は年送りのカルーセル
+ * (`EditionCarousel`) の内側から呼ばれる。カルーセルはスライドを `motion.div`
+ * の `transform` で動かしており、`transform` の掛かった祖先は `position: fixed`
+ * の基準になる。そのままだと `fixed inset-0` が画面ではなくスライドの箱を指し、
+ * ページと一緒にスクロールして画面外へ流れてしまう (さらにカルーセルの
+ * `overflow-hidden` で切り取られる)。App 直下で描かれる SongDialog などが
+ * 同じ書き方で問題ないのは、間に transform を持つ祖先がいないため。
  */
 export function PerformanceDialog({
   performance,
@@ -87,7 +96,7 @@ export function PerformanceDialog({
   const { t, locale } = useLocale()
   useOverlay(performance !== null, onClose)
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {performance !== null ? (
         <motion.div
@@ -164,6 +173,7 @@ export function PerformanceDialog({
           </motion.div>
         </motion.div>
       ) : null}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }
