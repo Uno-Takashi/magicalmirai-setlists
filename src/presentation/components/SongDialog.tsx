@@ -5,7 +5,6 @@ import { SiApplemusic, SiSpotify, SiYoutube } from 'react-icons/si'
 import { editionsOfSong, singersOfSong } from '@/application/searchSongs'
 import { producerLabel, type Song } from '@/domain/song/Song'
 import {
-  canEmbed,
   musicServiceLink,
   youtubeEmbedUrl,
   youtubeThumbnailUrl,
@@ -161,7 +160,7 @@ export function SongDialog({
             role="dialog"
             aria-modal="true"
             aria-label={song.title}
-            className="surface-card w-full max-w-lg rounded-t-2xl p-5 shadow-2xl sm:rounded-2xl"
+            className="surface-card max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl p-5 shadow-2xl sm:rounded-2xl"
             initial={{ y: 40, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 40, opacity: 0, scale: 0.98 }}
@@ -192,8 +191,10 @@ export function SongDialog({
             {/* 曲が変わったら作り直して、再生状態を持ち越さない */}
             <YoutubePreview key={song.title} song={song} />
 
+            {/* 埋め込みがあっても YouTube の行は残す。3 サービスが常に同じ並びで出るほうが
+                探しやすく、埋め込みの外で見たい場合の行き先にもなる */}
             <div className="mt-4 grid gap-2">
-              {!canEmbed(song) ? <ServiceLink song={song} kind="youtube" /> : null}
+              <ServiceLink song={song} kind="youtube" />
               <ServiceLink song={song} kind="spotify" />
               <ServiceLink song={song} kind="appleMusic" />
             </div>
