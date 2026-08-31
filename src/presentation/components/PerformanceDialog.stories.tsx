@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect } from 'storybook/test'
 import { findEntry } from '@/domain/catalog/Catalog'
 import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
 import { PerformanceDialog } from './PerformanceDialog'
@@ -37,4 +38,32 @@ export const VenueOnly: Story = {
 /** 昼夜の区別が無い年。日程は Day.1 などの表示ラベルで出る。 */
 export const WithoutSessions: Story = {
   args: { performance: performanceOf('2020', 'tokyo') },
+}
+
+/**
+ * 年送りのカルーセルの中から開いたときも、画面に貼り付いたままになること。
+ *
+ * カルーセルはスライドを transform で動かしており、transform の掛かった祖先は
+ * position: fixed の基準になる。ポータルで body へ逃がしていないと、モーダルは
+ * 画面ではなくスライドの箱を基準に置かれ、ページと一緒に流れて見えなくなる。
+ */
+export const InsideTransformedAncestor: Story = {
+  args: { performance: performanceOf('2026', 'osaka') },
+  decorators: [
+    (Story) => (
+      <div style={{ transform: 'translateX(0px)', height: '300vh' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  play: async ({ canvasElement }) => {
+    const dialog = canvasElement.ownerDocument.body.querySelector('[role="dialog"]')
+    expect(dialog).not.toBeNull()
+
+    // 画面の中に収まっていれば、fixed の基準が transform 祖先に奪われていない
+    const box = dialog!.getBoundingClientRect()
+    const viewport = canvasElement.ownerDocument.defaultView!.innerHeight
+    expect(box.top).toBeLessThan(viewport)
+    expect(box.bottom).toBeGreaterThan(0)
+  },
 }
