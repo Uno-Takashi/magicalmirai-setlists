@@ -11,8 +11,8 @@ const AUTHOR = { name: 'U-Not', x: 'https://x.com/U_Not_401' }
 
 /** このサイトのリポジトリ。 */
 const REPOSITORY = {
-  name: 'Uno-Takashi/magicalmirai_setlist_page',
-  url: 'https://github.com/Uno-Takashi/magicalmirai_setlist_page',
+  name: 'Uno-Takashi/magicalmirai-setlists',
+  url: 'https://github.com/Uno-Takashi/magicalmirai-setlists',
 }
 
 const SOURCES: { key: TranslationKey; url: string }[] = [

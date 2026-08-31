@@ -7,7 +7,7 @@
 初音ミク「マジカルミライ」歴代公演のセットリストを閲覧するファンページ。
 完全に static な SPA として GitHub Pages で配信する。バックエンドは持たない。
 
-- 公開先: https://uno-takashi.github.io/magicalmirai_setlist_page/
+- 公開先: https://uno-takashi.github.io/magicalmirai-setlists/
 - 公式サイト (一次情報源): https://magicalmirai.com/
 
 ---
@@ -303,7 +303,7 @@ Storybook にはストーリーがあるので、使いどころを探すとき�
   型は `src/vite-env.d.ts` の `ImportMetaEnv` に書く。
 
 - GitHub Pages はリポジトリ名のサブパス配信なので `VITE_BASE_PATH` を
-  `/magicalmirai_setlist_page/` にしている。
+  `/magicalmirai-setlists/` にしている。
 - 検索向けの `sitemap.xml` と `robots.txt` は `vite.config.ts` の `seoFiles` プラグインが
   ビルド時に生成する。dataset に年を足せば URL が増えるので手で並べ直さなくてよい。
 - 静的ホスティングではどの URL も同じ HTML が返るため、HTML の `title` / `description` は
