@@ -174,9 +174,13 @@ export function App() {
         {header}
         <main className="flex-1">
           {route.kind === 'ranking' && route.ranking === 'vocaloids' ? (
-            <VocaloidStatsView />
+            <VocaloidStatsView onBack={openStatistics} />
           ) : route.kind === 'ranking' ? (
-            <RankingView ranking={route.ranking} onSelectSong={setSelectedSong} />
+            <RankingView
+              ranking={route.ranking}
+              onBack={openStatistics}
+              onSelectSong={setSelectedSong}
+            />
           ) : (
             <StatisticsView
               onShowAll={(ranking) => navigate(rankingPath(ranking))}
