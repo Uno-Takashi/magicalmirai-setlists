@@ -104,6 +104,7 @@ export const en: Translations = {
   'a11y.venueMap': 'Map of {venue}',
   'a11y.authorOnX': "Open {name}'s profile on X",
   'a11y.songDetail': 'Open details for {title}',
+  'a11y.searchProducer': 'Search songs by {producer}',
   'a11y.pictureInPicture': 'Keep playing in the corner',
   'a11y.expandPlayer': 'Reopen details for {title}',
   'a11y.closePlayer': 'Close the playing video',

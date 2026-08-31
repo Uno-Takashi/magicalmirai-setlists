@@ -67,9 +67,12 @@ function Panel({
 export function StatisticsView({
   onShowAll,
   onSelectSong,
+  onSelectProducer,
 }: {
   onShowAll: (ranking: RankingKind) => void
   onSelectSong: (song: Song) => void
+  /** ボカロ P の行から、その名前で曲を探しに行く。 */
+  onSelectProducer: (producer: string) => void
 }) {
   const { catalog } = useCatalog()
   const { t, locale } = useLocale()
@@ -86,6 +89,8 @@ export function StatisticsView({
     label: stat.producer,
     value: stat.songCount,
     note: t('statistics.appearances', { count: stat.appearanceCount }),
+    onSelect: () => onSelectProducer(stat.producer),
+    ariaLabel: t('a11y.searchProducer', { producer: stat.producer }),
   }))
 
   const songRows: BarRankingRow[] = songs.map((stat) => ({

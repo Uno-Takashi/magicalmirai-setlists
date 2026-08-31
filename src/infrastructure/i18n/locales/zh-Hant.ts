@@ -101,6 +101,7 @@ export const zhHant: Translations = {
   'a11y.venueMap': '{venue} 的地圖',
   'a11y.authorOnX': '開啟 {name} 的 X 個人檔案',
   'a11y.songDetail': '開啟「{title}」的詳細資訊',
+  'a11y.searchProducer': '搜尋「{producer}」的樂曲',
   'a11y.pictureInPicture': '縮到右下角繼續播放',
   'a11y.expandPlayer': '重新開啟「{title}」的詳細資訊',
   'a11y.closePlayer': '關閉播放中的影片',

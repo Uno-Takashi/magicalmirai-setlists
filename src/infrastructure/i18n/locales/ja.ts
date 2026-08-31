@@ -103,6 +103,7 @@ export const ja = {
   'a11y.venueMap': '{venue}の地図',
   'a11y.authorOnX': '{name} の X のプロフィールを開く',
   'a11y.songDetail': '「{title}」の詳細を開く',
+  'a11y.searchProducer': '「{producer}」の楽曲を検索する',
   'a11y.pictureInPicture': '右下に縮めて再生を続ける',
   'a11y.expandPlayer': '「{title}」の詳細をもう一度開く',
   'a11y.closePlayer': '再生中の動画を閉じる',

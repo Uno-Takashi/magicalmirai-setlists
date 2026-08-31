@@ -13,11 +13,14 @@ export function RankingView({
   ranking,
   onBack,
   onSelectSong,
+  onSelectProducer,
 }: {
   ranking: RankingKind
   /** 統計の全体へ戻る。 */
   onBack: () => void
   onSelectSong: (song: Song) => void
+  /** ボカロ P の行から、その名前で曲を探しに行く。 */
+  onSelectProducer: (producer: string) => void
 }) {
   const { catalog } = useCatalog()
   const { t } = useLocale()
@@ -37,6 +40,8 @@ export function RankingView({
           label: stat.producer,
           value: stat.songCount,
           note: t('statistics.appearances', { count: stat.appearanceCount }),
+          onSelect: () => onSelectProducer(stat.producer),
+          ariaLabel: t('a11y.searchProducer', { producer: stat.producer }),
         }))
       : songs.map((stat) => ({
           id: stat.song.title,
