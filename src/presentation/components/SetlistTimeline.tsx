@@ -24,19 +24,29 @@ interface VariantRowProps {
   onSelect: (song: Song) => void
 }
 
+interface VariantLabel {
+  readonly text: string
+  /** 公演地で分かれている候補。地図ピンを添えて、日程の札と一目で見分けられるようにする。 */
+  readonly byVenue: boolean
+}
+
 /** 候補が「どの回で演奏されたか」を短い文字列にする。 */
-function useVariantLabel(track: Track, variant: TrackVariant, edition: Edition): string {
+function useVariantLabel(track: Track, variant: TrackVariant, edition: Edition): VariantLabel {
   const { t, locale } = useLocale()
   const scope = variantScope(track, variant)
-  if (scope === null) return variant.note ?? ''
+  if (scope === null) return { text: variant.note ?? '', byVenue: false }
 
+  // 公演地はピンが付くので「大阪公演」まで書かず、地名だけにする
   if (scope.kind === 'venues') {
-    return scope.performanceIds
-      .map((id) => {
-        const performance = edition.performances.find((p) => p.id === id)
-        return performance ? localize(performance.city, locale) : id
-      })
-      .join('・')
+    return {
+      text: scope.performanceIds
+        .map((id) => {
+          const performance = edition.performances.find((p) => p.id === id)
+          return performance ? localize(performance.city, locale) : id
+        })
+        .join('・'),
+      byVenue: true,
+    }
   }
 
   const ids = scope.kind === 'shows' ? scope.showIds : scope.shows.map(showIdOf)
@@ -48,10 +58,10 @@ function useVariantLabel(track: Track, variant: TrackVariant, edition: Edition):
   const sessions = new Set(matched.map((show) => show.session))
   if (sessions.size === 1) {
     const [session] = [...sessions]
-    if (session !== undefined) return t(`session.${session}`)
+    if (session !== undefined) return { text: t(`session.${session}`), byVenue: false }
   }
 
-  return [...new Set(matched.map((show) => show.label))].sort().join('・')
+  return { text: [...new Set(matched.map((show) => show.label))].sort().join('・'), byVenue: false }
 }
 
 function VariantRow({ variant, track, edition, onSelect }: VariantRowProps) {
@@ -82,9 +92,10 @@ function VariantRow({ variant, track, edition, onSelect }: VariantRowProps) {
           <VocaloidChips singers={singers} />
         </span>
       </span>
-      {label !== '' ? (
-        <span className="surface-card text-muted shrink-0 rounded px-1.5 py-0.5 text-[10px] whitespace-nowrap">
-          {label}
+      {label.text !== '' ? (
+        <span className="surface-card text-muted inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[10px] whitespace-nowrap">
+          {label.byVenue ? <LuMapPin aria-hidden /> : null}
+          {label.text}
         </span>
       ) : null}
     </button>
