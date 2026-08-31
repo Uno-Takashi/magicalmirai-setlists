@@ -63,6 +63,7 @@ export const ja = {
 
   'statistics.open': '統計を見る',
   'statistics.title': '統計',
+  /** 画面には出さない。検索向けの meta の説明文にだけ使う。 */
   'statistics.description': '歴代のセットリストから集計しています。',
   'statistics.editionCount': 'マジカルミライ開催数',
   'statistics.performanceCount': '演奏回数(累計)',
