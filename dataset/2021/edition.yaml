@@ -19,6 +19,9 @@ performances:
     venue:
       ja: インテックス大阪
       en: INTEX Osaka
+    halls:
+      ja: 4号館・5号館A
+      en: Halls 4 and 5A
     shows:
       - id: day1-evening
         date: 2021-10-22
@@ -49,6 +52,9 @@ performances:
     venue:
       ja: 幕張メッセ 国際展示場
       en: Makuhari Messe
+    halls:
+      ja: 9・10・11ホール
+      en: Halls 9, 10 and 11
     shows:
       - id: day1-matinee
         date: 2021-11-05

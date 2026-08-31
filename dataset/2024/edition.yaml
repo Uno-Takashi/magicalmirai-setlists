@@ -19,6 +19,9 @@ performances:
     venue:
       ja: 福岡サンパレス
       en: Fukuoka Sunpalace
+    halls:
+      ja: 福岡国際会議場 2・4・5F(企画展)
+      en: Fukuoka International Congress Center 2F, 4F & 5F (exhibition)
     shows:
       - id: day1-matinee
         date: 2024-08-17
@@ -45,6 +48,9 @@ performances:
     venue:
       ja: 幕張メッセ 国際展示場
       en: Makuhari Messe
+    halls:
+      ja: 1・2・3ホール
+      en: Halls 1, 2 and 3
     shows:
       - id: day1-matinee
         date: 2024-08-30
@@ -79,6 +85,9 @@ performances:
     venue:
       ja: インテックス大阪
       en: INTEX Osaka
+    halls:
+      ja: 3号館・4号館・5号館A
+      en: Halls 3, 4 and 5A
     shows:
       - id: day1-matinee
         date: 2024-10-12

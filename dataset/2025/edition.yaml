@@ -49,6 +49,9 @@ performances:
     venue:
       ja: インテックス大阪
       en: INTEX Osaka
+    halls:
+      ja: 3号館・4号館・5号館A
+      en: Halls 3, 4 and 5A
     shows:
       - id: day1-matinee
         date: 2025-08-09
@@ -83,6 +86,9 @@ performances:
     venue:
       ja: 幕張メッセ 国際展示場
       en: Makuhari Messe
+    halls:
+      ja: 9・10・11ホール
+      en: Halls 9, 10 and 11
     shows:
       - id: day1-matinee
         date: 2025-08-29

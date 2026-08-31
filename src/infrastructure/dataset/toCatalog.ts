@@ -45,6 +45,8 @@ function toPerformance(raw: RawPerformance): Performance {
     region: toRegion(raw.region),
     city: raw.city,
     venue: raw.venue,
+    halls: raw.halls,
+    mapQuery: raw.mapQuery,
     shows: raw.shows.map(toShow),
   }
 }

@@ -19,6 +19,9 @@ performances:
     venue:
       ja: インテックス大阪
       en: INTEX Osaka
+    halls:
+      ja: 5号館A(ライブ)・4号館・5号館B(企画展)
+      en: Hall 5A (live), Halls 4 & 5B (exhibition)
     shows:
       - id: day1-matinee
         date: 2019-08-10
@@ -45,6 +48,9 @@ performances:
     venue:
       ja: 幕張メッセ 国際展示場
       en: Makuhari Messe
+    halls:
+      ja: 3ホール(ライブ)・1・2ホール(企画展)
+      en: Hall 3 (live), Halls 1 & 2 (exhibition)
     shows:
       - id: day1-evening
         date: 2019-08-30

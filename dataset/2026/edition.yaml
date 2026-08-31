@@ -19,6 +19,9 @@ performances:
     venue:
       ja: アクトシティ浜松
       en: Act City Hamamatsu
+    halls:
+      ja: 大ホール・展示イベントホール・コングレスセンター 2・3F
+      en: Main Hall, Exhibition Event Hall, Congress Center 2F & 3F
     shows:
       - id: day1-matinee
         date: 2026-07-24
@@ -53,6 +56,9 @@ performances:
     venue:
       ja: インテックス大阪
       en: INTEX Osaka
+    halls:
+      ja: 3号館・4号館・5号館A
+      en: Halls 3, 4 and 5A
     shows:
       - id: day1-matinee
         date: 2026-08-14
@@ -87,6 +93,9 @@ performances:
     venue:
       ja: 幕張メッセ 国際展示場
       en: Makuhari Messe
+    halls:
+      ja: 1・2・3・9ホール
+      en: Halls 1, 2, 3 and 9
     shows:
       - id: day1-matinee
         date: 2026-08-28

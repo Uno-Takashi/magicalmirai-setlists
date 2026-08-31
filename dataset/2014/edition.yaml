@@ -37,6 +37,7 @@ performances:
     venue:
       ja: 東京体育館 メインアリーナ
       en: Tokyo Metropolitan Gymnasium
+    mapQuery: 東京体育館
     shows:
       - id: day1-matinee
         date: 2014-09-20
