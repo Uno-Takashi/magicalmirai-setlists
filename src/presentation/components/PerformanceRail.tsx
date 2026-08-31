@@ -7,8 +7,11 @@ import { useDateFormatters } from '@/presentation/hooks/useFormatters'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 /**
- * 1 年に行われた公演を横一列に並べる。各カードがその公演地の日程(昼夜含む)を持つので、
+ * 1 年に行われた公演を並べる。各カードがその公演地の日程(昼夜含む)を持つので、
  * 1 画面で「その年に何がどこで何日あったか」が読める。
+ *
+ * 幅の狭い画面では縦に積む。横並びのままだと 2 枚目以降が画面の外に出てしまい、
+ * 年送りの横スワイプと競合して、そこまでスクロールして選ぶことができない。
  */
 const SESSION_ICON = { matinee: LuSun, evening: LuMoon } as const
 const SESSION_COLOR = {
@@ -41,10 +44,10 @@ export function PerformanceRail({
   const formatters = useDateFormatters()
 
   return (
-    <div className="-mx-4 overflow-x-auto px-4 pb-1">
-      {/* items-stretch で全カードをその年の最も高いカードに合わせる。
+    <div className="-mx-4 px-4 pb-1 sm:overflow-x-auto">
+      {/* 横並びのときは items-stretch で全カードをその年の最も高いカードに合わせる。
           公演地ごとに日程の数が違うので、揃えないと下端がばらつく */}
-      <ul className="flex min-w-max items-stretch gap-3">
+      <ul className="flex flex-col gap-2 sm:min-w-max sm:flex-row sm:items-stretch sm:gap-3">
         {performances.map((performance) => {
           const selected = performance.id === selectedId
           const color = regionColorVar(performance.region)
@@ -57,23 +60,26 @@ export function PerformanceRail({
                 aria-label={t('a11y.selectPerformance', {
                   city: localize(performance.city, locale),
                 })}
-                className="surface-card h-full w-56 rounded-xl p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
+                className="surface-card h-full w-full rounded-xl p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg sm:w-56"
               >
-                <span className="flex items-center gap-1.5 text-sm font-bold">
-                  <span className="size-2 rounded-full" style={{ backgroundColor: color }} />
-                  {localize(performance.city, locale)}
-                </span>
+                {/* 狭いときは公演地と会場を同じ行に流し込み、1 枚あたりの高さを抑える */}
+                <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 sm:block">
+                  <span className="flex items-center gap-1.5 text-sm font-bold">
+                    <span className="size-2 rounded-full" style={{ backgroundColor: color }} />
+                    {localize(performance.city, locale)}
+                  </span>
 
-                <span className="text-muted mt-1 flex items-start gap-1.5 text-xs">
-                  <LuMapPin aria-hidden className="mt-0.5 shrink-0" />
-                  <span className="min-w-0">
-                    {performance.venue !== undefined
-                      ? localize(performance.venue, locale)
-                      : t('edition.venueUnknown')}
+                  <span className="text-muted flex min-w-0 items-start gap-1.5 text-xs sm:mt-1">
+                    <LuMapPin aria-hidden className="mt-0.5 shrink-0" />
+                    <span className="min-w-0">
+                      {performance.venue !== undefined
+                        ? localize(performance.venue, locale)
+                        : t('edition.venueUnknown')}
+                    </span>
                   </span>
                 </span>
 
-                <span className="text-muted mt-2 flex items-start gap-1.5 text-xs">
+                <span className="text-muted mt-1.5 flex items-start gap-1.5 text-xs sm:mt-2">
                   <LuCalendarDays aria-hidden className="mt-0.5 shrink-0" />
                   <span className="flex flex-wrap gap-x-2.5 gap-y-0.5">
                     {showsByDate(performance).map(({ date, shows }) => (
