@@ -16,18 +16,21 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
  */
 export function SearchOverlay({
   open,
+  initialQuery = '',
   onClose,
   onSelectSong,
   onSelectEdition,
 }: {
   open: boolean
+  /** 開いた直後に入力欄へ入れておく語。統計のボカロ P 名から飛んで来るときに使う。 */
+  initialQuery?: string
   onClose: () => void
   onSelectSong: (song: Song) => void
   onSelectEdition: (slug: string) => void
 }) {
   const { t } = useLocale()
   const { catalog, searchIndex } = useCatalog()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(initialQuery)
   const inputRef = useRef<HTMLInputElement>(null)
 
   // 既定は全員 on。全員 on のときは絞り込みを一切かけない。
@@ -55,12 +58,18 @@ export function SearchOverlay({
   }, [catalog, searchIndex, deferredQuery, selected, allVocaloids.length])
   const stale = deferredQuery !== query
 
-  // 閉じるときにクエリと絞り込みを捨てる。開いたときに state を書き戻す必要がなくなる。
-  const close = useCallback(() => {
-    setQuery('')
-    setSelected(new Set(allVocaloids))
-    onClose()
-  }, [allVocaloids, onClose])
+  // 開いた瞬間だけ初期状態へ戻す。initialQuery を入れ、絞り込みは全員 on に戻して
+  // 渡された語の結果が絞り込みで欠けないようにする。
+  // 効果ではなく描画中に合わせるのは、一度描いてから中身が入れ替わるのを避けるため。
+  // 閉じるときに捨てないのは、フェードアウトの途中で結果が消えて見えるのを防ぐため。
+  const [wasOpen, setWasOpen] = useState(open)
+  if (open !== wasOpen) {
+    setWasOpen(open)
+    if (open) {
+      setQuery(initialQuery)
+      setSelected(new Set(allVocaloids))
+    }
+  }
 
   useEffect(() => {
     if (!open) return
@@ -69,7 +78,7 @@ export function SearchOverlay({
     return () => window.clearTimeout(id)
   }, [open])
 
-  useOverlay(open, close)
+  useOverlay(open, onClose)
 
   return (
     <AnimatePresence>
@@ -97,7 +106,7 @@ export function SearchOverlay({
             />
             <button
               type="button"
-              onClick={close}
+              onClick={onClose}
               aria-label={t('search.close')}
               className="text-muted shrink-0 rounded-lg p-2 transition hover:bg-black/5"
             >
@@ -153,7 +162,7 @@ export function SearchOverlay({
                               type="button"
                               onClick={() => {
                                 onSelectEdition(edition.slug)
-                                close()
+                                onClose()
                               }}
                               aria-label={t('a11y.viewEdition', { year: edition.year })}
                               className="bg-miku/15 text-miku hover:bg-miku/25 rounded px-1.5 py-0.5 text-[11px] font-semibold tabular-nums transition"

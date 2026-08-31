@@ -87,12 +87,17 @@ export function App() {
   const [focusSong, setFocusSong] = useState<string | null>(null)
   const clearFocusSong = useCallback(() => setFocusSong(null), [])
   const [searchOpen, setSearchOpen] = useState(false)
+  // 検索を開くときに入れておく語。ボカロ P の行から飛んで来たときだけ空でない。
+  const [searchQuery, setSearchQuery] = useState('')
   const [aboutOpen, setAboutOpen] = useState(false)
   const [selectedSong, setSelectedSong] = useState<Song | null>(null)
 
   // 子へ渡すコールバックは同一性を保つ。描画のたびに新しい関数を渡すと、
   // 受け取り側の効果や memo がそのたびに無効になる。
-  const openSearch = useCallback(() => setSearchOpen(true), [])
+  const openSearch = useCallback(() => {
+    setSearchQuery('')
+    setSearchOpen(true)
+  }, [])
   useSearchShortcut(openSearch)
   const closeSearch = useCallback(() => setSearchOpen(false), [])
   const openAbout = useCallback(() => setAboutOpen(true), [])
@@ -100,6 +105,12 @@ export function App() {
   const closeSong = useCallback(() => setSelectedSong(null), [])
   const navigateHome = useCallback(() => selectSlug(''), [selectSlug])
   const openStatistics = useCallback(() => navigate(STATISTICS_PATH), [navigate])
+
+  /** 統計のボカロ P の行から、その名前で検索を開く。絞り込みは検索側で全員 on に戻る。 */
+  const searchProducer = useCallback((producer: string) => {
+    setSearchQuery(producer)
+    setSearchOpen(true)
+  }, [])
 
   /** 曲の詳細から、その曲を演奏した年のセットリストへ移動する。 */
   const selectEditionFromSong = useCallback(
@@ -148,6 +159,7 @@ export function App() {
     <>
       <SearchOverlay
         open={searchOpen}
+        initialQuery={searchQuery}
         onClose={closeSearch}
         onSelectSong={setSelectedSong}
         onSelectEdition={selectSlug}
@@ -180,11 +192,13 @@ export function App() {
               ranking={route.ranking}
               onBack={openStatistics}
               onSelectSong={setSelectedSong}
+              onSelectProducer={searchProducer}
             />
           ) : (
             <StatisticsView
               onShowAll={(ranking) => navigate(rankingPath(ranking))}
               onSelectSong={setSelectedSong}
+              onSelectProducer={searchProducer}
             />
           )}
         </main>

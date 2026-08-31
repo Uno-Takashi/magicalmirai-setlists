@@ -5,7 +5,7 @@ const meta = {
   title: 'Statistics/StatisticsView',
   component: StatisticsView,
   parameters: { layout: 'fullscreen' },
-  args: { onShowAll: () => {}, onSelectSong: () => {} },
+  args: { onShowAll: () => {}, onSelectSong: () => {}, onSelectProducer: () => {} },
 } satisfies Meta<typeof StatisticsView>
 
 export default meta

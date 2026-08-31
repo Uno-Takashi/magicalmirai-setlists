@@ -102,6 +102,7 @@ export const ko: Translations = {
   'a11y.venueMap': '{venue} 지도',
   'a11y.authorOnX': '{name}의 X 프로필 열기',
   'a11y.songDetail': '「{title}」의 상세 정보 열기',
+  'a11y.searchProducer': '「{producer}」의 곡 검색',
   'a11y.pictureInPicture': '오른쪽 아래에서 계속 재생',
   'a11y.expandPlayer': '「{title}」의 상세 정보 다시 열기',
   'a11y.closePlayer': '재생 중인 동영상 닫기',
