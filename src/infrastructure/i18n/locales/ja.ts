@@ -65,7 +65,7 @@ export const ja = {
   'statistics.open': '統計を見る',
   'statistics.title': '統計',
   'statistics.description': '歴代のセットリストから集計しています。',
-  'statistics.editionCount': '集計した開催回',
+  'statistics.editionCount': '開催数',
   'statistics.performanceCount': '演奏回数(累計)',
   'statistics.producerCount': 'ボカロ P',
   'statistics.results': '全 {count} 件',

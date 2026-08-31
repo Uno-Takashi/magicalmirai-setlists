@@ -66,7 +66,7 @@ export const zhHant: Translations = {
   'statistics.open': '查看統計',
   'statistics.title': '統計',
   'statistics.description': '依歷年歌單統計。',
-  'statistics.editionCount': '統計的公演回數',
+  'statistics.editionCount': '公演屆數',
   'statistics.performanceCount': '演出次數（累計）',
   'statistics.producerCount': 'VOCALOID 製作人',
   'statistics.results': '共 {count} 筆',
