@@ -19,7 +19,6 @@ export const en: Translations = {
   'search.appearedIn': 'Performed in',
   'search.close': 'Close',
 
-  'edition.performances': 'Performances',
   'edition.noSetlist': 'The setlist for this year has not been collected yet',
   'edition.trackCount': '{count} songs',
   'edition.officialSite': 'Official site',

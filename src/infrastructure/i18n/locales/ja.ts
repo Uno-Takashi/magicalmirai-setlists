@@ -18,7 +18,6 @@ export const ja = {
   'search.appearedIn': '登場した年',
   'search.close': '閉じる',
 
-  'edition.performances': '公演',
   'edition.noSetlist': 'この年のセットリストはまだ収集できていません',
   'edition.trackCount': '全 {count} 曲',
   'edition.officialSite': '公式サイト',

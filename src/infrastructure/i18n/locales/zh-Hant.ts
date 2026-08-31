@@ -19,7 +19,6 @@ export const zhHant: Translations = {
   'search.appearedIn': '演出年份',
   'search.close': '關閉',
 
-  'edition.performances': '公演',
   'edition.noSetlist': '這一年的歌單尚未整理',
   'edition.trackCount': '共 {count} 首',
   'edition.officialSite': '官方網站',
