@@ -19,7 +19,6 @@ export const ko: Translations = {
   'search.appearedIn': '공연된 해',
   'search.close': '닫기',
 
-  'edition.performances': '공연',
   'edition.noSetlist': '이 해의 세트리스트는 아직 수집되지 않았습니다',
   'edition.trackCount': '전 {count}곡',
   'edition.officialSite': '공식 사이트',

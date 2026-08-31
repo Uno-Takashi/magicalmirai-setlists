@@ -99,11 +99,9 @@ export function EditionView({
           ) : null}
         </header>
 
+        {/* カード自体が公演地・会場・日程を書いているので、見出しは置かない */}
         {selectedPerformance !== undefined ? (
           <div className="mb-6">
-            <h3 className="text-muted mb-2 text-xs font-semibold tracking-wide uppercase">
-              {t('edition.performances')}
-            </h3>
             <PerformanceRail
               performances={edition.performances}
               selectedId={selectedPerformance.id}
