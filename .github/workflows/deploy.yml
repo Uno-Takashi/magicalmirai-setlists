@@ -73,10 +73,9 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      # Pages は Settings であらかじめ有効にしておく (ソースは GitHub Actions)。
+      # GITHUB_TOKEN では Pages サイトを作成できないので、enablement は使えない
       - uses: actions/configure-pages@v6
-        with:
-          # Pages が未設定なら、この実行で有効にする (要 public リポジトリ)
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v5
         with:
