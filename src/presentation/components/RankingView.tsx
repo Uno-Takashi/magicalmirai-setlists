@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { producerRanking, songRanking } from '@/application/statistics'
 import { producerLabel, type Song } from '@/domain/song/Song'
+import { BackToStatistics } from '@/presentation/components/BackToStatistics'
 import { BarRanking, type BarRankingRow } from '@/presentation/components/BarRanking'
 import { HelpTip } from '@/presentation/components/HelpTip'
 import type { RankingKind } from '@/presentation/hooks/useRoute'
@@ -10,9 +11,12 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
 /** 統計ページの上位だけでは足りないときに開く、ランキング全体のページ。 */
 export function RankingView({
   ranking,
+  onBack,
   onSelectSong,
 }: {
   ranking: RankingKind
+  /** 統計の全体へ戻る。 */
+  onBack: () => void
   onSelectSong: (song: Song) => void
 }) {
   const { catalog } = useCatalog()
@@ -56,7 +60,8 @@ export function RankingView({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pt-6 pb-16">
-      <h2 className="text-miku flex items-center gap-2 text-2xl font-black sm:text-3xl">
+      <BackToStatistics onBack={onBack} />
+      <h2 className="text-miku mt-1 flex items-center gap-2 text-2xl font-black sm:text-3xl">
         {t(title)}
         {ranking === 'songs' ? <HelpTip text={t('statistics.songs.help')} /> : null}
       </h2>

@@ -5,6 +5,7 @@ const meta = {
   title: 'Statistics/VocaloidStatsView',
   component: VocaloidStatsView,
   parameters: { layout: 'fullscreen' },
+  args: { onBack: () => {} },
 } satisfies Meta<typeof VocaloidStatsView>
 
 export default meta

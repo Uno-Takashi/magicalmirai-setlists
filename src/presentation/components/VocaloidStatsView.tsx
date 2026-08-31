@@ -1,6 +1,7 @@
 import { lazy, Suspense, useMemo, useState } from 'react'
 import { vocaloidRanking, vocaloidTrend, type VocaloidTrendPoint } from '@/application/statistics'
 import { localize, type Vocaloid } from '@/domain/vocaloid/Vocaloid'
+import { BackToStatistics } from '@/presentation/components/BackToStatistics'
 import { BarRanking, type BarRankingRow } from '@/presentation/components/BarRanking'
 import { HelpTip } from '@/presentation/components/HelpTip'
 import type { TrendMode } from '@/presentation/components/VocaloidTrendChart'
@@ -73,7 +74,7 @@ function TrendSection({
 }
 
 /** ボーカロイド別の曲数を掘り下げるページ。統計ページの「もっと見る」から来る。 */
-export function VocaloidStatsView() {
+export function VocaloidStatsView({ onBack }: { onBack: () => void }) {
   const { catalog } = useCatalog()
   const { t, locale } = useLocale()
 
@@ -92,7 +93,8 @@ export function VocaloidStatsView() {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pt-6 pb-16">
-      <h2 className="text-miku text-2xl font-black sm:text-3xl">
+      <BackToStatistics onBack={onBack} />
+      <h2 className="text-miku mt-1 text-2xl font-black sm:text-3xl">
         {t('statistics.vocaloids.title')}
       </h2>
       <p className="text-muted mt-1 text-sm">{t('statistics.vocaloids.description')}</p>

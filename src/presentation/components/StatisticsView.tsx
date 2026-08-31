@@ -16,10 +16,14 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 const RANKING_LIMIT = 5
 
-function StatTile({ label, value }: { label: string; value: number }) {
+/** 数と単位。単位はランキングの行と同じく、数より小さく控えめに置く。 */
+function StatTile({ label, value, unit }: { label: string; value: number; unit: string }) {
   return (
     <div className="surface-card rounded-xl p-3">
-      <p className="text-2xl leading-none font-black tabular-nums">{value}</p>
+      <p className="text-2xl leading-none font-black tabular-nums">
+        {value}
+        <span className="text-muted ml-0.5 text-xs">{unit}</span>
+      </p>
       <p className="text-muted mt-1 text-xs">{label}</p>
     </div>
   )
@@ -105,9 +109,21 @@ export function StatisticsView({
       <p className="text-muted mt-1 text-sm leading-relaxed">{t('statistics.description')}</p>
 
       <div className="mt-4 grid grid-cols-3 gap-2">
-        <StatTile label={t('statistics.editionCount')} value={overall.editionCount} />
-        <StatTile label={t('statistics.performanceCount')} value={overall.performanceCount} />
-        <StatTile label={t('statistics.producerCount')} value={overall.producerCount} />
+        <StatTile
+          label={t('statistics.editionCount')}
+          value={overall.editionCount}
+          unit={t('statistics.unit.editions')}
+        />
+        <StatTile
+          label={t('statistics.performanceCount')}
+          value={overall.performanceCount}
+          unit={t('statistics.unit.times')}
+        />
+        <StatTile
+          label={t('statistics.producerCount')}
+          value={overall.producerCount}
+          unit={t('statistics.unit.people')}
+        />
       </div>
 
       <Panel title={t('statistics.producers.title')} onShowAll={() => onShowAll('producers')}>
