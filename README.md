@@ -1,12 +1,10 @@
-# magicalmirai-setlists
+# マジカルミライ歴代セットリスト
 
 [![CI](https://github.com/Uno-Takashi/magicalmirai-setlists/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Uno-Takashi/magicalmirai-setlists/actions/workflows/ci.yml?query=branch%3Amain)
 
 初音ミク「マジカルミライ」歴代公演のセットリストを年ごとに振り返るファンページ。
 
 **公開先:** https://magicalmirai-setlists.u-not.app/
-
-> 本サイトはファンによる非公式のアーカイブです。
 
 ## 機能
 
@@ -18,7 +16,9 @@
 - ダークモード / 多言語 (日本語・English・繁體中文・한국어) / スマートフォン対応
 - 年度ごとの背景アニメーション
 
-## セットアップ
+## 開発環境構築
+
+### 初回セットアップ
 
 ```bash
 corepack enable
@@ -29,7 +29,7 @@ pnpm dev        # http://localhost:5173
 VS Code の Dev Container にも対応しています (Ubuntu ベース + Node feature)。
 手順は [CONTRIBUTING.md](./CONTRIBUTING.md) を参照してください。
 
-## セットリストを追加・修正する
+### セットリストを追加・修正する
 
 データは [`dataset/`](./dataset/) の YAML がすべてです。コードを触らずに、
 年ディレクトリの YAML を編集するだけで更新できます。書き方は
@@ -46,7 +46,7 @@ dataset/
 
 存在しない曲を参照するとアプリの起動時にエラーになるので、タイプミスはすぐ気づけます。
 
-## よく使うコマンド
+### よく使うコマンド
 
 ```bash
 pnpm dev              # 開発サーバー
