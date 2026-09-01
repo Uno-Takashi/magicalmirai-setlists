@@ -152,19 +152,55 @@ src/
     catalog/Catalog.ts      全体の集約 + 参照整合性の検証
   application/            ユースケース
     searchSongs.ts          曲名の逐次検索 (インデックス構築と検索)
+    statistics.ts           カタログ全体の集計 (ランキング・推移)
   infrastructure/         外部との境界
     dataset/loadCatalog.ts  dataset/ の YAML を取り込む
     dataset/rawTypes.ts     YAML をそのまま写した型
     dataset/toCatalog.ts    生データ → ドメインモデルの変換
     i18n/                   多言語対応 (ja / en / zh-Hant / ko)
+    youtube/embedPlayer.ts  YouTube 埋め込みプレイヤーの状態購読
   presentation/           React
-    App.tsx
-    providers/              Catalog / Locale / Theme
-    hooks/                  ハッシュルーティング、キーボード操作、日付整形
-    components/             UI コンポーネント + .stories.tsx
-    backgrounds/            年度ごとの背景アニメーション
+    App.tsx                 外枠 (ヘッダー・ページ・脚注・重なり) の組み立てだけ
+    pages/                  現在地ごとのページ (開催回 / 統計)
+    providers/              Catalog / Locale / Player / Navigation / Dialogs
+    hooks/                  ルーティング、キーボード操作、meta、日付整形
+    components/             UI コンポーネント + .stories.tsx (下記の区分ごと)
   components/react-bits/  React Bits から取り込んだベンダーコード
 ```
+
+`presentation/components/` は**扱う対象で分ける**。どこに置くか迷ったら、
+その部品が話題にしているドメインの語 (開催回・セットリスト・曲・ボーカロイド) で決める。
+
+| ディレクトリ  | 置くもの                                                   |
+| ------------- | ---------------------------------------------------------- |
+| `ui/`         | ドメインを知らない部品 (`Modal` / `SegmentedControl` など) |
+| `app/`        | 画面の外枠 (ヘッダー・脚注・About・設定・重なりの配線)     |
+| `edition/`    | 開催回・公演・会場                                         |
+| `setlist/`    | 曲順の枠と候補                                             |
+| `song/`       | 曲の詳細・検索・再生                                       |
+| `vocaloid/`   | ボーカロイドのチップと絞り込み                             |
+| `statistics/` | 統計と各ランキング                                         |
+
+## 状態をどこに置くか
+
+**props で渡すのが既定。** 文脈 (context) にするのは、その状態を触る場所が画面の
+あちこちに散っていて、間の階層がその値を素通りさせるだけになるときに限る。
+
+| 何                               | どこ                                   |
+| -------------------------------- | -------------------------------------- |
+| 現在地・開催回の送り・focusSong  | `NavigationProvider` (`useNavigation`) |
+| 検索 / 曲の詳細 / About / 設定   | `DialogsProvider`                      |
+| 再生中の 1 曲と動画の置き場所    | `PlayerProvider`                       |
+| セットリストの選択・会場モーダル | それを出す画面の `useState`            |
+
+`DialogsProvider` は**状態と操作を別の文脈に分けている** (`useDialogsState` /
+`useDialogs`)。操作だけを使う側 (セットリストの行や統計の行) が、モーダルの開閉で
+描き直されないようにするため。**開く操作を渡すときは操作の文脈だけを使うこと。**
+
+`NavigationProvider` の `focusSong` を読むときは注意する。年送りは
+`AnimatePresence` で前の年の画面をしばらく残すので、**文脈の変化は送り出し中の
+古い画面にも届く**。`SetlistTimeline` のように、いま向かっている開催回のものだけが
+応じるよう `entry` と突き合わせる。
 
 ## 規約
 
@@ -247,9 +283,13 @@ src/
 ### コンポーネント
 
 - 新しい UI コンポーネントには必ず `*.stories.tsx` を併置する。Storybook が UI 確認の主経路。
-- ストーリーは `.storybook/preview.tsx` のデコレータで Theme / Locale / Catalog の
-  各 Provider に包まれる。カタログは実データを読むので、ストーリーはデータセットの
-  変更に自動で追従する。
+- ストーリーは `.storybook/preview.tsx` のデコレータでアプリ本体と同じ Provider
+  (Locale / Catalog / Navigation / Dialogs / Player) に包まれる。カタログは実データを
+  読むので、ストーリーはデータセットの変更に自動で追従する。
+- **1 つの部品が長くなってきたら、まず「決める」と「描く」を分ける。** 表示のための
+  計算 (`trackVariantLabels.ts` / `rankingRows.ts`) や DOM の測定・配置
+  (`useScrollEdges` / `useFloatingPlayerBox`) は素の関数やフックに出し、
+  コンポーネントには組み立てだけを残す。
 
 ### React Bits の追加
 
