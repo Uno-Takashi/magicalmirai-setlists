@@ -113,6 +113,10 @@ export const ja = {
   'a11y.vocaloidTrend': '開催回ごとの、ボーカロイド別の曲数の折れ線グラフ',
   'a11y.vocaloidTrendTotal': '開催回ごとの、ボーカロイド別の曲数の累積の折れ線グラフ',
 
+  'settings.display': '表示',
+  'settings.compactTags.label': 'タグを畳んで表示する',
+  'settings.compactTags.description':
+    '作曲者以外のタグを目印だけにして、マウスを載せたときに文言を出します',
   'settings.open': '設定',
   'settings.title': '設定',
   'settings.close': '閉じる',

@@ -2,6 +2,7 @@ import { LuCalendarRange, LuMapPin, LuShuffle } from 'react-icons/lu'
 import { TbSwitchHorizontal } from 'react-icons/tb'
 import type { VariationAxis } from '@/domain/setlist/TrackVariation'
 import { MUTED_CHIP } from '@/presentation/components/ui/chipStyles'
+import { CollapsibleChip } from '@/presentation/components/ui/CollapsibleChip'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 /** 入れ替わりの軸ごとのアイコン。会場・昼夜・日程・日替わりを見分ける目印。 */
@@ -19,13 +20,13 @@ export function TrackVariationBadges({ axes }: { axes: readonly VariationAxis[] 
   return axes.map((kind) => {
     const Icon = VARIATION_ICON[kind]
     return (
-      <span
+      <CollapsibleChip
         key={kind}
-        className={`${MUTED_CHIP} inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-semibold`}
+        className={`${MUTED_CHIP} rounded px-1.5 py-0.5 text-[10px] font-semibold`}
+        mark={<Icon className="shrink-0" aria-hidden />}
       >
-        <Icon aria-hidden />
         {t(`track.variation.${kind}`)}
-      </span>
+      </CollapsibleChip>
     )
   })
 }

@@ -112,6 +112,10 @@ export const ko: Translations = {
   'a11y.vocaloidTrend': '공연별 보컬로이드 곡 수 꺾은선 그래프',
   'a11y.vocaloidTrendTotal': '공연별 보컬로이드 곡 수 누적 꺾은선 그래프',
 
+  'settings.display': '표시',
+  'settings.compactTags.label': '태그를 접어서 표시',
+  'settings.compactTags.description':
+    '작곡자 외의 태그는 표시만 남기고, 마우스를 올리면 문구를 펼칩니다',
   'settings.open': '설정',
   'settings.title': '설정',
   'settings.close': '닫기',

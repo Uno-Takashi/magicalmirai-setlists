@@ -1,6 +1,38 @@
+import { Switch } from '@heroui/react'
 import { LOCALE_LABELS, LOCALES } from '@/infrastructure/i18n/i18n'
 import { Modal, ModalHeader, ModalSection } from '@/presentation/components/ui/Modal'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { usePreferences } from '@/presentation/providers/PreferencesProvider'
+
+/** 見た目の好みを 1 つ切り替える行。説明はスイッチの下に小さく添える。 */
+function SettingRow({
+  label,
+  description,
+  selected,
+  onChange,
+}: {
+  label: string
+  description: string
+  selected: boolean
+  onChange: (selected: boolean) => void
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-semibold">{label}</p>
+        <p className="text-muted mt-0.5 text-xs leading-relaxed">{description}</p>
+      </div>
+      {/* ラベルは左に見えているので、スイッチ自身は読み上げ名だけ持たせる */}
+      <Switch aria-label={label} isSelected={selected} onChange={onChange} className="shrink-0">
+        <Switch.Content>
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+        </Switch.Content>
+      </Switch>
+    </div>
+  )
+}
 
 /**
  * 表示の設定をまとめたモーダル。今は言語だけだが、設定はここに足していく。
@@ -10,6 +42,7 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
  */
 export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t, locale, setLocale } = useLocale()
+  const { compactTags, setCompactTags } = usePreferences()
 
   return (
     <Modal open={open} onClose={onClose} label={t('settings.title')} width="sm">
@@ -19,6 +52,15 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
         onClose={onClose}
         closeLabel={t('settings.close')}
       />
+
+      <ModalSection title={t('settings.display')}>
+        <SettingRow
+          label={t('settings.compactTags.label')}
+          description={t('settings.compactTags.description')}
+          selected={compactTags}
+          onChange={setCompactTags}
+        />
+      </ModalSection>
 
       <ModalSection title={t('locale.select')}>
         {/* 言語名は各言語の表記のまま出すので、group の名前は翻訳した見出しから取る */}
