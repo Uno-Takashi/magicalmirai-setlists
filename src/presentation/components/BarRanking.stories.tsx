@@ -14,10 +14,10 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     rows: [
-      { id: 'a', label: 'DECO*27', value: 12, note: '延べ 18 回' },
-      { id: 'b', label: 'livetune', value: 9, note: '延べ 21 回' },
-      { id: 'c', label: 'wowaka', value: 7, note: '延べ 11 回' },
-      { id: 'd', label: 'ピノキオピー', value: 6, note: '延べ 9 回' },
+      { id: 'a', label: 'DECO*27', value: 12, note: '累計 18 演奏' },
+      { id: 'b', label: 'livetune', value: 9, note: '累計 21 演奏' },
+      { id: 'c', label: 'wowaka', value: 7, note: '累計 11 演奏' },
+      { id: 'd', label: 'ピノキオピー', value: 6, note: '累計 9 演奏' },
     ],
   },
 }
