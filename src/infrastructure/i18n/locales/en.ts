@@ -117,7 +117,7 @@ export const en: Translations = {
   'settings.display': 'Display',
   'settings.compactTags.label': 'Show tags simply',
   'settings.compactTags.description': 'Details appear when you hover over a tag',
-  'setlist.download': 'Download as CSV',
+  'setlist.download': 'Download the setlist as CSV',
   'setlist.csv.order': 'Order',
   'setlist.csv.title': 'Song',
   'setlist.csv.producers': 'Producers',

@@ -66,18 +66,18 @@ function SetlistPanel({ setlists, edition }: { setlists: readonly Setlist[]; edi
         selectedIndex={index}
         onSelect={setIndex}
       />
-      {/* 曲数の左に保存の導線を置く。曲順の一覧そのものを持ち出す操作なので、
-          一覧の見出しにあたるこの行に並べる */}
-      <div className="mb-2 flex items-center gap-1 px-2">
+      {/* 曲数の行に保存の導線を並べる。曲順の一覧そのものを持ち出す操作なので、
+          一覧の見出しにあたるこの行に置き、位置は各行の操作と同じ右端に揃える */}
+      <div className="mb-2 flex items-center justify-between gap-2 pl-2">
+        <p className="text-muted text-xs font-semibold">
+          {t('edition.trackCount', { count: performedTracks(setlist).length })}
+        </p>
         <SetlistDownloadButton
           setlist={setlist}
           edition={edition}
           setlistIndex={index}
           setlistCount={setlists.length}
         />
-        <p className="text-muted text-xs font-semibold">
-          {t('edition.trackCount', { count: performedTracks(setlist).length })}
-        </p>
       </div>
       {/* 切り替えたら組み直して、曲が上から順に現れるアニメーションを流し直す */}
       <div key={index}>

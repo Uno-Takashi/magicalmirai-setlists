@@ -115,7 +115,7 @@ export const ko: Translations = {
   'settings.display': '표시',
   'settings.compactTags.label': '태그를 간단하게 표시',
   'settings.compactTags.description': '마우스를 올리면 자세히 표시합니다',
-  'setlist.download': 'CSV로 저장',
+  'setlist.download': '세트리스트를 CSV로 저장',
   'setlist.csv.order': '곡순',
   'setlist.csv.title': '곡명',
   'setlist.csv.producers': '작곡자',

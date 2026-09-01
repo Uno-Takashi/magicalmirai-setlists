@@ -114,7 +114,7 @@ export const zhHant: Translations = {
   'settings.display': '顯示',
   'settings.compactTags.label': '簡潔顯示標籤',
   'settings.compactTags.description': '滑鼠移上時顯示詳細內容',
-  'setlist.download': '下載 CSV',
+  'setlist.download': '將歌單下載為 CSV',
   'setlist.csv.order': '曲序',
   'setlist.csv.title': '曲名',
   'setlist.csv.producers': '作曲者',

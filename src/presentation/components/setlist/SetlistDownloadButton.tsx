@@ -1,3 +1,4 @@
+import { Tooltip } from '@heroui/react'
 import { LuDownload } from 'react-icons/lu'
 import { setlistCsvFilename, setlistCsvRows, toCsv } from '@/application/exportSetlistCsv'
 import type { Edition } from '@/domain/edition/Edition'
@@ -49,14 +50,25 @@ export function SetlistDownloadButton({
     })
   }
 
+  // アイコンだけでは何を落とすのか分からないので、マウスを載せたときに説明を出す。
+  // (お気に入りの × のように、押した結果がその場で見える操作には付けない)
   return (
-    <button
-      type="button"
-      onClick={download}
-      aria-label={t('setlist.download')}
-      className="text-muted grid size-6 shrink-0 place-items-center rounded-lg transition hover:bg-black/[0.06]"
-    >
-      <LuDownload className="text-xs" />
-    </button>
+    <Tooltip>
+      {/* トリガー自体をボタンとして描画する。既定の div だと入れ子の役割がおかしくなる。 */}
+      <Tooltip.Trigger<'button'>
+        render={(triggerProps) => (
+          <button
+            {...triggerProps}
+            type="button"
+            onClick={download}
+            aria-label={t('setlist.download')}
+            className="text-muted grid size-6 shrink-0 place-items-center rounded-lg transition hover:bg-black/[0.06]"
+          />
+        )}
+      >
+        <LuDownload className="text-xs" aria-hidden />
+      </Tooltip.Trigger>
+      <Tooltip.Content className="text-xs">{t('setlist.download')}</Tooltip.Content>
+    </Tooltip>
   )
 }

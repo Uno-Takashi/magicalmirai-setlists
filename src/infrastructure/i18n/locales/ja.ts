@@ -116,7 +116,7 @@ export const ja = {
   'settings.display': '表示',
   'settings.compactTags.label': 'タグをシンプルに表示する',
   'settings.compactTags.description': 'マウスを載せたときに詳細表示します',
-  'setlist.download': 'CSV で保存',
+  'setlist.download': 'セットリストを CSV で保存',
   'setlist.csv.order': '曲順',
   'setlist.csv.title': '曲名',
   'setlist.csv.producers': '作曲者',
