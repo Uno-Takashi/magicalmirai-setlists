@@ -3,6 +3,7 @@ import { LuChartColumn, LuInfo, LuSearch } from 'react-icons/lu'
 import { LOCALE_LABELS, LOCALES, isLocale } from '@/infrastructure/i18n/i18n'
 import { HOME_URL } from '@/presentation/hooks/useRoute'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { AppLogo } from './AppLogo'
 
 export function AppHeader({
   onNavigateHome,
@@ -27,7 +28,6 @@ export function AppHeader({
         {/*
           実際の href を持つアンカーにして、新しいタブで開く・リンクをコピーするといった
           ブラウザ本来の操作を残す。修飾キー無しの左クリックだけ SPA 内で遷移させる。
-          狭い画面では折り返す。切り詰めるとタイトルが読めなくなる。
         */}
         <a
           href={HOME_URL}
@@ -36,9 +36,18 @@ export function AppHeader({
             event.preventDefault()
             onNavigateHome()
           }}
-          className="text-miku block text-sm leading-tight font-black text-balance transition hover:opacity-70 sm:text-lg"
+          className="text-miku flex min-w-0 items-center gap-2 transition hover:opacity-70"
         >
-          {t('app.title')}
+          {/* マークはタイトルの文言と同じことを指すので、読み上げからは外す。 */}
+          <AppLogo className="size-8 shrink-0" />
+          {/*
+            狭い画面ではマークだけにする。切り詰めても折り返しても読めないため。
+            display:none で消すと、このリンクと h1 が読み上げ名を失う。
+            sr-only は見た目だけを消して名前を残すので、こちらを使う。
+          */}
+          <span className="sr-only leading-tight font-black text-balance sm:not-sr-only sm:text-lg">
+            {t('app.title')}
+          </span>
         </a>
       </h1>
 
