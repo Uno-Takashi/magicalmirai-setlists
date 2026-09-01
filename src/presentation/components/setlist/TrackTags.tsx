@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import { BsFire } from 'react-icons/bs'
+import { BsFire, BsFlagFill } from 'react-icons/bs'
 import { LuCrown } from 'react-icons/lu'
 import type { TrackTag } from '@/domain/setlist/TrackTag'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
@@ -15,6 +15,7 @@ const TAG_STYLE: Record<TrackTag, string> = {
 /** アイコンを添えるタグ。指定の無いタグは文字だけで出す。 */
 const TAG_ICON: Partial<Record<TrackTag, ComponentType>> = {
   encore: BsFire,
+  'theme-song': BsFlagFill,
   'grand-prix': LuCrown,
 }
 
