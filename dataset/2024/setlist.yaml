@@ -129,6 +129,7 @@ sets:
       - order: 5
         song: 'SUPERHERO'
         singers: [len]
+        tags: [grand-prix]
       - order: 6
         song: 'Call!!'
         singers: [kaito]
@@ -448,6 +449,7 @@ sets:
       - order: 22
         song: 'アンテナ39'
         singers: [miku]
+        tags: [theme-song]
       - order: 23
         song: 'ボルテッカー'
         singers: [miku]

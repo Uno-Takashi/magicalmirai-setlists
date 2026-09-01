@@ -76,6 +76,7 @@ sets:
       - order: 10
         song: 'First Note'
         singers: [miku]
+        tags: [grand-prix]
       - order: 11
         variants:
           - song: 'みかぼし'
@@ -355,3 +356,4 @@ sets:
       - order: 25
         song: '初音天地開闢神話'
         singers: [miku]
+        tags: [theme-song]

@@ -20,6 +20,7 @@ sets:
       - order: 4
         song: 'Singularity'
         singers: [miku]
+        tags: [grand-prix]
       - order: 5
         song: 'ヒビカセ'
         singers: [miku]
@@ -189,6 +190,7 @@ sets:
       - order: 24
         song: '砂の惑星'
         singers: [miku]
+        tags: [theme-song]
       - order: 25
         song: '39みゅーじっく!'
         singers: [miku]

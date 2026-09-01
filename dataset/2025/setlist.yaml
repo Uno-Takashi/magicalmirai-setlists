@@ -472,9 +472,11 @@ sets:
       - order: 23
         song: 'ストリートライト'
         singers: [miku, rin, len, luka, meiko, kaito]
+        tags: [grand-prix]
       - order: 24
         song: 'Blessing'
         singers: [miku, rin, len, luka, meiko, kaito]
       - order: 25
         song: 'ラストラス'
         singers: [miku]
+        tags: [theme-song]
