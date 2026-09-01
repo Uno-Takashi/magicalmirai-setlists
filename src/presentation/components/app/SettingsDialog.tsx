@@ -53,15 +53,6 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
         closeLabel={t('settings.close')}
       />
 
-      <ModalSection title={t('settings.display')}>
-        <SettingRow
-          label={t('settings.compactTags.label')}
-          description={t('settings.compactTags.description')}
-          selected={compactTags}
-          onChange={setCompactTags}
-        />
-      </ModalSection>
-
       <ModalSection title={t('locale.select')}>
         {/* 言語名は各言語の表記のまま出すので、group の名前は翻訳した見出しから取る */}
         <div role="group" aria-label={t('locale.select')} className="grid gap-1.5">
@@ -83,6 +74,15 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
             )
           })}
         </div>
+      </ModalSection>
+
+      <ModalSection title={t('settings.display')}>
+        <SettingRow
+          label={t('settings.compactTags.label')}
+          description={t('settings.compactTags.description')}
+          selected={compactTags}
+          onChange={setCompactTags}
+        />
       </ModalSection>
     </Modal>
   )

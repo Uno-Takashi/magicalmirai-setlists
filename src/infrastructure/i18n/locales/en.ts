@@ -115,9 +115,8 @@ export const en: Translations = {
   'a11y.vocaloidTrendTotal': 'Line chart of cumulative songs per edition for each Vocaloid',
 
   'settings.display': 'Display',
-  'settings.compactTags.label': 'Collapse tags',
-  'settings.compactTags.description':
-    'Show only the marks for tags other than the producer, and reveal the labels on hover',
+  'settings.compactTags.label': 'Show tags simply',
+  'settings.compactTags.description': 'Details appear when you hover over a tag',
   'settings.open': 'Settings',
   'settings.title': 'Settings',
   'settings.close': 'Close',

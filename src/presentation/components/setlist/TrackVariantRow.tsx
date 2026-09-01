@@ -7,6 +7,7 @@ import { variantLabels } from '@/presentation/components/setlist/trackVariantLab
 import { VocaloidChips } from '@/presentation/components/vocaloid/VocaloidChips'
 import { useCatalog } from '@/presentation/providers/CatalogProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { usePreferences } from '@/presentation/providers/PreferencesProvider'
 
 /**
  * 曲順の枠に入る候補 1 つ分の行。押すとその曲の詳細を開く。
@@ -26,6 +27,7 @@ export function TrackVariantRow({
 }) {
   const { catalog } = useCatalog()
   const { t, locale } = useLocale()
+  const { compactTags } = usePreferences()
   const song = catalog.songs.get(variant.song)
   if (song === undefined) return null
 
@@ -49,7 +51,11 @@ export function TrackVariantRow({
         </span>
       </span>
       {labels.length > 0 ? (
-        <span className="flex shrink-0 flex-col items-end gap-1">
+        // 札は普段は縦に積む (公演地や日程は長くなりがちで、横に並べると曲名を圧迫する)。
+        // シンプル表示のときは目印だけになって短いので、横に並べて高さを詰める。
+        <span
+          className={`flex shrink-0 gap-1 ${compactTags ? 'items-center' : 'flex-col items-end'}`}
+        >
           {labels.map((label) => (
             <TrackVariantLabelChip key={label.text} label={label} />
           ))}

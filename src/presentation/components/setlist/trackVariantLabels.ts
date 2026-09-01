@@ -8,6 +8,7 @@
 
 import type { IconType } from 'react-icons'
 import { LuMapPin } from 'react-icons/lu'
+import { TbBrandDaysCounter } from 'react-icons/tb'
 import type { Edition } from '@/domain/edition/Edition'
 import type { Performance } from '@/domain/edition/Performance'
 import type { Session } from '@/domain/edition/Show'
@@ -132,5 +133,7 @@ export function variantLabels(
   const host = edition.performances.find((performance) =>
     performance.shows.some((show) => scope.showIds.includes(show.id)),
   )
-  return host === undefined ? [] : [{ text: '', days: dayMarks(host, scope.showIds) }]
+  return host === undefined
+    ? []
+    : [{ text: '', icon: TbBrandDaysCounter, days: dayMarks(host, scope.showIds) }]
 }
