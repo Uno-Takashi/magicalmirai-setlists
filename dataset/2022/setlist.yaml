@@ -448,9 +448,12 @@ sets:
       - order: 18
         song: 'Hand in Hand'
         singers: [miku]
+        tags: [encore]
       - order: 19
         song: 'DECORATOR'
         singers: [miku]
+        tags: [encore]
       - order: 20
         song: 'Blessing'
         singers: [miku, rin, len, luka, meiko, kaito]
+        tags: [encore]
