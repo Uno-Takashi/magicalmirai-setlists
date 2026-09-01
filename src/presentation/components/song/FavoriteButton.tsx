@@ -1,4 +1,3 @@
-import { Tooltip } from '@heroui/react'
 import { LuCheck, LuPlus, LuX } from 'react-icons/lu'
 import type { SongTitle } from '@/domain/song/Song'
 import { useFavorites } from '@/presentation/providers/FavoritesProvider'
@@ -31,23 +30,14 @@ export function FavoriteButton({
 
   if (appearance === 'remove') {
     return (
-      <Tooltip>
-        {/* トリガー自体をボタンとして描画する。既定の div だと入れ子の役割がおかしくなる。 */}
-        <Tooltip.Trigger<'button'>
-          render={(triggerProps) => (
-            <button
-              {...triggerProps}
-              type="button"
-              onClick={() => toggle(title)}
-              aria-label={t('a11y.removeFavorite', { title })}
-              className={`${BUTTON} text-muted hover:bg-meiko/10 hover:text-meiko ${className ?? ''}`}
-            />
-          )}
-        >
-          <LuX className="text-sm" aria-hidden />
-        </Tooltip.Trigger>
-        <Tooltip.Content className="text-xs">{t('favorites.remove')}</Tooltip.Content>
-      </Tooltip>
+      <button
+        type="button"
+        onClick={() => toggle(title)}
+        aria-label={t('a11y.removeFavorite', { title })}
+        className={`${BUTTON} text-muted hover:bg-meiko/10 hover:text-meiko ${className ?? ''}`}
+      >
+        <LuX className="text-sm" />
+      </button>
     )
   }
 
