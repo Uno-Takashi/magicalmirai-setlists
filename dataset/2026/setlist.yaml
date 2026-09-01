@@ -48,13 +48,13 @@ sets:
       - order: 9
         variants:
           - song: 'ウミユリ海底譚'
-            note: '浜松公演'
+            note: '浜松'
             singers: [miku]
           - song: 'カゲロウデイズ'
-            note: '大阪公演'
+            note: '大阪'
             singers: [miku]
           - song: '快晴'
-            note: '東京公演'
+            note: '東京'
             singers: [miku]
       - order: 10
         song: 'HELLO, NEW WORLD!'
