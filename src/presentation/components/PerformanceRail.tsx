@@ -11,18 +11,17 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
  * 1 年に行われた公演を並べる。各カードがその公演地の日程(昼夜含む)を持つので、
  * 1 画面で「その年に何がどこで何日あったか」が読める。
  *
+ * カードは会場のインフォメーションで、押すと会場情報のモーダルが開く。
+ * セットリストの切り替えはここではなく `SetlistSwitch` が持つ。
+ *
  * 幅の狭い画面では縦に積む。横並びのままだと 2 枚目以降が画面の外に出てしまい、
- * 年送りの横スワイプと競合して、そこまでスクロールして選ぶことができない。
+ * 年送りの横スワイプと競合して、そこまでスクロールできない。
  */
 export function PerformanceRail({
   performances,
-  selectedId,
-  onSelect,
   onShowDetail,
 }: {
   performances: readonly Performance[]
-  selectedId: string
-  onSelect: (id: string) => void
   /** 会場情報のモーダルを開く。 */
   onShowDetail: (performance: Performance) => void
 }) {
@@ -35,27 +34,18 @@ export function PerformanceRail({
           公演地ごとに日程の数が違うので、揃えないと下端がばらつく */}
       <ul className="flex flex-col gap-2 sm:min-w-max sm:flex-row sm:items-stretch sm:gap-3">
         {performances.map((performance) => {
-          const selected = performance.id === selectedId
           const color = regionColorVar(performance.region)
           return (
-            <li key={performance.id} className="relative h-full">
-              {/* 右肩は詳細ボタンの場所なので、本体の文字を pr-10 で避けておく。
-                  選択中は公演地の色で縁取る。どの公演のセットリストを見ているかは
-                  ここでしか分からないので、色は必ず出す */}
+            <li key={performance.id} className="h-full">
+              {/* カード全体が会場情報を開くボタン。右肩のアイコンはその目印なので、
+                  本体の文字を pr-10 で避けておく。文言はカードに見えているので
+                  aria-label は付けない (読み上げ名と見た目が食い違うため) */}
               <button
                 type="button"
-                onClick={() => onSelect(performance.id)}
-                aria-pressed={selected}
-                aria-label={t('a11y.selectPerformance', {
-                  city: localize(performance.city, locale),
-                })}
-                className={`surface-card h-full w-full rounded-xl p-3 pr-10 text-left transition hover:-translate-y-0.5 hover:shadow-lg sm:w-56 ${
-                  selected ? '-translate-y-0.5 shadow-md' : ''
-                }`}
-                style={
-                  selected ? { outline: `2px solid ${color}`, outlineOffset: '2px' } : undefined
-                }
+                onClick={() => onShowDetail(performance)}
+                className="surface-card relative h-full w-full rounded-xl p-3 pr-10 text-left transition hover:-translate-y-0.5 hover:shadow-lg sm:w-56"
               >
+                <LuInfo aria-hidden className="text-muted absolute top-3 right-3" />
                 {/* 狭いときは公演地と会場を同じ行に流し込み、1 枚あたりの高さを抑える */}
                 <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 sm:block">
                   <span className="flex items-center gap-1.5 text-sm font-bold">
@@ -91,18 +81,6 @@ export function PerformanceRail({
                     ))}
                   </span>
                 </span>
-              </button>
-
-              {/* カード本体は button なので入れ子にできない。兄弟として重ねる */}
-              <button
-                type="button"
-                onClick={() => onShowDetail(performance)}
-                aria-label={t('a11y.performanceDetail', {
-                  city: localize(performance.city, locale),
-                })}
-                className="text-muted absolute top-2 right-2 rounded-lg p-1.5 transition hover:bg-black/5 hover:text-current"
-              >
-                <LuInfo aria-hidden />
               </button>
             </li>
           )

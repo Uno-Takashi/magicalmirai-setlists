@@ -1,18 +1,14 @@
-import { Tooltip } from '@heroui/react'
-import { useMemo, useState } from 'react'
-import { LuGlobe } from 'react-icons/lu'
-import { performedTracks, setlistFor } from '@/domain/setlist/Setlist'
+import { useState } from 'react'
+import { performedTracks } from '@/domain/setlist/Setlist'
 import type { EditionEntry } from '@/domain/catalog/Catalog'
-import { editionPeriod } from '@/domain/edition/Edition'
 import type { Performance } from '@/domain/edition/Performance'
-import { parseEventDate } from '@/domain/edition/Show'
 import type { Song } from '@/domain/song/Song'
 import { localize } from '@/domain/vocaloid/Vocaloid'
 import { titleImageOf } from '@/infrastructure/dataset/titleImages'
+import { EditionInfoPanel } from '@/presentation/components/EditionInfoPanel'
 import { PerformanceDialog } from '@/presentation/components/PerformanceDialog'
-import { PerformanceRail } from '@/presentation/components/PerformanceRail'
+import { SetlistSwitch } from '@/presentation/components/SetlistSwitch'
 import { SetlistTimeline } from '@/presentation/components/SetlistTimeline'
-import { useDateFormatters } from '@/presentation/hooks/useFormatters'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 export function EditionView({
@@ -28,22 +24,15 @@ export function EditionView({
 }) {
   const { edition, setlists } = entry
   const { t, locale } = useLocale()
-  const formatters = useDateFormatters()
 
-  const [selectedPerformanceId, setSelectedPerformanceId] = useState(
-    () => edition.performances[0]?.id ?? '',
-  )
-  // 会場情報のモーダル。公演の選択とは独立で、見ている公演を変えずに開ける。
+  // 複数のセットリストを持つ年の、見ているセットリスト。この画面は開催回ごとに
+  // 組み直される (EditionCarousel が slug を key にしている) ので、年をまたいで残らない。
+  const [setlistIndex, setSetlistIndex] = useState(0)
+  const setlist = setlists[setlistIndex]
+
+  // 会場情報のモーダル。
   const [detailPerformance, setDetailPerformance] = useState<Performance | null>(null)
 
-  const selectedPerformance =
-    edition.performances.find((p) => p.id === selectedPerformanceId) ?? edition.performances[0]
-  const setlist = useMemo(
-    () => setlistFor(setlists, selectedPerformanceId),
-    [setlists, selectedPerformanceId],
-  )
-
-  const period = editionPeriod(edition)
   const titleImage = titleImageOf(edition.year)
   const trackCount = setlist === undefined ? 0 : performedTracks(setlist).length
 
@@ -68,52 +57,10 @@ export function EditionView({
           >
             {localize(edition.name, locale)}
           </h2>
-          {edition.officialUrl !== undefined ? (
-            <Tooltip>
-              {/*
-                トリガー自体をアンカーとして描画する。既定の div でラップすると
-                role="button" の中にリンクが入れ子になり、ホバーも拾えなくなる。
-              */}
-              <Tooltip.Trigger<'a'>
-                render={(triggerProps) => (
-                  <a
-                    {...triggerProps}
-                    role={undefined}
-                    href={edition.officialUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={t('edition.officialSite')}
-                    className="surface-card mt-2 inline-grid size-9 place-items-center rounded-lg transition hover:-translate-y-0.5 hover:shadow-md"
-                  />
-                )}
-              >
-                <LuGlobe aria-hidden />
-              </Tooltip.Trigger>
-              <Tooltip.Content>{t('edition.officialSite')}</Tooltip.Content>
-            </Tooltip>
-          ) : null}
-
-          {period !== null ? (
-            <p className="text-muted mt-1 text-sm tabular-nums">
-              {formatters.full.format(parseEventDate(period.from))}
-              {period.from !== period.to
-                ? ` – ${formatters.full.format(parseEventDate(period.to))}`
-                : ''}
-            </p>
-          ) : null}
         </header>
 
-        {/* カード自体が公演地・会場・日程を書いているので、見出しは置かない */}
-        {selectedPerformance !== undefined ? (
-          <div className="mb-6">
-            <PerformanceRail
-              performances={edition.performances}
-              selectedId={selectedPerformance.id}
-              onSelect={setSelectedPerformanceId}
-              onShowDetail={setDetailPerformance}
-            />
-          </div>
-        ) : null}
+        {/* 公式サイト・日程・会場は既定で畳んでおく */}
+        <EditionInfoPanel edition={edition} onShowPerformance={setDetailPerformance} />
 
         {setlist === undefined ? (
           <p className="surface-card text-muted rounded-xl p-6 text-center text-sm">
@@ -121,16 +68,25 @@ export function EditionView({
           </p>
         ) : (
           <div className="surface-card rounded-2xl p-3 sm:p-5">
+            <SetlistSwitch
+              setlists={setlists}
+              edition={edition}
+              selectedIndex={setlistIndex}
+              onSelect={setSetlistIndex}
+            />
             <p className="text-muted mb-2 px-2 text-xs font-semibold">
               {t('edition.trackCount', { count: trackCount })}
             </p>
-            <SetlistTimeline
-              setlist={setlist}
-              edition={edition}
-              focusSong={focusSong}
-              onSelectSong={onSelectSong}
-              onFocusHandled={onFocusHandled}
-            />
+            {/* 切り替えたら組み直して、曲が上から順に現れるアニメーションを流し直す */}
+            <div key={setlistIndex}>
+              <SetlistTimeline
+                setlist={setlist}
+                edition={edition}
+                focusSong={focusSong}
+                onSelectSong={onSelectSong}
+                onFocusHandled={onFocusHandled}
+              />
+            </div>
           </div>
         )}
       </div>

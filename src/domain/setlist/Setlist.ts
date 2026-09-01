@@ -15,23 +15,6 @@ export interface Setlist {
   readonly tracks: readonly Track[]
 }
 
-export function appliesTo(setlist: Setlist, performanceId: string): boolean {
-  return setlist.performanceIds.includes(performanceId)
-}
-
-/**
- * その公演に出すセットリスト。
- *
- * 公演地ごとにセットリストが分かれていない年もあるので、対応が見つからなければ
- * 先頭のセットリストを全公演共通のものとして扱う。
- */
-export function setlistFor(
-  setlists: readonly Setlist[],
-  performanceId: string,
-): Setlist | undefined {
-  return setlists.find((setlist) => appliesTo(setlist, performanceId)) ?? setlists[0]
-}
-
 /** 指定タグを持つ最初の曲名を返す。テーマソングや楽曲グランプリの取得に使う。 */
 export function findTaggedSong(setlist: Setlist, tag: TrackTag): SongTitle | undefined {
   const track = setlist.tracks.find((t) => t.tags.includes(tag))
