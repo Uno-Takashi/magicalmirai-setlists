@@ -98,7 +98,7 @@ sets:
               - tokyo/day3-evening
             singers: [rin, len]
       - order: 9
-        song: '1/6 - out of the gravity -'
+        song: '1/6 -out of the gravity-'
         singers: [miku]
       - order: 10
         variants:

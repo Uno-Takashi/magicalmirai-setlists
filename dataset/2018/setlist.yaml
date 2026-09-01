@@ -80,7 +80,7 @@ sets:
         song: 'あったかいと'
         singers: [kaito]
       - order: 10
-        song: 'Nostalogic (MEIKO-SAN mix)'
+        song: 'Nostalogic(MEIKO-SAN mix)'
         singers: [meiko]
       - order: 11
         song: 'on the rocks'
