@@ -23,6 +23,10 @@ export const en: Translations = {
   'edition.trackCount': '{count} songs',
   'edition.officialSite': 'Official site',
   'edition.venueUnknown': 'Venue TBA',
+  'edition.info': 'Performance info',
+  'edition.performanceCount': '{count} shows',
+  'setlist.switch': 'Switch setlist',
+  'setlist.nth': 'Setlist {index}',
 
   'performance.halls': 'Venue',
   'performance.schedule': 'Schedule',
@@ -100,8 +104,6 @@ export const en: Translations = {
 
   'a11y.viewEdition': 'View the {year} setlist',
   'a11y.help': 'Show explanation',
-  'a11y.selectPerformance': 'Show the setlist for {city}',
-  'a11y.performanceDetail': 'Open venue information for {city}',
   'a11y.venueMap': 'Map of {venue}',
   'a11y.authorOnX': "Open {name}'s profile on X",
   'a11y.songDetail': 'Open details for {title}',

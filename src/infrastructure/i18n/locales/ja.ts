@@ -22,6 +22,10 @@ export const ja = {
   'edition.trackCount': '全 {count} 曲',
   'edition.officialSite': '公式サイト',
   'edition.venueUnknown': '会場未定',
+  'edition.info': '公演情報',
+  'edition.performanceCount': '{count} 公演',
+  'setlist.switch': 'セットリストの切り替え',
+  'setlist.nth': 'セットリスト {index}',
 
   'performance.halls': '会場',
   'performance.schedule': '公演日程',
@@ -99,8 +103,6 @@ export const ja = {
 
   'a11y.viewEdition': '{year}年のセットリストを見る',
   'a11y.help': '説明を見る',
-  'a11y.selectPerformance': '{city}公演のセットリストを表示',
-  'a11y.performanceDetail': '{city}公演の会場情報を開く',
   'a11y.venueMap': '{venue}の地図',
   'a11y.authorOnX': '{name} の X のプロフィールを開く',
   'a11y.songDetail': '「{title}」の詳細を開く',

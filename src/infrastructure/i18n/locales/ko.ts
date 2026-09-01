@@ -23,6 +23,10 @@ export const ko: Translations = {
   'edition.trackCount': '전 {count}곡',
   'edition.officialSite': '공식 사이트',
   'edition.venueUnknown': '공연장 미정',
+  'edition.info': '공연 정보',
+  'edition.performanceCount': '{count}개 공연',
+  'setlist.switch': '세트리스트 전환',
+  'setlist.nth': '세트리스트 {index}',
 
   'performance.halls': '공연장',
   'performance.schedule': '공연 일정',
@@ -98,8 +102,6 @@ export const ko: Translations = {
 
   'a11y.viewEdition': '{year}년 세트리스트 보기',
   'a11y.help': '설명 보기',
-  'a11y.selectPerformance': '{city} 공연의 세트리스트 표시',
-  'a11y.performanceDetail': '{city} 공연의 공연장 정보 열기',
   'a11y.venueMap': '{venue} 지도',
   'a11y.authorOnX': '{name}의 X 프로필 열기',
   'a11y.songDetail': '「{title}」의 상세 정보 열기',

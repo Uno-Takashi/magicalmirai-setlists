@@ -23,6 +23,10 @@ export const zhHant: Translations = {
   'edition.trackCount': '共 {count} 首',
   'edition.officialSite': '官方網站',
   'edition.venueUnknown': '場地未定',
+  'edition.info': '公演資訊',
+  'edition.performanceCount': '{count} 場公演',
+  'setlist.switch': '切換歌單',
+  'setlist.nth': '歌單 {index}',
 
   'performance.halls': '場地',
   'performance.schedule': '公演日程',
@@ -97,8 +101,6 @@ export const zhHant: Translations = {
 
   'a11y.viewEdition': '查看 {year} 年的歌單',
   'a11y.help': '顯示說明',
-  'a11y.selectPerformance': '顯示 {city} 公演的歌單',
-  'a11y.performanceDetail': '開啟 {city} 公演的場地資訊',
   'a11y.venueMap': '{venue} 的地圖',
   'a11y.authorOnX': '開啟 {name} 的 X 個人檔案',
   'a11y.songDetail': '開啟「{title}」的詳細資訊',
