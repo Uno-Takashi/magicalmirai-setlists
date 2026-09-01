@@ -254,6 +254,7 @@ sets:
         song: '39'
         singers: [miku]
       - order: 24
+        tags: [encore]
         variants:
           - song: '39みゅーじっく!'
             shows:
@@ -294,7 +295,8 @@ sets:
       - order: 25
         song: 'Tell Your World'
         singers: [miku]
+        tags: [encore]
       - order: 26
         song: 'グリーンライツ・セレナーデ'
         singers: [miku]
-        tags: [theme-song]
+        tags: [encore, theme-song]

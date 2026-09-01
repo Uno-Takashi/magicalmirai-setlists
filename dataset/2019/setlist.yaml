@@ -286,6 +286,7 @@ sets:
         song: '僕が夢を捨てて大人になるまで'
         singers: [miku]
       - order: 24
+        tags: [encore]
         variants:
           - song: 'アンハッピーリフレイン'
             shows:
@@ -332,7 +333,8 @@ sets:
       - order: 25
         song: 'Hand in Hand'
         singers: [miku]
+        tags: [encore]
       - order: 26
         song: 'ブレス・ユア・ブレス'
         singers: [miku]
-        tags: [theme-song]
+        tags: [encore, theme-song]

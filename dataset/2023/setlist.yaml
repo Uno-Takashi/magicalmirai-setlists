@@ -465,7 +465,8 @@ sets:
       - order: 23
         song: 'Birthday Song for ミク'
         singers: [rin, len, luka, meiko, kaito]
+        tags: [encore]
       - order: 24
         song: 'HERO'
         singers: [miku]
-        tags: [theme-song]
+        tags: [encore, theme-song]

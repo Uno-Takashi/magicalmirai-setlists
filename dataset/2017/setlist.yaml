@@ -190,16 +190,20 @@ sets:
       - order: 24
         song: '砂の惑星'
         singers: [miku]
-        tags: [theme-song]
+        tags: [encore, theme-song]
       - order: 25
         song: '39みゅーじっく!'
         singers: [miku]
+        tags: [encore]
       - order: 26
         song: 'Hand in Hand'
         singers: [miku]
+        tags: [encore]
       - order: 27
         song: 'DECORATOR'
         singers: [miku]
+        tags: [encore]
       - order: 28
         song: 'ハジメテノオト'
         singers: [miku]
+        tags: [encore]
