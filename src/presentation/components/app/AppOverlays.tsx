@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import type { Song } from '@/domain/song/Song'
 import { AboutDialog } from '@/presentation/components/app/AboutDialog'
 import { SettingsDialog } from '@/presentation/components/app/SettingsDialog'
+import { FavoritesOverlay } from '@/presentation/components/song/FavoritesOverlay'
 import { FloatingPlayer } from '@/presentation/components/song/FloatingPlayer'
 import { SearchOverlay } from '@/presentation/components/song/SearchOverlay'
 import { SongDialog } from '@/presentation/components/song/SongDialog'
@@ -16,8 +17,10 @@ import { useNavigation } from '@/presentation/providers/NavigationProvider'
  * 現在地 (`NavigationProvider`) はそれぞれ独立していて、両方を知るのはこの場所だけ。
  */
 export function AppOverlays() {
-  const { song, searchOpen, searchQuery, aboutOpen, settingsOpen } = useDialogsState()
-  const { showSong, closeSong, closeSearch, closeAbout, closeSettings, closeAll } = useDialogs()
+  const { song, searchOpen, searchQuery, favoritesOpen, aboutOpen, settingsOpen } =
+    useDialogsState()
+  const { showSong, closeSong, closeSearch, closeFavorites, closeAbout, closeSettings, closeAll } =
+    useDialogs()
   const { selectEdition, showSongInEdition } = useNavigation()
 
   /** 曲の詳細の年バッジから移る。遷移先が見えるよう、重なりはすべて閉じる。 */
@@ -31,12 +34,14 @@ export function AppOverlays() {
     [closeAll, selectEdition, showSongInEdition, song],
   )
 
-  const selectEditionFromSearch = useCallback(
+  /** 検索やお気に入りの年の札から移る。重なりを閉じて、その年を見せる。 */
+  const selectEditionFromList = useCallback(
     (slug: string) => {
       closeSearch()
+      closeFavorites()
       selectEdition(slug)
     },
-    [closeSearch, selectEdition],
+    [closeFavorites, closeSearch, selectEdition],
   )
 
   const expandPlayer = useCallback((playing: Song) => showSong(playing), [showSong])
@@ -48,7 +53,13 @@ export function AppOverlays() {
         initialQuery={searchQuery}
         onClose={closeSearch}
         onSelectSong={showSong}
-        onSelectEdition={selectEditionFromSearch}
+        onSelectEdition={selectEditionFromList}
+      />
+      <FavoritesOverlay
+        open={favoritesOpen}
+        onClose={closeFavorites}
+        onSelectSong={showSong}
+        onSelectEdition={selectEditionFromList}
       />
       <SongDialog song={song} onClose={closeSong} onSelectEdition={selectEditionFromSong} />
       <AboutDialog open={aboutOpen} onClose={closeAbout} />

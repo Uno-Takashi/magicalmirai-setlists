@@ -4,6 +4,7 @@ import '../src/index.css'
 import { loadCatalog } from '../src/infrastructure/dataset/loadCatalog'
 import { CatalogProvider } from '../src/presentation/providers/CatalogProvider'
 import { DialogsProvider } from '../src/presentation/providers/DialogsProvider'
+import { FavoritesProvider } from '../src/presentation/providers/FavoritesProvider'
 import { LocaleProvider } from '../src/presentation/providers/LocaleProvider'
 import { NavigationProvider } from '../src/presentation/providers/NavigationProvider'
 import { PreferencesProvider } from '../src/presentation/providers/PreferencesProvider'
@@ -37,13 +38,15 @@ const preview: Preview = {
             {/* 画面と同じ文脈でストーリーを描く。現在地や重なりの開閉を使う
               コンポーネントも、そのまま Storybook で確かめられる。 */}
             <NavigationProvider>
-              <DialogsProvider>
-                <PlayerProvider>
-                  <div className="w-full max-w-3xl p-6">
-                    <Story />
-                  </div>
-                </PlayerProvider>
-              </DialogsProvider>
+              <FavoritesProvider>
+                <DialogsProvider>
+                  <PlayerProvider>
+                    <div className="w-full max-w-3xl p-6">
+                      <Story />
+                    </div>
+                  </PlayerProvider>
+                </DialogsProvider>
+              </FavoritesProvider>
             </NavigationProvider>
           </CatalogProvider>
         </PreferencesProvider>

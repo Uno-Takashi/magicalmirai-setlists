@@ -1,9 +1,10 @@
 import type { IconType } from 'react-icons'
-import { LuChartColumn, LuInfo, LuSearch, LuSettings } from 'react-icons/lu'
+import { LuBox, LuChartColumn, LuInfo, LuSearch, LuSettings } from 'react-icons/lu'
 import type { TranslationKey } from '@/infrastructure/i18n/i18n'
 import { HOME_URL } from '@/presentation/hooks/useRoute'
 import { useDialogs } from '@/presentation/providers/DialogsProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useFavorites } from '@/presentation/providers/FavoritesProvider'
 import { useNavigation } from '@/presentation/providers/NavigationProvider'
 import { AppLogo } from './AppLogo'
 
@@ -46,11 +47,19 @@ function HomeLink({ onNavigateHome }: { onNavigateHome: () => void }) {
 export function AppHeader() {
   const { t } = useLocale()
   const { selectEdition, openStatistics } = useNavigation()
-  const { openSearch, openAbout, openSettings } = useDialogs()
+  const { openSearch, openFavorites, openAbout, openSettings } = useDialogs()
+  const { count } = useFavorites()
 
   // アイコンだけのボタンなので、読み上げ用の名前を必ず持たせる。
-  const actions: { key: TranslationKey; icon: IconType; onClick: () => void }[] = [
+  const actions: {
+    key: TranslationKey
+    icon: IconType
+    onClick: () => void
+    /** 0 より大きいときだけ、アイコンの右肩に数を出す。 */
+    badge?: number
+  }[] = [
     { key: 'search.open', icon: LuSearch, onClick: () => openSearch() },
+    { key: 'favorites.open', icon: LuBox, onClick: openFavorites, badge: count },
     { key: 'statistics.open', icon: LuChartColumn, onClick: openStatistics },
     { key: 'about.open', icon: LuInfo, onClick: openAbout },
     { key: 'settings.open', icon: LuSettings, onClick: openSettings },
@@ -60,15 +69,24 @@ export function AppHeader() {
     <header className="mx-auto flex w-full max-w-3xl items-center gap-2 px-4 py-3">
       <HomeLink onNavigateHome={() => selectEdition('')} />
 
-      {actions.map(({ key, icon: Icon, onClick }) => (
+      {actions.map(({ key, icon: Icon, onClick, badge }) => (
         <button
           key={key}
           type="button"
           onClick={onClick}
           aria-label={t(key)}
-          className={ICON_BUTTON}
+          className={`${ICON_BUTTON} relative`}
         >
           <Icon />
+          {/* 数はアイコンの補足なので読み上げからは外す。件数は開いた先で読める */}
+          {badge !== undefined && badge > 0 ? (
+            <span
+              aria-hidden
+              className="bg-miku absolute -top-1 -right-1 grid min-w-4 place-items-center rounded-full px-1 text-[10px] leading-4 font-bold text-white"
+            >
+              {badge}
+            </span>
+          ) : null}
         </button>
       ))}
     </header>

@@ -5,6 +5,7 @@ import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
 import { App } from '@/presentation/App'
 import { CatalogProvider } from '@/presentation/providers/CatalogProvider'
 import { DialogsProvider } from '@/presentation/providers/DialogsProvider'
+import { FavoritesProvider } from '@/presentation/providers/FavoritesProvider'
 import { LocaleProvider } from '@/presentation/providers/LocaleProvider'
 import { NavigationProvider } from '@/presentation/providers/NavigationProvider'
 import { PreferencesProvider } from '@/presentation/providers/PreferencesProvider'
@@ -18,11 +19,13 @@ createRoot(document.getElementById('root')!).render(
       <PreferencesProvider>
         <CatalogProvider catalog={catalog}>
           <NavigationProvider>
-            <DialogsProvider>
-              <PlayerProvider>
-                <App />
-              </PlayerProvider>
-            </DialogsProvider>
+            <FavoritesProvider>
+              <DialogsProvider>
+                <PlayerProvider>
+                  <App />
+                </PlayerProvider>
+              </DialogsProvider>
+            </FavoritesProvider>
           </NavigationProvider>
         </CatalogProvider>
       </PreferencesProvider>
