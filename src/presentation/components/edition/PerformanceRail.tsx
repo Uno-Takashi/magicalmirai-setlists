@@ -32,18 +32,27 @@ export function PerformanceRail({
     <div className="-mx-4 px-4 pb-1 sm:overflow-x-auto">
       {/* 横並びのときは items-stretch で全カードをその年の最も高いカードに合わせる。
           公演地ごとに日程の数が違うので、揃えないと下端がばらつく */}
-      <ul className="flex flex-col gap-2 sm:min-w-max sm:flex-row sm:items-stretch sm:gap-3">
+      <ul className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3">
         {performances.map((performance) => {
           const color = regionColorVar(performance.region)
           return (
-            <li key={performance.id} className="h-full">
+            /*
+              カードは幅を分け合って、行の全体でセットリストや公演情報のトグルと
+              同じ幅になるようにする (grow)。ただし公演が増えて基準の幅に収まらなく
+              なったら縮めずに (shrink-0)、これまでどおり横スクロールへ逃がす。
+
+              高さは li に持たせない。height を書くと items-stretch が効かなくなり、
+              日程の少ない公演地のカードだけ低くなる。伸ばすのは flex に任せ、
+              中のボタンは li いっぱいに広げる。
+            */
+            <li key={performance.id} className="flex sm:grow sm:basis-56 sm:shrink-0">
               {/* カード全体が会場情報を開くボタン。右肩のアイコンはその目印なので、
                   本体の文字を pr-10 で避けておく。文言はカードに見えているので
                   aria-label は付けない (読み上げ名と見た目が食い違うため) */}
               <button
                 type="button"
                 onClick={() => onShowDetail(performance)}
-                className="surface-card relative h-full w-full rounded-xl p-3 pr-10 text-left transition hover:-translate-y-0.5 hover:shadow-lg sm:w-56"
+                className="surface-card relative w-full rounded-xl p-3 pr-10 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
               >
                 <LuInfo aria-hidden className="text-muted absolute top-3 right-3" />
                 {/* 狭いときは公演地と会場を同じ行に流し込み、1 枚あたりの高さを抑える */}
