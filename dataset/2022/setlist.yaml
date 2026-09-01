@@ -217,6 +217,7 @@ sets:
       - order: 16
         song: 'Loading Memories'
         singers: [miku]
+        tags: [grand-prix]
       - order: 17
         song: 'グリーンライツ・セレナーデ'
         singers: [miku]
@@ -355,6 +356,7 @@ sets:
       - order: 22
         song: 'フューチャー・イヴ'
         singers: [miku]
+        tags: [theme-song]
       - order: 23
         song: 'Hand in Hand'
         singers: [miku]
@@ -370,6 +372,7 @@ sets:
       - order: 1
         song: 'フューチャー・イヴ'
         singers: [miku]
+        tags: [theme-song]
       - order: 2
         song: '39みゅーじっく!'
         singers: [miku]
@@ -403,6 +406,7 @@ sets:
       - order: 12
         song: 'Loading Memories'
         singers: [miku]
+        tags: [grand-prix]
       - order: 13
         variants:
           - song: 'どりーみんチュチュ'

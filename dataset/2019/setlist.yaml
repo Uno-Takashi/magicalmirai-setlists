@@ -181,6 +181,7 @@ sets:
       - order: 12
         song: 'ある計画は今も密かに'
         singers: [miku]
+        tags: [grand-prix]
       - order: 13
         song: 'ラムネイドブルーの憧憬'
         singers: [meiko]
@@ -334,3 +335,4 @@ sets:
       - order: 26
         song: 'ブレス・ユア・ブレス'
         singers: [miku]
+        tags: [theme-song]

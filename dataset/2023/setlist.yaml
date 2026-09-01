@@ -167,6 +167,7 @@ sets:
       - order: 9
         song: 'king妃jack躍'
         singers: [miku]
+        tags: [grand-prix]
       - order: 10
         variants:
           - song: '二次元ドリームフィーバー'
@@ -467,3 +468,4 @@ sets:
       - order: 24
         song: 'HERO'
         singers: [miku]
+        tags: [theme-song]

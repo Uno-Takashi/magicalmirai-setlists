@@ -17,6 +17,7 @@ sets:
       - order: 3
         song: 'METEOR'
         singers: [miku]
+        tags: [grand-prix]
       - order: 4
         song: 'アンノウン・マザーグース'
         singers: [miku]
@@ -296,3 +297,4 @@ sets:
       - order: 26
         song: 'グリーンライツ・セレナーデ'
         singers: [miku]
+        tags: [theme-song]
