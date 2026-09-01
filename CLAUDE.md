@@ -7,7 +7,7 @@
 初音ミク「マジカルミライ」歴代公演のセットリストを閲覧するファンページ。
 完全に static な SPA として GitHub Pages で配信する。バックエンドは持たない。
 
-- 公開先: https://uno-takashi.github.io/magicalmirai-setlists/
+- 公開先: https://magicalmirai-setlists.u-not.app/ (GitHub Pages の独自ドメイン)
 - 公式サイト (一次情報源): https://magicalmirai.com/
 
 ---
@@ -302,8 +302,14 @@ Storybook にはストーリーがあるので、使いどころを探すとき�
   `%VITE_SITE_URL%` 置換で、アプリ側は `import.meta.env` で同じ値を見ている。
   型は `src/vite-env.d.ts` の `ImportMetaEnv` に書く。
 
-- GitHub Pages はリポジトリ名のサブパス配信なので `VITE_BASE_PATH` を
-  `/magicalmirai-setlists/` にしている。
+- 独自ドメイン `magicalmirai-setlists.u-not.app` で配信しているので、サブパスは無く
+  `VITE_BASE_PATH` は `/`。**独自ドメインは GitHub のリポジトリ設定 (Settings > Pages >
+  Custom domain) に保存されている。** Actions から配信する構成では成果物に置いた
+  `CNAME` ファイルは使われないので、リポジトリに `public/CNAME` は置かない。
+  DNS 側は `magicalmirai-setlists.u-not.app` の CNAME を
+  `uno-takashi.github.io` に向けてある。設定を外すと
+  `https://uno-takashi.github.io/magicalmirai-setlists/` に戻るため、
+  そのときは `.env` の 2 つも `/magicalmirai-setlists/` 系に戻す。
 - 検索向けの `sitemap.xml` と `robots.txt` は `vite.config.ts` の `seoFiles` プラグインが
   ビルド時に生成する。dataset に年を足せば URL が増えるので手で並べ直さなくてよい。
 - 静的ホスティングではどの URL も同じ HTML が返るため、HTML の `title` / `description` は
