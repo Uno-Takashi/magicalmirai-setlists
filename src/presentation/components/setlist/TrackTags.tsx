@@ -1,7 +1,8 @@
 import type { ComponentType } from 'react'
 import { BsFire, BsFlagFill } from 'react-icons/bs'
-import { LuCrown } from 'react-icons/lu'
+import { LuCrown, LuDisc3, LuGuitar } from 'react-icons/lu'
 import type { TrackTag } from '@/domain/setlist/TrackTag'
+import { CollapsibleChip } from '@/presentation/components/ui/CollapsibleChip'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 const TAG_STYLE: Record<TrackTag, string> = {
@@ -12,11 +13,18 @@ const TAG_STYLE: Record<TrackTag, string> = {
   'bonus-track': 'bg-slate-400/20 text-muted',
 }
 
-/** アイコンを添えるタグ。指定の無いタグは文字だけで出す。 */
-const TAG_ICON: Partial<Record<TrackTag, ComponentType>> = {
+/**
+ * タグに添えるアイコン。
+ *
+ * 文言と一緒に出す目印であると同時に、省略表示のときは**これだけが残る**ので、
+ * どのタグにも 1 つずつ持たせる。
+ */
+const TAG_ICON: Record<TrackTag, ComponentType<{ className?: string }>> = {
   encore: BsFire,
   'theme-song': BsFlagFill,
   'grand-prix': LuCrown,
+  'band-intro': LuGuitar,
+  'bonus-track': LuDisc3,
 }
 
 export function TrackTags({ tags }: { tags: readonly TrackTag[] }) {
@@ -28,13 +36,13 @@ export function TrackTags({ tags }: { tags: readonly TrackTag[] }) {
       {tags.map((tag) => {
         const Icon = TAG_ICON[tag]
         return (
-          <span
+          <CollapsibleChip
             key={tag}
-            className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] leading-none font-semibold ${TAG_STYLE[tag]}`}
+            className={`rounded px-1.5 py-0.5 text-[10px] leading-none font-semibold ${TAG_STYLE[tag]}`}
+            mark={<Icon className="shrink-0" aria-hidden />}
           >
-            {Icon !== undefined ? <Icon aria-hidden /> : null}
             {t(`tag.${tag}`)}
-          </span>
+          </CollapsibleChip>
         )
       })}
     </span>

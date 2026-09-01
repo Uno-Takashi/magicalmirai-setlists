@@ -111,6 +111,9 @@ export const zhHant: Translations = {
   'a11y.vocaloidTrend': '各屆公演中各 VOCALOID 曲數的折線圖',
   'a11y.vocaloidTrendTotal': '各屆公演中各 VOCALOID 曲數累計的折線圖',
 
+  'settings.display': '顯示',
+  'settings.compactTags.label': '簡潔顯示標籤',
+  'settings.compactTags.description': '滑鼠移上時顯示詳細內容',
   'settings.open': '設定',
   'settings.title': '設定',
   'settings.close': '關閉',

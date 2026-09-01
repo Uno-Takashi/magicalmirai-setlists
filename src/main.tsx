@@ -7,6 +7,7 @@ import { CatalogProvider } from '@/presentation/providers/CatalogProvider'
 import { DialogsProvider } from '@/presentation/providers/DialogsProvider'
 import { LocaleProvider } from '@/presentation/providers/LocaleProvider'
 import { NavigationProvider } from '@/presentation/providers/NavigationProvider'
+import { PreferencesProvider } from '@/presentation/providers/PreferencesProvider'
 import { PlayerProvider } from '@/presentation/providers/PlayerProvider'
 
 const catalog = loadCatalog()
@@ -14,15 +15,17 @@ const catalog = loadCatalog()
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <LocaleProvider>
-      <CatalogProvider catalog={catalog}>
-        <NavigationProvider>
-          <DialogsProvider>
-            <PlayerProvider>
-              <App />
-            </PlayerProvider>
-          </DialogsProvider>
-        </NavigationProvider>
-      </CatalogProvider>
+      <PreferencesProvider>
+        <CatalogProvider catalog={catalog}>
+          <NavigationProvider>
+            <DialogsProvider>
+              <PlayerProvider>
+                <App />
+              </PlayerProvider>
+            </DialogsProvider>
+          </NavigationProvider>
+        </CatalogProvider>
+      </PreferencesProvider>
     </LocaleProvider>
   </StrictMode>,
 )
