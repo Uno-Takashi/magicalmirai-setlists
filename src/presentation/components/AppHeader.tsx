@@ -1,6 +1,4 @@
-import { useId } from 'react'
-import { LuChartColumn, LuInfo, LuSearch } from 'react-icons/lu'
-import { LOCALE_LABELS, LOCALES, isLocale } from '@/infrastructure/i18n/i18n'
+import { LuChartColumn, LuInfo, LuSearch, LuSettings } from 'react-icons/lu'
 import { HOME_URL } from '@/presentation/hooks/useRoute'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 import { AppLogo } from './AppLogo'
@@ -10,15 +8,15 @@ export function AppHeader({
   onOpenSearch,
   onOpenStatistics,
   onOpenAbout,
+  onOpenSettings,
 }: {
   onNavigateHome: () => void
   onOpenSearch: () => void
   onOpenStatistics: () => void
   onOpenAbout: () => void
+  onOpenSettings: () => void
 }) {
-  const { t, locale, setLocale } = useLocale()
-  // Storybook のように 1 ページへ複数並ぶことがあるので、id は固定値にしない
-  const localeSelectId = useId()
+  const { t } = useLocale()
 
   const iconButton = 'surface-card rounded-lg p-2 transition hover:-translate-y-0.5 hover:shadow-md'
 
@@ -78,23 +76,14 @@ export function AppHeader({
         <LuInfo />
       </button>
 
-      <label className="sr-only" htmlFor={localeSelectId}>
-        {t('locale.select')}
-      </label>
-      <select
-        id={localeSelectId}
-        value={locale}
-        onChange={(event) => {
-          if (isLocale(event.target.value)) setLocale(event.target.value)
-        }}
-        className="surface-card rounded-lg px-2 py-2 text-xs"
+      <button
+        type="button"
+        onClick={onOpenSettings}
+        aria-label={t('settings.open')}
+        className={iconButton}
       >
-        {LOCALES.map((value) => (
-          <option key={value} value={value}>
-            {LOCALE_LABELS[value]}
-          </option>
-        ))}
-      </select>
+        <LuSettings />
+      </button>
     </header>
   )
 }

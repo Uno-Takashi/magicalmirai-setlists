@@ -8,6 +8,7 @@ import { EditionCarousel } from '@/presentation/components/EditionCarousel'
 import { EditionSideNav } from '@/presentation/components/EditionSideNav'
 import { FloatingPlayer } from '@/presentation/components/FloatingPlayer'
 import { SearchOverlay } from '@/presentation/components/SearchOverlay'
+import { SettingsDialog } from '@/presentation/components/SettingsDialog'
 import { SongDialog } from '@/presentation/components/SongDialog'
 import { RankingView } from '@/presentation/components/RankingView'
 import { StatisticsView } from '@/presentation/components/StatisticsView'
@@ -90,6 +91,7 @@ export function App() {
   // 検索を開くときに入れておく語。ボカロ P の行から飛んで来たときだけ空でない。
   const [searchQuery, setSearchQuery] = useState('')
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [selectedSong, setSelectedSong] = useState<Song | null>(null)
 
   // 子へ渡すコールバックは同一性を保つ。描画のたびに新しい関数を渡すと、
@@ -102,6 +104,8 @@ export function App() {
   const closeSearch = useCallback(() => setSearchOpen(false), [])
   const openAbout = useCallback(() => setAboutOpen(true), [])
   const closeAbout = useCallback(() => setAboutOpen(false), [])
+  const openSettings = useCallback(() => setSettingsOpen(true), [])
+  const closeSettings = useCallback(() => setSettingsOpen(false), [])
   const closeSong = useCallback(() => setSelectedSong(null), [])
   const navigateHome = useCallback(() => selectSlug(''), [selectSlug])
   const openStatistics = useCallback(() => navigate(STATISTICS_PATH), [navigate])
@@ -166,6 +170,7 @@ export function App() {
       />
       <SongDialog song={selectedSong} onClose={closeSong} onSelectEdition={selectEditionFromSong} />
       <AboutDialog open={aboutOpen} onClose={closeAbout} />
+      <SettingsDialog open={settingsOpen} onClose={closeSettings} />
       {/* 詳細を閉じても再生を続けるので、どの画面でも描いておく。 */}
       <FloatingPlayer onExpand={setSelectedSong} />
     </>
@@ -177,6 +182,7 @@ export function App() {
       onOpenSearch={openSearch}
       onOpenStatistics={openStatistics}
       onOpenAbout={openAbout}
+      onOpenSettings={openSettings}
     />
   )
 
