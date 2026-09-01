@@ -15,6 +15,7 @@ interface DialogsState {
   readonly searchOpen: boolean
   /** 検索を開くときに入れておく語。ボカロ P の行から飛んで来たときだけ空でない。 */
   readonly searchQuery: string
+  readonly favoritesOpen: boolean
   readonly aboutOpen: boolean
   readonly settingsOpen: boolean
 }
@@ -25,6 +26,8 @@ interface DialogsActions {
   /** 語を渡すと、その語を入れた状態で検索を開く。 */
   openSearch: (query?: string) => void
   closeSearch: () => void
+  openFavorites: () => void
+  closeFavorites: () => void
   openAbout: () => void
   closeAbout: () => void
   openSettings: () => void
@@ -40,6 +43,7 @@ export function DialogsProvider({ children }: { children: ReactNode }) {
   const [song, setSong] = useState<Song | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [favoritesOpen, setFavoritesOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
 
@@ -54,6 +58,8 @@ export function DialogsProvider({ children }: { children: ReactNode }) {
         setSearchOpen(true)
       },
       closeSearch: () => setSearchOpen(false),
+      openFavorites: () => setFavoritesOpen(true),
+      closeFavorites: () => setFavoritesOpen(false),
       openAbout: () => setAboutOpen(true),
       closeAbout: () => setAboutOpen(false),
       openSettings: () => setSettingsOpen(true),
@@ -61,6 +67,7 @@ export function DialogsProvider({ children }: { children: ReactNode }) {
       closeAll: () => {
         setSong(null)
         setSearchOpen(false)
+        setFavoritesOpen(false)
         setAboutOpen(false)
         setSettingsOpen(false)
       },
@@ -69,8 +76,8 @@ export function DialogsProvider({ children }: { children: ReactNode }) {
   )
 
   const state = useMemo<DialogsState>(
-    () => ({ song, searchOpen, searchQuery, aboutOpen, settingsOpen }),
-    [song, searchOpen, searchQuery, aboutOpen, settingsOpen],
+    () => ({ song, searchOpen, searchQuery, favoritesOpen, aboutOpen, settingsOpen }),
+    [song, searchOpen, searchQuery, favoritesOpen, aboutOpen, settingsOpen],
   )
 
   return (
