@@ -1,8 +1,9 @@
 # セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
 # 出典: 公式サイト アフターレポート https://magicalmirai.com/2019/special_afterreport.html
 #
-# shows は「その候補がどの公演回で演奏されたか」。edition.yaml の
-# <公演 id>/<公演回 id> を指す。省略した枠はその公演すべてで演奏された固定曲。
+# shows は「その候補がどの公演回で演奏されたか」。performance は edition.yaml の
+# 公演 id、day はその公演の何日目か、session は昼夜 (区別が無い年は書かない)。
+# 省略した枠はその公演すべてで演奏された固定曲。
 # 会場替わり / 日程替わり / 日替わり の区別は、この shows から計算する。
 sets:
   - performances: [osaka, tokyo]
@@ -29,78 +30,150 @@ sets:
         variants:
           - song: '劣等上等'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
-              - tokyo/day1-evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
             singers: [rin, len]
           - song: 'ロキ'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [rin, len]
           - song: 'ロミオとシンデレラ'
             shows:
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 8
         variants:
           - song: 'からくりピエロ'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
-              - tokyo/day1-evening
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
           - song: '砂の惑星'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku]
       - order: 9
         variants:
           - song: 'Satisfaction'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
             singers: [miku]
           - song: 'どうぶつ占い'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku]
           - song: 'Catch the Wave'
             shows:
-              - tokyo/day1-evening
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 10
         variants:
           - song: 'Baby Maniacs -Eight Mix-'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku]
           - song: 'ロミオとシンデレラ'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
             singers: [miku]
           - song: '劣等上等'
             shows:
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [rin, len]
       - order: 11
         song: 'キレキャリオン'
@@ -118,41 +191,77 @@ sets:
         variants:
           - song: '星屑ユートピア'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [luka]
           - song: 'Just Be Friends'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
             singers: [luka]
           - song: 'どりーみんチュチュ'
             shows:
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku, rin, luka]
       - order: 16
         variants:
           - song: 'ルカルカ★ナイトフィーバー'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
-              - tokyo/day1-evening
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [luka]
           - song: 'どりーみんチュチュ'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
             singers: [miku, rin, luka]
           - song: 'Just Be Friends'
             shows:
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [luka]
       - order: 17
         song: 'それがあなたの幸せとしても'
@@ -179,27 +288,45 @@ sets:
         variants:
           - song: 'アンハッピーリフレイン'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
             singers: [miku]
           - song: '裏表ラバーズ'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
             singers: [miku]
           - song: 'アンノウン・マザーグース'
             shows:
-              - tokyo/day1-evening
+              - performance: tokyo
+                day: 1
+                session: evening
             singers: [miku]
           - song: 'ワールズエンド・ダンスホール'
             shows:
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku, luka]
           - song: 'ローリンガール'
             shows:
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 25
         song: 'Hand in Hand'

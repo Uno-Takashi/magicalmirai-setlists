@@ -1,8 +1,9 @@
 # セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
 # 出典: 公式サイト アフターレポート https://magicalmirai.com/2025/special_afterreport.html
 #
-# shows は「その候補がどの公演回で演奏されたか」。edition.yaml の
-# <公演 id>/<公演回 id> を指す。省略した枠はその公演すべてで演奏された固定曲。
+# shows は「その候補がどの公演回で演奏されたか」。performance は edition.yaml の
+# 公演 id、day はその公演の何日目か、session は昼夜 (区別が無い年は書かない)。
+# 省略した枠はその公演すべてで演奏された固定曲。
 # 会場替わり / 日程替わり / 日替わり の区別は、この shows から計算する。
 sets:
   - performances: [osaka, sendai, tokyo]
@@ -14,26 +15,60 @@ sets:
         variants:
           - song: '初音天地開闢神話'
             shows:
-              - osaka/day1-matinee
-              - osaka/day2-matinee
-              - osaka/day3-matinee
-              - sendai/day2-matinee
-              - sendai/day3-matinee
-              - tokyo/day1-matinee
-              - tokyo/day2-matinee
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: sendai
+                day: 2
+                session: matinee
+              - performance: sendai
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
           - song: 'アンテナ39'
             shows:
-              - osaka/day1-evening
-              - osaka/day2-evening
-              - osaka/day3-evening
-              - sendai/day1-evening
-              - sendai/day2-evening
-              - sendai/day3-evening
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day3-evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: sendai
+                day: 1
+                session: evening
+              - performance: sendai
+                day: 2
+                session: evening
+              - performance: sendai
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [miku]
       - order: 3
         song: 'こちら、幸福安心委員会です。'
@@ -45,26 +80,60 @@ sets:
         variants:
           - song: '抜錨'
             shows:
-              - osaka/day1-matinee
-              - osaka/day2-matinee
-              - osaka/day3-matinee
-              - sendai/day2-matinee
-              - sendai/day3-matinee
-              - tokyo/day1-matinee
-              - tokyo/day2-matinee
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: sendai
+                day: 2
+                session: matinee
+              - performance: sendai
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [luka]
           - song: '星屑ユートピア'
             shows:
-              - osaka/day1-evening
-              - osaka/day2-evening
-              - osaka/day3-evening
-              - sendai/day1-evening
-              - sendai/day2-evening
-              - sendai/day3-evening
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day3-evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: sendai
+                day: 1
+                session: evening
+              - performance: sendai
+                day: 2
+                session: evening
+              - performance: sendai
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [luka]
       - order: 6
         song: 'ラヴィ'
@@ -76,26 +145,60 @@ sets:
         variants:
           - song: 'ジェミニ'
             shows:
-              - osaka/day1-matinee
-              - osaka/day2-matinee
-              - osaka/day3-matinee
-              - sendai/day2-matinee
-              - sendai/day3-matinee
-              - tokyo/day1-matinee
-              - tokyo/day2-matinee
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: sendai
+                day: 2
+                session: matinee
+              - performance: sendai
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [rin, len]
           - song: 'キミペディア'
             shows:
-              - osaka/day1-evening
-              - osaka/day2-evening
-              - osaka/day3-evening
-              - sendai/day1-evening
-              - sendai/day2-evening
-              - sendai/day3-evening
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day3-evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: sendai
+                day: 1
+                session: evening
+              - performance: sendai
+                day: 2
+                session: evening
+              - performance: sendai
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [rin, len]
       - order: 9
         song: '1/6 -out of the gravity-'
@@ -104,29 +207,63 @@ sets:
         variants:
           - song: '独りんぼエンヴィー'
             shows:
-              - sendai/day1-evening
-              - sendai/day2-evening
-              - sendai/day2-matinee
-              - sendai/day3-evening
-              - sendai/day3-matinee
+              - performance: sendai
+                day: 1
+                session: evening
+              - performance: sendai
+                day: 2
+                session: evening
+              - performance: sendai
+                day: 2
+                session: matinee
+              - performance: sendai
+                day: 3
+                session: evening
+              - performance: sendai
+                day: 3
+                session: matinee
             singers: [miku]
           - song: '太陽系デスコ'
             shows:
-              - osaka/day1-evening
-              - osaka/day1-matinee
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - osaka/day3-evening
-              - osaka/day3-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
             singers: [miku]
           - song: 'はじめまして地球人さん'
             shows:
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 11
         song: 'ヴァニッシュ'
@@ -135,26 +272,60 @@ sets:
         variants:
           - song: 'ドクター=ファンクビート'
             shows:
-              - osaka/day1-matinee
-              - osaka/day2-matinee
-              - osaka/day3-matinee
-              - sendai/day2-matinee
-              - sendai/day3-matinee
-              - tokyo/day1-matinee
-              - tokyo/day2-matinee
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: sendai
+                day: 2
+                session: matinee
+              - performance: sendai
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [kaito]
           - song: 'みかぼし'
             shows:
-              - osaka/day1-evening
-              - osaka/day2-evening
-              - osaka/day3-evening
-              - sendai/day1-evening
-              - sendai/day2-evening
-              - sendai/day3-evening
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day3-evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: sendai
+                day: 1
+                session: evening
+              - performance: sendai
+                day: 2
+                session: evening
+              - performance: sendai
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [kaito]
       - order: 13
         song: 'げんてん'
@@ -163,26 +334,60 @@ sets:
         variants:
           - song: '星空クロノグラフ'
             shows:
-              - osaka/day1-matinee
-              - osaka/day2-matinee
-              - osaka/day3-matinee
-              - sendai/day2-matinee
-              - sendai/day3-matinee
-              - tokyo/day1-matinee
-              - tokyo/day2-matinee
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: sendai
+                day: 2
+                session: matinee
+              - performance: sendai
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [meiko]
           - song: '夜舞うシルエット'
             shows:
-              - osaka/day1-evening
-              - osaka/day2-evening
-              - osaka/day3-evening
-              - sendai/day1-evening
-              - sendai/day2-evening
-              - sendai/day3-evening
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day3-evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: sendai
+                day: 1
+                session: evening
+              - performance: sendai
+                day: 2
+                session: evening
+              - performance: sendai
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [meiko]
       - order: 15
         song: 'Flyway'
@@ -194,26 +399,60 @@ sets:
         variants:
           - song: 'Starduster'
             shows:
-              - osaka/day1-matinee
-              - osaka/day2-matinee
-              - osaka/day3-matinee
-              - sendai/day2-matinee
-              - sendai/day3-matinee
-              - tokyo/day1-matinee
-              - tokyo/day2-matinee
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: sendai
+                day: 2
+                session: matinee
+              - performance: sendai
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
           - song: 'Last Night, Good Night(Re:Dialed)'
             shows:
-              - osaka/day1-evening
-              - osaka/day2-evening
-              - osaka/day3-evening
-              - sendai/day1-evening
-              - sendai/day2-evening
-              - sendai/day3-evening
-              - tokyo/day1-evening
-              - tokyo/day2-evening
-              - tokyo/day3-evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: sendai
+                day: 1
+                session: evening
+              - performance: sendai
+                day: 2
+                session: evening
+              - performance: sendai
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [miku]
       - order: 18
         song: 'METEOR'

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { sessionIndex, type Edition } from '@/domain/edition/Edition'
 import type { Track } from '@/domain/setlist/Track'
 import type { TrackTag } from '@/domain/setlist/TrackTag'
 import { classifyVariation, type TrackVariation } from '@/domain/setlist/TrackVariation'
@@ -13,19 +14,28 @@ const catalog = loadCatalog()
  * 年を決め打ちにすると dataset の更新でストーリーの意図がずれるので、
  * 「こういう枠」という条件で選ぶ。
  */
-function trackWhere(match: (track: Track) => boolean, what: string) {
+function trackWhere(match: (track: Track, edition: Edition) => boolean, what: string) {
   for (const { edition, setlists } of catalog.entries) {
     for (const setlist of setlists) {
-      const track = setlist.tracks.find(match)
+      const track = setlist.tracks.find((candidate) => match(candidate, edition))
       if (track !== undefined) return { track, edition }
     }
   }
   throw new Error(`${what} にあたる枠がデータセットにありません`)
 }
 
-/** 入れ替わりの分類で選ぶ。 */
+/**
+ * 入れ替わりの分類で選ぶ。
+ *
+ * 昼夜入れ替えは公演回の昼/夜を引かないと日程替わりと区別できないので、
+ * 画面と同じように開催回の索引を渡して分類する。
+ */
 function trackOf(variation: TrackVariation) {
-  return trackWhere((track) => classifyVariation(track) === variation, variation)
+  return trackWhere(
+    (track, edition) =>
+      classifyVariation(track, (ref) => sessionIndex(edition).get(ref)) === variation,
+    variation,
+  )
 }
 
 /** タグで選ぶ。 */
@@ -64,6 +74,11 @@ export const VenueVariation: Story = {
 /** 日程替わり。候補ごとに日付、または昼夜が出る。 */
 export const ScheduleVariation: Story = {
   args: trackOf('schedule'),
+}
+
+/** 昼公演と夜公演で入れ替わるだけの枠。候補には「昼公演」「夜公演」が出る。 */
+export const SessionVariation: Story = {
+  args: trackOf('session'),
 }
 
 /** 会場替わりとも日程替わりとも言えない日替わり。 */

@@ -38,6 +38,7 @@ export const ko: Translations = {
   'tag.bonus-track': '보너스 트랙',
 
   'track.variation.venue': '공연장별 교체',
+  'track.variation.session': '낮/밤',
   'track.variation.schedule': '일정별 교체',
   'track.variation.daily': '일자별 교체',
   'track.singers': '보컬',

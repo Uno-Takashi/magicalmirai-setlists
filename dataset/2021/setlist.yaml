@@ -1,8 +1,9 @@
 # セットリスト。曲名は dataset/songs.yaml のキーと一致させること。
 # 出典: 公式サイト アフターレポート https://magicalmirai.com/2021/special_afterreport.html
 #
-# shows は「その候補がどの公演回で演奏されたか」。edition.yaml の
-# <公演 id>/<公演回 id> を指す。省略した枠はその公演すべてで演奏された固定曲。
+# shows は「その候補がどの公演回で演奏されたか」。performance は edition.yaml の
+# 公演 id、day はその公演の何日目か、session は昼夜 (区別が無い年は書かない)。
+# 省略した枠はその公演すべてで演奏された固定曲。
 # 会場替わり / 日程替わり / 日替わり の区別は、この shows から計算する。
 sets:
   - performances: [osaka, tokyo]
@@ -29,20 +30,42 @@ sets:
         variants:
           - song: '千本桜'
             shows:
-              - osaka/day1-evening
-              - osaka/day3-evening
-              - osaka/day3-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku]
           - song: 'ヒビカセ'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 8
         song: '星空クロノグラフ'
@@ -57,45 +80,89 @@ sets:
         variants:
           - song: 'みかぼし'
             shows:
-              - osaka/day1-evening
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
             singers: [kaito]
           - song: 'ドクター=ファンクビート'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [kaito]
           - song: 'Pane dhiria'
             shows:
-              - osaka/day3-evening
-              - osaka/day3-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [kaito]
       - order: 12
         variants:
           - song: 'スノーマン'
             shows:
-              - osaka/day1-evening
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
             singers: [kaito]
           - song: '千年の独奏歌'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [kaito]
           - song: 'あったかいと'
             shows:
-              - osaka/day3-evening
-              - osaka/day3-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [kaito]
       - order: 13
         song: 'サンドリヨン'
@@ -104,20 +171,42 @@ sets:
         variants:
           - song: 'erase or zero'
             shows:
-              - osaka/day1-evening
-              - osaka/day3-evening
-              - osaka/day3-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [len, kaito]
           - song: 'on the rocks'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [meiko, kaito]
       - order: 15
         song: 'レイニースノードロップ'
@@ -126,20 +215,42 @@ sets:
         variants:
           - song: 'まるいうなばら'
             shows:
-              - osaka/day1-evening
-              - osaka/day3-evening
-              - osaka/day3-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku]
           - song: 'ある計画は今も密かに'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 17
         song: '二息歩行'
@@ -148,20 +259,42 @@ sets:
         variants:
           - song: 'Singularity'
             shows:
-              - osaka/day1-evening
-              - osaka/day3-evening
-              - osaka/day3-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku]
           - song: 'METEOR'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 19
         song: 'インタビュア'
@@ -170,20 +303,42 @@ sets:
         variants:
           - song: 'ロミオとシンデレラ'
             shows:
-              - osaka/day1-evening
-              - osaka/day3-evening
-              - osaka/day3-matinee
-              - tokyo/day2-evening
-              - tokyo/day2-matinee
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
             singers: [miku]
           - song: 'ワールドイズマイン'
             shows:
-              - osaka/day2-evening
-              - osaka/day2-matinee
-              - tokyo/day1-evening
-              - tokyo/day1-matinee
-              - tokyo/day3-evening
-              - tokyo/day3-matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 21
         song: 'リモコン'

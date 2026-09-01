@@ -6,6 +6,7 @@
 
 import type { LocalizedText } from '@/domain/vocaloid/Vocaloid'
 import type { Performance } from './Performance'
+import type { Session } from './Show'
 
 export interface Edition {
   /** 開催回を代表する西暦。並び順に使う。 */
@@ -32,4 +33,20 @@ export function editionPeriod(edition: Edition): { from: string; to: string } | 
 
 export function findPerformance(edition: Edition, performanceId: string): Performance | undefined {
   return edition.performances.find((p) => p.id === performanceId)
+}
+
+/**
+ * 公演回の参照 (`<公演 id>/<公演回 id>`) から昼/夜を引く索引。
+ *
+ * セットリストの候補は公演回を参照でしか持たないので、昼夜の軸で入れ替わったかを
+ * 判定するにはここで開催回側の情報に引き当てる。昼夜の区別が無い回は載せない。
+ */
+export function sessionIndex(edition: Edition): ReadonlyMap<string, Session> {
+  return new Map(
+    edition.performances.flatMap((performance) =>
+      performance.shows.flatMap((show) =>
+        show.session === undefined ? [] : [[`${performance.id}/${show.id}`, show.session] as const],
+      ),
+    ),
+  )
 }
