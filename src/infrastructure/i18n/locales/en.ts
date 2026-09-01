@@ -15,7 +15,7 @@ export const en: Translations = {
   'search.placeholder': 'Search by song or producer',
   'search.filterByVocaloid': 'Filter by Vocaloid',
   'search.empty': 'No matching songs',
-  'search.results': '{count} songs',
+  'search.results': '{count} found',
   'search.appearedIn': 'Performed in',
   'search.close': 'Close',
 
@@ -24,7 +24,7 @@ export const en: Translations = {
   'edition.officialSite': 'Official site',
   'edition.venueUnknown': 'Venue TBA',
   'edition.info': 'Performance info',
-  'edition.performanceCount': '{count} shows',
+  'edition.performanceCount': 'Shows: {count}',
   'setlist.switch': 'Switch setlist',
   'setlist.nth': 'Setlist {index}',
 
@@ -54,7 +54,7 @@ export const en: Translations = {
   'song.searchSpotify': 'Search on Spotify',
   'song.openAppleMusic': 'Open in Apple Music',
   'song.searchAppleMusic': 'Search on Apple Music',
-  'song.noEmbed': 'No video has been registered for this song yet',
+  'song.noEmbed': 'No video is linked for this song yet',
   'song.close': 'Close',
 
   'about.open': 'About this site',
@@ -75,7 +75,7 @@ export const en: Translations = {
   'statistics.open': 'View statistics',
   'statistics.title': 'Statistics',
   'statistics.description': 'Aggregated across every edition on record.',
-  'statistics.editionCount': 'Magical Mirai editions',
+  'statistics.editionCount': 'Magical Mirai',
   'statistics.performanceCount': 'Performances (total)',
   'statistics.producerCount': 'Producers',
   'statistics.backToOverview': 'Back to statistics',
@@ -85,7 +85,7 @@ export const en: Translations = {
   'statistics.unit.editions': 'editions',
   'statistics.unit.times': 'times',
   'statistics.unit.people': 'people',
-  'statistics.appearances': '{count} performances',
+  'statistics.appearances': 'played {count}×',
   'statistics.producers.title': 'Songs performed per producer',
   'statistics.songs.title': 'Performance count',
   'statistics.songs.help':
@@ -115,7 +115,7 @@ export const en: Translations = {
   'a11y.vocaloidTrendTotal': 'Line chart of cumulative songs per edition for each Vocaloid',
 
   'settings.display': 'Display',
-  'settings.compactTags.label': 'Show tags simply',
+  'settings.compactTags.label': 'Simplify tags',
   'settings.compactTags.description': 'Details appear when you hover over a tag',
   'setlist.download': 'Download the setlist as CSV',
   'setlist.csv.order': 'Order',
@@ -123,14 +123,14 @@ export const en: Translations = {
   'setlist.csv.producers': 'Producers',
   'setlist.csv.singers': 'Singers',
   'setlist.csv.tags': 'Tags',
-  'setlist.csv.shows': 'Shows',
+  'setlist.csv.shows': 'Performed at',
 
   'favorites.open': 'Favorites',
   'favorites.title': 'Favorites',
   'favorites.description': 'See the songs you saved in one list',
   'favorites.empty': 'Nothing here yet. Press + next to a song to add it',
   'favorites.close': 'Close',
-  'favorites.count': '{count} songs',
+  'favorites.count': '{count} saved',
   'a11y.addFavorite': 'Add {title} to favorites',
   'a11y.removeFavorite': 'Remove {title} from favorites',
 
