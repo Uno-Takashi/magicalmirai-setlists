@@ -2,25 +2,24 @@
 
 サイトのマーク。6 人のボーカロイドのテーマカラーを持つ音符の頭を、旋律の線が結ぶ。
 
-## ファイル
+## 図形は 1 か所にしかない
 
-| ファイル                                     | 用途                                                      |
-| -------------------------------------------- | --------------------------------------------------------- |
-| [icon.svg](./icon.svg)                       | 基本形。読み上げ用の `title` / `desc` を持つ              |
-| [icon-mono-dark.svg](./icon-mono-dark.svg)   | 単色 (濃)。明るい背景、白黒印刷、透かし用。下地を持たない |
-| [icon-mono-light.svg](./icon-mono-light.svg) | 単色 (淡)。暗い背景用。下地を持たない                     |
+**[`public/favicon.svg`](../../public/favicon.svg) が唯一の実体。** 形を直すときはここだけを直す。
 
-サイトが使っている実体は次の 2 つで、どちらも `icon.svg` と同じ図形を持つ。
+| 参照している場所 | 参照のしかた                                       |
+| ---------------- | -------------------------------------------------- |
+| ブラウザのタブ   | `index.html` の `<link rel="icon">`                |
+| ヘッダー         | `src/presentation/components/AppLogo.tsx` の `img` |
+| Storybook        | `.storybook/main.ts` の `staticDirs`               |
 
-- `public/favicon.svg` — ブラウザのタブ
-- `src/presentation/components/AppLogo.tsx` — ヘッダー
-
-**3 か所は同じ図形なので、形を直すときは 3 つとも直す。**
+`public/` のファイルは JS から import できないので、`AppLogo` は
+`import.meta.env.BASE_URL` から URL を組み立てて参照している。配信のサブパスを変えても
+追従する。
 
 ## 決まりごと
 
-- **色はロゴの一部**として直接書く。dataset のテーマカラーを参照しない。データが変わっても
-  マークは変わらない。
+- **色はロゴの一部**として SVG に直接書く。dataset のテーマカラーを参照しない。
+  データが変わってもマークは変わらない。
 - **並びは KAITO → 巡音ルカ → 初音ミク → 鏡音レン → 鏡音リン → MEIKO。**
   鏡音の 2 色 (`#FFEE11` / `#FFCC11`) は隣り合わせる。ミクは中央に置き、半径だけ
   4.4 → 5 に大きくして旋律の中心にする。
@@ -39,14 +38,17 @@
 - 周囲に、下地の角丸の半径 (辺の 22%) 以上の余白を空ける。
 - 最小は 16px。これより小さくすると球が潰れて旋律線だけが残る。
 
-## PNG が要るとき
+## 別の形式が要るとき
 
-SVG しか置いていない。PNG は書き出して作る。
+派生を作り置きすると図形が二重になるので、必要になった時点で `public/favicon.svg` から
+書き出す。
 
 ```bash
-# ImageMagick
-convert -background none docs/logo/icon.svg -resize 512x512 icon.png
+# PNG
+rsvg-convert -w 512 -h 512 public/favicon.svg -o icon.png
+convert -background none public/favicon.svg -resize 512x512 icon.png
 
-# rsvg-convert
-rsvg-convert -w 512 -h 512 docs/logo/icon.svg -o icon.png
+# 単色版 (白黒印刷や透かし用)。下地を外し、線と球を 1 色に置き換える
+sed -e '/<rect/d' -e 's/fill="#[0-9A-F]*"/fill="#101828"/g' \
+    -e 's/stroke="#101828"/stroke="#101828"/' public/favicon.svg > icon-mono.svg
 ```

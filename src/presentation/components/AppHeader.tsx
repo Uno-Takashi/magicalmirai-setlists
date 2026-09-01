@@ -28,7 +28,6 @@ export function AppHeader({
         {/*
           実際の href を持つアンカーにして、新しいタブで開く・リンクをコピーするといった
           ブラウザ本来の操作を残す。修飾キー無しの左クリックだけ SPA 内で遷移させる。
-          狭い画面では折り返す。切り詰めるとタイトルが読めなくなる。
         */}
         <a
           href={HOME_URL}
@@ -40,8 +39,13 @@ export function AppHeader({
           className="text-miku flex min-w-0 items-center gap-2 transition hover:opacity-70"
         >
           {/* マークはタイトルの文言と同じことを指すので、読み上げからは外す。 */}
-          <AppLogo className="size-7 shrink-0 sm:size-8" />
-          <span className="text-sm leading-tight font-black text-balance sm:text-lg">
+          <AppLogo className="size-8 shrink-0" />
+          {/*
+            狭い画面ではマークだけにする。切り詰めても折り返しても読めないため。
+            display:none で消すと、このリンクと h1 が読み上げ名を失う。
+            sr-only は見た目だけを消して名前を残すので、こちらを使う。
+          */}
+          <span className="sr-only leading-tight font-black text-balance sm:not-sr-only sm:text-lg">
             {t('app.title')}
           </span>
         </a>

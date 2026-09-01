@@ -10,6 +10,8 @@ const config: StorybookConfig = {
     '@storybook/addon-mcp',
   ],
   framework: '@storybook/react-vite',
+  // AppLogo が public/favicon.svg を参照するので、Storybook からも配信する。
+  staticDirs: ['../public'],
 }
 
 export default config
