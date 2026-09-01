@@ -120,6 +120,7 @@ export const ko: Translations = {
   'favorites.description': '추가한 곡이 여기에 모입니다',
   'favorites.empty': '아직 없습니다. 곡 오른쪽의 ＋를 누르면 여기에 모입니다',
   'favorites.close': '닫기',
+  'favorites.remove': '삭제',
   'favorites.count': '{count} 곡',
   'a11y.addFavorite': '「{title}」을(를) 즐겨찾기에 추가',
   'a11y.removeFavorite': '「{title}」을(를) 즐겨찾기에서 제거',

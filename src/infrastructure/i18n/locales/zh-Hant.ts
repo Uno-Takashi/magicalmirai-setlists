@@ -119,6 +119,7 @@ export const zhHant: Translations = {
   'favorites.description': '加入收藏的歌曲會列在這裡',
   'favorites.empty': '還沒有收藏。按歌曲右邊的＋就會列在這裡',
   'favorites.close': '關閉',
+  'favorites.remove': '移除',
   'favorites.count': '{count} 首',
   'a11y.addFavorite': '將「{title}」加入收藏',
   'a11y.removeFavorite': '將「{title}」從收藏移除',

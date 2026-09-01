@@ -78,6 +78,7 @@ export function FavoritesOverlay({
                       hit={hit}
                       onSelectSong={onSelectSong}
                       onSelectEdition={onSelectEdition}
+                      favoriteAppearance="remove"
                     />
                   </li>
                 ))}

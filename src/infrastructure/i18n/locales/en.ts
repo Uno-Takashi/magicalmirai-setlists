@@ -122,6 +122,7 @@ export const en: Translations = {
   'favorites.description': 'Songs you add show up here',
   'favorites.empty': 'Nothing here yet. Press + next to a song to add it',
   'favorites.close': 'Close',
+  'favorites.remove': 'Remove',
   'favorites.count': '{count} songs',
   'a11y.addFavorite': 'Add {title} to favorites',
   'a11y.removeFavorite': 'Remove {title} from favorites',

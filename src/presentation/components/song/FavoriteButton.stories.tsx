@@ -33,3 +33,15 @@ export const Added: Story = {
     ),
   ],
 }
+
+/** お気に入りの一覧での見せ方。× を押すとその場から消える。 */
+export const Remove: Story = {
+  args: { appearance: 'remove' },
+  decorators: [
+    (Story) => (
+      <FavoritesProvider initialTitles={['ロキ']}>
+        <Story />
+      </FavoritesProvider>
+    ),
+  ],
+}

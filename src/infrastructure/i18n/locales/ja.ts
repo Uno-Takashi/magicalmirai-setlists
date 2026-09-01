@@ -121,6 +121,7 @@ export const ja = {
   'favorites.description': '気になった曲を入れておくと、ここに並びます',
   'favorites.empty': 'まだ何も入っていません。曲の右の＋を押すと、ここに並びます',
   'favorites.close': '閉じる',
+  'favorites.remove': '削除',
   'favorites.count': '{count} 曲',
   'a11y.addFavorite': '「{title}」をお気に入りに入れる',
   'a11y.removeFavorite': '「{title}」をお気に入りから外す',

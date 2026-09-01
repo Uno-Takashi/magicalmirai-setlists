@@ -16,10 +16,13 @@ export function SongSearchResult({
   hit,
   onSelectSong,
   onSelectEdition,
+  favoriteAppearance,
 }: {
   hit: SongSearchHit
   onSelectSong: (song: Song) => void
   onSelectEdition: (slug: string) => void
+  /** お気に入りのボタンの見せ方。一覧が「お気に入りそのもの」のときは削除にする。 */
+  favoriteAppearance?: 'toggle' | 'remove'
 }) {
   const { catalog, searchIndex } = useCatalog()
   const { t } = useLocale()
@@ -55,7 +58,7 @@ export function SongSearchResult({
         </div>
       </div>
 
-      <FavoriteButton title={song.title} />
+      <FavoriteButton title={song.title} appearance={favoriteAppearance} />
     </div>
   )
 }
