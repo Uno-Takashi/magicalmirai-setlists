@@ -7,6 +7,7 @@ import { localize } from '@/domain/vocaloid/Vocaloid'
 import { titleImageOf } from '@/infrastructure/dataset/titleImages'
 import { EditionInfoPanel } from '@/presentation/components/edition/EditionInfoPanel'
 import { PerformanceDialog } from '@/presentation/components/edition/PerformanceDialog'
+import { SetlistDownloadButton } from '@/presentation/components/setlist/SetlistDownloadButton'
 import { SetlistSwitch } from '@/presentation/components/setlist/SetlistSwitch'
 import { SetlistTimeline } from '@/presentation/components/setlist/SetlistTimeline'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
@@ -65,9 +66,19 @@ function SetlistPanel({ setlists, edition }: { setlists: readonly Setlist[]; edi
         selectedIndex={index}
         onSelect={setIndex}
       />
-      <p className="text-muted mb-2 px-2 text-xs font-semibold">
-        {t('edition.trackCount', { count: performedTracks(setlist).length })}
-      </p>
+      {/* 曲数の左に保存の導線を置く。曲順の一覧そのものを持ち出す操作なので、
+          一覧の見出しにあたるこの行に並べる */}
+      <div className="mb-2 flex items-center gap-1 px-2">
+        <SetlistDownloadButton
+          setlist={setlist}
+          edition={edition}
+          setlistIndex={index}
+          setlistCount={setlists.length}
+        />
+        <p className="text-muted text-xs font-semibold">
+          {t('edition.trackCount', { count: performedTracks(setlist).length })}
+        </p>
+      </div>
       {/* 切り替えたら組み直して、曲が上から順に現れるアニメーションを流し直す */}
       <div key={index}>
         <SetlistTimeline setlist={setlist} edition={edition} />
