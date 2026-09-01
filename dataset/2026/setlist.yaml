@@ -2,6 +2,8 @@
 # 曲順の枠が日替わり/会場別の場合は variants に候補を並べる。
 # 出典: 初音ミク Wiki https://w.atwiki.jp/hmiku/pages/71541.html
 # 全26曲 (昼夜替わり5曲・会場替わり1曲)。MC とバンドメンバー紹介の枠は含めていない。
+# 出典は「昼公演」「夜公演」「浜松/大阪/東京」という書き方だったので、
+# それぞれ全公演の昼/夜、その公演地の全公演回に起こしてある。
 # singers は出典の表の左に付いた色から判定した、この公演での歌唱ボーカロイド。
 sets:
   - performances: [hamamatsu, osaka, tokyo]
@@ -15,10 +17,64 @@ sets:
       - order: 3
         variants:
           - song: '気まぐれメルシィ'
-            note: '昼公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: matinee
+              - performance: hamamatsu
+                day: 2
+                session: matinee
+              - performance: hamamatsu
+                day: 3
+                session: matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
           - song: 'アンハッピーリフレイン'
-            note: '夜公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: evening
+              - performance: hamamatsu
+                day: 2
+                session: evening
+              - performance: hamamatsu
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [miku]
       - order: 4
         song: 'バッドシャーク'
@@ -29,10 +85,64 @@ sets:
       - order: 6
         variants:
           - song: 'あったかいと'
-            note: '昼公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: matinee
+              - performance: hamamatsu
+                day: 2
+                session: matinee
+              - performance: hamamatsu
+                day: 3
+                session: matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [kaito]
           - song: 'FLASH'
-            note: '夜公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: evening
+              - performance: hamamatsu
+                day: 2
+                session: evening
+              - performance: hamamatsu
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [kaito]
       - order: 7
         song: 'サロメ'
@@ -40,21 +150,129 @@ sets:
       - order: 8
         variants:
           - song: 'ヒビカセ'
-            note: '昼公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: matinee
+              - performance: hamamatsu
+                day: 2
+                session: matinee
+              - performance: hamamatsu
+                day: 3
+                session: matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
           - song: 'ヴァンパイア'
-            note: '夜公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: evening
+              - performance: hamamatsu
+                day: 2
+                session: evening
+              - performance: hamamatsu
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [miku]
       - order: 9
         variants:
           - song: 'ウミユリ海底譚'
-            note: '浜松'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: evening
+              - performance: hamamatsu
+                day: 1
+                session: matinee
+              - performance: hamamatsu
+                day: 2
+                session: evening
+              - performance: hamamatsu
+                day: 2
+                session: matinee
+              - performance: hamamatsu
+                day: 3
+                session: evening
+              - performance: hamamatsu
+                day: 3
+                session: matinee
             singers: [miku]
           - song: 'カゲロウデイズ'
-            note: '大阪'
+            shows:
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 3
+                session: matinee
             singers: [miku]
           - song: '快晴'
-            note: '東京'
+            shows:
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
       - order: 10
         song: 'HELLO, NEW WORLD!'
@@ -62,10 +280,64 @@ sets:
       - order: 11
         variants:
           - song: 'vivid'
-            note: '昼公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: matinee
+              - performance: hamamatsu
+                day: 2
+                session: matinee
+              - performance: hamamatsu
+                day: 3
+                session: matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku, luka]
           - song: '陽だまりのセツナ'
-            note: '夜公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: evening
+              - performance: hamamatsu
+                day: 2
+                session: evening
+              - performance: hamamatsu
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [miku, luka]
       - order: 12
         song: '死にたくない'
@@ -94,10 +366,64 @@ sets:
       - order: 20
         variants:
           - song: 'HERO'
-            note: '昼公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: matinee
+              - performance: hamamatsu
+                day: 2
+                session: matinee
+              - performance: hamamatsu
+                day: 3
+                session: matinee
+              - performance: osaka
+                day: 1
+                session: matinee
+              - performance: osaka
+                day: 2
+                session: matinee
+              - performance: osaka
+                day: 3
+                session: matinee
+              - performance: tokyo
+                day: 1
+                session: matinee
+              - performance: tokyo
+                day: 2
+                session: matinee
+              - performance: tokyo
+                day: 3
+                session: matinee
             singers: [miku]
           - song: 'ブレス・ユア・ブレス'
-            note: '夜公演'
+            shows:
+              - performance: hamamatsu
+                day: 1
+                session: evening
+              - performance: hamamatsu
+                day: 2
+                session: evening
+              - performance: hamamatsu
+                day: 3
+                session: evening
+              - performance: osaka
+                day: 1
+                session: evening
+              - performance: osaka
+                day: 2
+                session: evening
+              - performance: osaka
+                day: 3
+                session: evening
+              - performance: tokyo
+                day: 1
+                session: evening
+              - performance: tokyo
+                day: 2
+                session: evening
+              - performance: tokyo
+                day: 3
+                session: evening
             singers: [miku]
       - order: 21
         song: 'ラストラス'

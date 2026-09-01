@@ -37,6 +37,7 @@ export const ja = {
   'tag.bonus-track': 'ボーナストラック',
 
   'track.variation.venue': '会場替わり',
+  'track.variation.session': '昼/夜',
   'track.variation.schedule': '日程替わり',
   'track.variation.daily': '日替わり',
   'track.singers': '歌唱',

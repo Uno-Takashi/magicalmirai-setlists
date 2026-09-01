@@ -6,7 +6,7 @@ import type { Performance } from '@/domain/edition/Performance'
 import { isRegion, type Region } from '@/domain/edition/Region'
 import { SESSIONS, type Session, type Show } from '@/domain/edition/Show'
 import type { Setlist } from '@/domain/setlist/Setlist'
-import type { Track, TrackVariant } from '@/domain/setlist/Track'
+import type { ShowRef, Track, TrackVariant } from '@/domain/setlist/Track'
 import { isTrackTag, type TrackTag } from '@/domain/setlist/TrackTag'
 import type { Song } from '@/domain/song/Song'
 import type { Vocaloid } from '@/domain/vocaloid/Vocaloid'
@@ -16,6 +16,7 @@ import type {
   RawSet,
   RawSetlistFile,
   RawShow,
+  RawShowRef,
   RawSongFile,
   RawTrack,
   RawVocaloidFile,
@@ -62,16 +63,27 @@ export function toEdition(raw: RawEdition): Edition {
   }
 }
 
+/**
+ * 公演回の指定を、ドメインの参照 (`<公演 id>/<公演回 id>`) に直す。
+ *
+ * 公演回の id は edition.yaml で `day<N>` / `day<N>-<昼夜>` と付けている。
+ * この組み立て方を知っているのはここだけで、ドメインには文字列の形しか渡らない。
+ */
+function toShowRef(raw: RawShowRef): ShowRef {
+  const session = raw.session === undefined ? '' : `-${raw.session}`
+  return `${raw.performance}/day${raw.day}${session}`
+}
+
 function toTrack(raw: RawTrack): Track {
   const variants: TrackVariant[] =
     raw.variants?.map((variant) => ({
       song: variant.song,
-      shows: variant.shows ?? [],
+      shows: variant.shows?.map(toShowRef) ?? [],
       note: variant.note,
       singers: variant.singers,
     })) ??
     (raw.song !== undefined
-      ? [{ song: raw.song, shows: raw.shows ?? [], singers: raw.singers }]
+      ? [{ song: raw.song, shows: raw.shows?.map(toShowRef) ?? [], singers: raw.singers }]
       : [])
 
   return { order: raw.order, variants, tags: toTags(raw.tags) }

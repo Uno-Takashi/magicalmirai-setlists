@@ -38,6 +38,7 @@ export const en: Translations = {
   'tag.bonus-track': 'Bonus track',
 
   'track.variation.venue': 'Varies by venue',
+  'track.variation.session': 'Matinee / Evening',
   'track.variation.schedule': 'Varies by date',
   'track.variation.daily': 'Rotating',
   'track.singers': 'Vocals',

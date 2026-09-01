@@ -38,6 +38,7 @@ export const zhHant: Translations = {
   'tag.bonus-track': '特典曲',
 
   'track.variation.venue': '依會場而異',
+  'track.variation.session': '日場/夜場',
   'track.variation.schedule': '依日程而異',
   'track.variation.daily': '每日輪替',
   'track.singers': '演唱',

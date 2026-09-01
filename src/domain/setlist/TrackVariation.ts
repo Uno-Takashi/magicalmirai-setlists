@@ -5,11 +5,13 @@
  * データに書いてある区分をそのまま読むのではなく、演奏実績から導く。
  */
 
-import { performanceIdOf, showIdOf, type Track, type TrackVariant } from './Track'
+import type { Session } from '@/domain/edition/Show'
+import { performanceIdOf, showIdOf, type ShowRef, type Track, type TrackVariant } from './Track'
 
 export const TRACK_VARIATIONS = [
   'fixed',
   'venue',
+  'session',
   'schedule',
   'venue-and-schedule',
   'daily',
@@ -18,7 +20,8 @@ export const TRACK_VARIATIONS = [
 /**
  * - `fixed`              候補が 1 つだけの固定曲
  * - `venue`              会場替わり (会場ごとに違う)
- * - `schedule`           日程替わり (日や昼夜で違う。会場では出し分けられていない)
+ * - `session`            昼夜入れ替え (昼公演と夜公演で入れ替わるだけ)
+ * - `schedule`           日程替わり (日で違う。会場では出し分けられていない)
  * - `venue-and-schedule` 会場替わりかつ日程替わり
  * - `daily`              上のどれでも言い表せない日替わり
  */
@@ -37,7 +40,28 @@ function partitionedBy(
   })
 }
 
-export function classifyVariation(track: Track): TrackVariation {
+/** 公演回の参照から昼/夜を引く。区別が無い回は undefined。 */
+export type SessionOf = (ref: ShowRef) => Session | undefined
+
+/**
+ * 候補が昼公演と夜公演で丸ごと入れ替わっているか。
+ *
+ * 日程替わりの中でも「昼と夜で入れ替わるだけ」は日付を並べるより
+ * 昼夜と言ったほうが伝わるので、先に切り出して別の軸として扱う。
+ * 昼夜の区別が付かない公演回が混ざっていたら、この軸では言い表せない。
+ */
+function partitionedBySession(
+  variants: readonly TrackVariant[],
+  scope: readonly ShowRef[],
+  sessionOf: SessionOf,
+): boolean {
+  const sessions = scope.map(sessionOf)
+  if (sessions.some((session) => session === undefined)) return false
+  if (new Set(sessions).size < 2) return false
+  return partitionedBy(variants, scope, (ref) => sessionOf(ref) ?? '')
+}
+
+export function classifyVariation(track: Track, sessionOf?: SessionOf): TrackVariation {
   if (track.variants.length <= 1) return 'fixed'
   // 公演回が記録されていない年は、どの軸で入れ替わったかを言えない
   if (track.variants.some((variant) => variant.shows.length === 0)) return 'daily'
@@ -45,7 +69,11 @@ export function classifyVariation(track: Track): TrackVariation {
   const scope = track.variants.flatMap((variant) => [...variant.shows])
   const byVenue = partitionedBy(track.variants, scope, performanceIdOf)
   const bySchedule = partitionedBy(track.variants, scope, showIdOf)
+  const bySession =
+    sessionOf !== undefined && partitionedBySession(track.variants, scope, sessionOf)
 
+  // 昼夜で分かれる枠は公演回の id でも必ず分かれるので、日程替わりより先に見る
+  if (bySession && !byVenue) return 'session'
   if (byVenue && bySchedule) return 'venue-and-schedule'
   if (byVenue) return 'venue'
   if (bySchedule) return 'schedule'
@@ -53,7 +81,7 @@ export function classifyVariation(track: Track): TrackVariation {
 }
 
 /** 入れ替わりの軸。`venue-and-schedule` は 2 つの軸を同時に持つ。 */
-export type VariationAxis = 'venue' | 'schedule' | 'daily'
+export type VariationAxis = 'venue' | 'session' | 'schedule' | 'daily'
 
 /** 分類を、画面に並べる軸の列に開く。固定曲は軸を持たない。 */
 export function variationAxes(variation: TrackVariation): readonly VariationAxis[] {

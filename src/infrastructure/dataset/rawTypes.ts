@@ -48,10 +48,21 @@ export interface RawEdition {
   performances: RawPerformance[]
 }
 
+/**
+ * 候補が演奏された公演回の指定。
+ *
+ * `performance` は edition.yaml の公演 id、`day` はその公演の何日目か、
+ * `session` は昼夜。昼夜を分けていない年 (2020) は `session` を書かない。
+ */
+export interface RawShowRef {
+  performance: string
+  day: number
+  session?: string
+}
+
 export interface RawTrackVariant {
   song: string
-  /** `<公演 id>/<公演回 id>` の配列。 */
-  shows?: string[]
+  shows?: RawShowRef[]
   note?: string
   singers?: string[]
 }
@@ -59,7 +70,7 @@ export interface RawTrackVariant {
 export interface RawTrack {
   order: number
   song?: string
-  shows?: string[]
+  shows?: RawShowRef[]
   variants?: RawTrackVariant[]
   singers?: string[]
   tags?: string[]
