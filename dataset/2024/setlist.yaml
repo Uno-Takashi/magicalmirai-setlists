@@ -453,6 +453,8 @@ sets:
       - order: 23
         song: 'ボルテッカー'
         singers: [miku]
+        tags: [encore]
       - order: 24
         song: 'Hand in Hand'
         singers: [miku, rin, len, luka, meiko, kaito]
+        tags: [encore]

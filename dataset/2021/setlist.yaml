@@ -350,10 +350,12 @@ sets:
       - order: 23
         song: '愛されなくても君がいる'
         singers: [miku]
+        tags: [encore]
       - order: 24
         song: 'Hand in Hand'
         singers: [miku]
+        tags: [encore]
       - order: 25
         song: '初音天地開闢神話'
         singers: [miku]
-        tags: [theme-song]
+        tags: [encore, theme-song]
