@@ -96,7 +96,11 @@ export function BarRanking({
         )
 
         return (
-          <li key={row.id}>
+          // 行は grid の子なので、既定では中身の min-content より狭くならない。
+          // 見出しは truncate (nowrap) なので、その min-content は曲名と作曲者を
+          // 続けた全長になる。放っておくと一番長い行に合わせて列全体が広がり、
+          // 画面の狭い端末で棒がカードからはみ出す。min-w-0 で縮めるようにする。
+          <li key={row.id} className="min-w-0">
             {row.onSelect === undefined ? (
               <div className="block w-full px-1 py-0.5">{content}</div>
             ) : (
