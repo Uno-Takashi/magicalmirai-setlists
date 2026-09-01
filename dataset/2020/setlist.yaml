@@ -93,10 +93,10 @@ sets:
       - order: 17
         variants:
           - song: '命に嫌われている。'
-            note: '大阪公演'
+            note: '大阪'
             singers: [miku]
           - song: 'ぽかぽかの星'
-            note: '東京公演'
+            note: '東京'
             singers: [miku]
         tags: [encore]
       - order: 18
