@@ -113,6 +113,10 @@ export const ja = {
   'a11y.vocaloidTrend': '開催回ごとの、ボーカロイド別の曲数の折れ線グラフ',
   'a11y.vocaloidTrendTotal': '開催回ごとの、ボーカロイド別の曲数の累積の折れ線グラフ',
 
+  'settings.open': '設定',
+  'settings.title': '設定',
+  'settings.close': '閉じる',
+
   'locale.select': '言語',
 
   'footer.disclaimer': '本サイトはファンによる非公式のアーカイブです',

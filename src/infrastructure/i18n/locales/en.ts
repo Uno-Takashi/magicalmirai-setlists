@@ -114,6 +114,10 @@ export const en: Translations = {
   'a11y.vocaloidTrend': 'Line chart of songs per edition for each Vocaloid',
   'a11y.vocaloidTrendTotal': 'Line chart of cumulative songs per edition for each Vocaloid',
 
+  'settings.open': 'Settings',
+  'settings.title': 'Settings',
+  'settings.close': 'Close',
+
   'locale.select': 'Language',
 
   'footer.disclaimer': 'An unofficial archive made by fans',
