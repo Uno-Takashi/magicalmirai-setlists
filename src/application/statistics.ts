@@ -1,7 +1,7 @@
 /**
  * カタログから統計を組み立てるユースケース。
  *
- * 「延べ」は (開催回, 曲) の組を 1 と数える。同じ開催回のなかで日替わり枠に
+ * 「累計」は (開催回, 曲) の組を 1 と数える。同じ開催回のなかで日替わり枠に
  * 同じ曲が複数回現れても 1 回として扱う。
  */
 
@@ -57,12 +57,12 @@ export interface ProducerStat {
   readonly producer: string
   /** 採用された曲の数 (重複なし)。 */
   readonly songCount: number
-  /** 延べ演奏回数。 */
+  /** 累計演奏回数。 */
   readonly appearanceCount: number
 }
 
 /**
- * ボカロ P ごとの採用楽曲数。曲数が多い順、同数なら延べ回数が多い順。
+ * ボカロ P ごとの採用楽曲数。曲数が多い順、同数なら累計演奏が多い順。
  * 合作は参加した各人にそれぞれ 1 曲として数える。
  */
 export function producerRanking(catalog: Catalog): ProducerStat[] {

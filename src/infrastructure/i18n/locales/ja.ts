@@ -84,7 +84,7 @@ export const ja = {
   'statistics.unit.editions': '回',
   'statistics.unit.times': '回',
   'statistics.unit.people': '人',
-  'statistics.appearances': '延べ {count} 回',
+  'statistics.appearances': '累計 {count} 演奏',
   'statistics.producers.title': 'ボカロ P ごとの採用楽曲数',
   'statistics.songs.title': '演奏回数',
   'statistics.songs.help':

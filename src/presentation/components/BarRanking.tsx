@@ -6,7 +6,7 @@ export interface BarRankingRow {
   readonly label: ReactNode
   /** バーの長さに使う値。 */
   readonly value: number
-  /** 値の隣に出す補足 (「延べ 12 回」など)。 */
+  /** 値の隣に出す補足 (「累計 12 演奏」など)。 */
   readonly note?: string
   /** 行頭に置くアクセント色。識別は label が担うので装飾扱い。 */
   readonly accent?: string
