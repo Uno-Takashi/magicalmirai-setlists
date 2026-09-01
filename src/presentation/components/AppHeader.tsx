@@ -3,6 +3,7 @@ import { LuChartColumn, LuInfo, LuSearch } from 'react-icons/lu'
 import { LOCALE_LABELS, LOCALES, isLocale } from '@/infrastructure/i18n/i18n'
 import { HOME_URL } from '@/presentation/hooks/useRoute'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { AppLogo } from './AppLogo'
 
 export function AppHeader({
   onNavigateHome,
@@ -36,9 +37,13 @@ export function AppHeader({
             event.preventDefault()
             onNavigateHome()
           }}
-          className="text-miku block text-sm leading-tight font-black text-balance transition hover:opacity-70 sm:text-lg"
+          className="text-miku flex min-w-0 items-center gap-2 transition hover:opacity-70"
         >
-          {t('app.title')}
+          {/* マークはタイトルの文言と同じことを指すので、読み上げからは外す。 */}
+          <AppLogo className="size-7 shrink-0 sm:size-8" />
+          <span className="text-sm leading-tight font-black text-balance sm:text-lg">
+            {t('app.title')}
+          </span>
         </a>
       </h1>
 
