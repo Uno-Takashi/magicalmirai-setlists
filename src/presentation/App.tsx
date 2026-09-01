@@ -1,219 +1,20 @@
-import { useCallback, useMemo, useState } from 'react'
-import { defaultEntry, findEntry } from '@/domain/catalog/Catalog'
-import type { Song } from '@/domain/song/Song'
-import { AboutDialog } from '@/presentation/components/AboutDialog'
-import { AppFooter } from '@/presentation/components/AppFooter'
-import { AppHeader } from '@/presentation/components/AppHeader'
-import { EditionCarousel } from '@/presentation/components/EditionCarousel'
-import { EditionSideNav } from '@/presentation/components/EditionSideNav'
-import { FloatingPlayer } from '@/presentation/components/FloatingPlayer'
-import { SearchOverlay } from '@/presentation/components/SearchOverlay'
-import { SettingsDialog } from '@/presentation/components/SettingsDialog'
-import { SongDialog } from '@/presentation/components/SongDialog'
-import { RankingView } from '@/presentation/components/RankingView'
-import { StatisticsView } from '@/presentation/components/StatisticsView'
-import { VocaloidStatsView } from '@/presentation/components/VocaloidStatsView'
-import { YearNavigator } from '@/presentation/components/YearNavigator'
-import { useDocumentMeta } from '@/presentation/hooks/useDocumentMeta'
-import { useKeyboardNavigation } from '@/presentation/hooks/useKeyboardNavigation'
+import { AppFooter } from '@/presentation/components/app/AppFooter'
+import { AppHeader } from '@/presentation/components/app/AppHeader'
+import { AppOverlays } from '@/presentation/components/app/AppOverlays'
+import { usePageMeta } from '@/presentation/hooks/usePageMeta'
 import { useSearchShortcut } from '@/presentation/hooks/useSearchShortcut'
-import {
-  rankingPath,
-  STATISTICS_PATH,
-  useRoute,
-  type RankingKind,
-} from '@/presentation/hooks/useRoute'
-import type { TranslationKey } from '@/infrastructure/i18n/i18n'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
+import { EditionPage } from '@/presentation/pages/EditionPage'
+import { StatisticsPage } from '@/presentation/pages/StatisticsPage'
+import { useDialogs } from '@/presentation/providers/DialogsProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { useNavigation } from '@/presentation/providers/NavigationProvider'
 
-/** 全体ランキングの各ページの見出し。meta の title にも使う。 */
-const RANKING_TITLE_KEYS = {
-  producers: 'statistics.producers.title',
-  songs: 'statistics.songs.title',
-  vocaloids: 'statistics.vocaloids.title',
-} as const satisfies Record<RankingKind, TranslationKey>
+/** 現在地に応じたページ。開催回が 1 つも無いときだけ、空状態を出す。 */
+function CurrentPage() {
+  const { t } = useLocale()
+  const { route, entry } = useNavigation()
 
-export function App() {
-  const { catalog } = useCatalog()
-  const { t, locale } = useLocale()
-
-  const fallbackSlug = defaultEntry(catalog)?.edition.slug ?? ''
-  const [route, navigate] = useRoute(fallbackSlug)
-  const onStatistics = route.kind === 'statistics' || route.kind === 'ranking'
-
-  const entry =
-    route.kind === 'edition' ? (findEntry(catalog, route.slug) ?? defaultEntry(catalog)) : undefined
-
-  // ドメインは年代順(昇順)で持つ。表示は新しい年が先。
-  const displayEntries = useMemo(() => [...catalog.entries].reverse(), [catalog.entries])
-  const index = displayEntries.findIndex((e) => e.edition.slug === entry?.edition.slug)
-
-  // 年送りの向き。切り替えアニメーションの方向に使う。
-  // 描画中に読む値なので ref ではなく state で持つ。
-  const [direction, setDirection] = useState(1)
-  const go = useCallback(
-    (nextIndex: number) => {
-      const next = displayEntries[nextIndex]
-      if (next === undefined) return
-      setDirection(nextIndex > index ? 1 : -1)
-      navigate(next.edition.slug)
-    },
-    [displayEntries, index, navigate],
-  )
-
-  // 表示順での前後。index-1 が新しい年、index+1 が古い年。統計ページでは効かせない。
-  const goNewer = useCallback(() => {
-    if (!onStatistics) go(index - 1)
-  }, [go, index, onStatistics])
-  const goOlder = useCallback(() => {
-    if (!onStatistics) go(index + 1)
-  }, [go, index, onStatistics])
-  useKeyboardNavigation(goNewer, goOlder)
-
-  /** 空文字ならホーム (base 直下) へ。統計ページからの復帰とタイトルのリンクに使う。 */
-  const selectSlug = useCallback(
-    (nextSlug: string) => {
-      if (nextSlug === '' || onStatistics) {
-        navigate(nextSlug)
-        return
-      }
-      go(displayEntries.findIndex((e) => e.edition.slug === nextSlug))
-    },
-    [displayEntries, go, navigate, onStatistics],
-  )
-
-  // 年をたどって来たときに中央へ出す曲。1 度使ったら捨てる。
-  const [focusSong, setFocusSong] = useState<string | null>(null)
-  const clearFocusSong = useCallback(() => setFocusSong(null), [])
-  const [searchOpen, setSearchOpen] = useState(false)
-  // 検索を開くときに入れておく語。ボカロ P の行から飛んで来たときだけ空でない。
-  const [searchQuery, setSearchQuery] = useState('')
-  const [aboutOpen, setAboutOpen] = useState(false)
-  const [settingsOpen, setSettingsOpen] = useState(false)
-  const [selectedSong, setSelectedSong] = useState<Song | null>(null)
-
-  // 子へ渡すコールバックは同一性を保つ。描画のたびに新しい関数を渡すと、
-  // 受け取り側の効果や memo がそのたびに無効になる。
-  const openSearch = useCallback(() => {
-    setSearchQuery('')
-    setSearchOpen(true)
-  }, [])
-  useSearchShortcut(openSearch)
-  const closeSearch = useCallback(() => setSearchOpen(false), [])
-  const openAbout = useCallback(() => setAboutOpen(true), [])
-  const closeAbout = useCallback(() => setAboutOpen(false), [])
-  const openSettings = useCallback(() => setSettingsOpen(true), [])
-  const closeSettings = useCallback(() => setSettingsOpen(false), [])
-  const closeSong = useCallback(() => setSelectedSong(null), [])
-  const navigateHome = useCallback(() => selectSlug(''), [selectSlug])
-  const openStatistics = useCallback(() => navigate(STATISTICS_PATH), [navigate])
-
-  /** 統計のボカロ P の行から、その名前で検索を開く。絞り込みは検索側で全員 on に戻る。 */
-  const searchProducer = useCallback((producer: string) => {
-    setSearchQuery(producer)
-    setSearchOpen(true)
-  }, [])
-
-  /** 曲の詳細から、その曲を演奏した年のセットリストへ移動する。 */
-  const selectEditionFromSong = useCallback(
-    (slug: string) => {
-      // 遷移先の画面が見えるよう、重なっているモーダルと検索を閉じる
-      setFocusSong(selectedSong?.title ?? null)
-      setSelectedSong(null)
-      setSearchOpen(false)
-      selectSlug(slug)
-    },
-    [selectSlug, selectedSong],
-  )
-
-  // 検索結果に出る文言。静的ホスティングでは HTML が 1 種類しか無いので、
-  // 現在地に応じた title / description はここで組み立てて反映する。
-  const pageMeta = useMemo(() => {
-    if (route.kind === 'ranking') {
-      return {
-        title: t(RANKING_TITLE_KEYS[route.ranking]),
-        description: t('statistics.description'),
-        path: rankingPath(route.ranking),
-      }
-    }
-    if (route.kind === 'statistics') {
-      return {
-        title: t('statistics.title'),
-        description: t('statistics.description'),
-        path: STATISTICS_PATH,
-      }
-    }
-    if (entry === undefined) {
-      return { description: t('app.description'), path: '' }
-    }
-    const name = localize(entry.edition.name, locale)
-    return {
-      title: t('meta.editionTitle', { name }),
-      description: t('meta.editionDescription', { name }),
-      // ホームは既定の開催回を出すが、正規 URL は base 直下にまとめる。
-      path: entry.edition.slug === fallbackSlug ? '' : entry.edition.slug,
-    }
-  }, [entry, fallbackSlug, locale, route, t])
-
-  useDocumentMeta({ siteName: t('app.title'), ...pageMeta })
-
-  const overlays = (
-    <>
-      <SearchOverlay
-        open={searchOpen}
-        initialQuery={searchQuery}
-        onClose={closeSearch}
-        onSelectSong={setSelectedSong}
-        onSelectEdition={selectSlug}
-      />
-      <SongDialog song={selectedSong} onClose={closeSong} onSelectEdition={selectEditionFromSong} />
-      <AboutDialog open={aboutOpen} onClose={closeAbout} />
-      <SettingsDialog open={settingsOpen} onClose={closeSettings} />
-      {/* 詳細を閉じても再生を続けるので、どの画面でも描いておく。 */}
-      <FloatingPlayer onExpand={setSelectedSong} />
-    </>
-  )
-
-  const header = (
-    <AppHeader
-      onNavigateHome={navigateHome}
-      onOpenSearch={openSearch}
-      onOpenStatistics={openStatistics}
-      onOpenAbout={openAbout}
-      onOpenSettings={openSettings}
-    />
-  )
-
-  if (onStatistics) {
-    return (
-      <div className="flex min-h-full flex-col">
-        {header}
-        <main className="flex-1">
-          {route.kind === 'ranking' && route.ranking === 'vocaloids' ? (
-            <VocaloidStatsView onBack={openStatistics} />
-          ) : route.kind === 'ranking' ? (
-            <RankingView
-              ranking={route.ranking}
-              onBack={openStatistics}
-              onSelectSong={setSelectedSong}
-              onSelectProducer={searchProducer}
-            />
-          ) : (
-            <StatisticsView
-              onShowAll={(ranking) => navigate(rankingPath(ranking))}
-              onSelectSong={setSelectedSong}
-              onSelectProducer={searchProducer}
-            />
-          )}
-        </main>
-        <AppFooter />
-        {overlays}
-      </div>
-    )
-  }
-
+  if (route.kind !== 'edition') return <StatisticsPage route={route} />
   if (entry === undefined) {
     return (
       <main className="grid min-h-full place-items-center p-8 text-center">
@@ -221,43 +22,26 @@ export function App() {
       </main>
     )
   }
+  return <EditionPage entry={entry} />
+}
+
+/**
+ * 画面の外枠。ヘッダーと脚注でページを挟み、重なりをその上に置く。
+ *
+ * 現在地は `NavigationProvider`、重なりの開閉は `DialogsProvider` が持つので、
+ * ここは組み立てだけを受け持つ。
+ */
+export function App() {
+  const { openSearch } = useDialogs()
+  usePageMeta()
+  useSearchShortcut(openSearch)
 
   return (
     <div className="flex min-h-full flex-col">
-      {header}
-
-      <YearNavigator
-        entries={displayEntries}
-        currentSlug={entry.edition.slug}
-        onSelect={selectSlug}
-        onNewer={goNewer}
-        onOlder={goOlder}
-      />
-
-      <main className="flex flex-1 flex-col">
-        <EditionCarousel
-          entry={entry}
-          direction={direction}
-          canGoNewer={index > 0}
-          canGoOlder={index < displayEntries.length - 1}
-          onNewer={goNewer}
-          onOlder={goOlder}
-          focusSong={focusSong}
-          onSelectSong={setSelectedSong}
-          onFocusHandled={clearFocusSong}
-        />
-      </main>
-
+      <AppHeader />
+      <CurrentPage />
       <AppFooter />
-
-      <EditionSideNav
-        canGoNewer={index > 0}
-        canGoOlder={index < displayEntries.length - 1}
-        onNewer={goNewer}
-        onOlder={goOlder}
-      />
-
-      {overlays}
+      <AppOverlays />
     </div>
   )
 }
