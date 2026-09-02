@@ -122,7 +122,9 @@ HELLO, NEW WORLD!:
 HERO:
   producers:
     - Ayase
-  youtube: gWQblYZXWjk
+  singers:
+    - miku
+  youtube: o4AxMk3SGUY
 Hand in Hand:
   producers:
     - livetune
@@ -624,6 +626,9 @@ vivid:
 ヒアソビ:
   producers:
     - かめりあ
+  singers:
+    - miku
+  youtube: od4QcDPpNVk
 ヒバナ:
   producers:
     - DECO*27
@@ -676,6 +681,9 @@ vivid:
 メテオ:
   producers:
     - じょん
+  singers:
+    - miku
+  youtube: snUfbQzgZm4
 メランコリック:
   producers:
     - Junky
@@ -822,6 +830,9 @@ vivid:
 夜舞うシルエット:
   producers:
     - 宮守文学
+  singers:
+    - meiko
+  youtube: ho9VLf-V1rA
 大江戸ジュリアナイト:
   producers:
     - Mitchie M
@@ -833,6 +844,10 @@ vivid:
 天樂 -双響-:
   producers:
     - ゆうゆ
+  singers:
+    - rin
+    - len
+  youtube: nnsd2dNk9nQ
 太陽系デスコ:
   producers:
     - ナユタン星人
@@ -847,6 +862,7 @@ vivid:
 少女A:
   producers:
     - 椎名もた
+  youtube: AqI97zHMoQw
 心臓デモクラシー:
   producers:
     - みきとP
@@ -886,6 +902,9 @@ vivid:
 抜錨:
   producers:
     - ナナホシ管弦楽団
+  singers:
+    - luka
+  youtube: C7h6-jU1DCA
 敗走:
   producers:
     - 傘村トータ
@@ -899,9 +918,15 @@ vivid:
 星屑ユートピア:
   producers:
     - otetsu
+  singers:
+    - luka
+  youtube: syk1f6Dj82E
 星空クロノグラフ:
   producers:
     - MINO-U
+  singers:
+    - meiko
+  youtube: 5PH7jn_rKtM
 東京テディベア:
   producers:
     - Neru
@@ -913,6 +938,9 @@ vivid:
 死にたくない:
   producers:
     - Usagi3
+  singers:
+    - len
+  youtube: mROly8hbyFQ
 気まぐれメルシィ:
   producers:
     - 八王子P
@@ -920,6 +948,9 @@ vivid:
 泥中に咲く:
   producers:
     - 針原翼(はりーP)
+  singers:
+    - miku
+  youtube: K64V4V_SGGQ
 流星のパルス:
   producers:
     - '*Luna'
@@ -937,6 +968,9 @@ vivid:
 独りんぼエンヴィー:
   producers:
     - koyori
+  singers:
+    - miku
+  youtube: UKVioegPPds
 砂の惑星:
   producers:
     - ハチ
@@ -959,6 +993,9 @@ vivid:
 空に免じて:
   producers:
     - 傘村トータ
+  singers:
+    - miku
+  youtube: m8PbMlflLPM
 聖槍爆裂ボーイ:
   producers:
     - れるりり
@@ -981,9 +1018,19 @@ vivid:
 陽だまりのセツナ:
   producers:
     - 赤乃わい
+  singers:
+    - miku
+    - luka
+  youtube: D2gWpqM2GFQ
 青炎:
   producers:
     - せきこみごはん
+  singers:
+    - kaito
+  youtube: JluhftfNZYM
 黙ってロックをやれって言ってんの!:
   producers:
     - 猫舘 こたつ
+  singers:
+    - miku
+  youtube: 5gPmBNZK7LI
