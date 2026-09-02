@@ -69,6 +69,14 @@ GitHub Flow はブランチが 1 本 (`main`) だけのシンプルなフロー�
 - `main` は常にデプロイ可能に保つ。壊れた状態をマージしない。
 - PR は 1 つの目的に絞り、レビューしやすいサイズにする。
 
+### Dependabot
+
+Dependabot のセキュリティアップデートのうち、**patch のものは自動で `main` にマージ
+されます** (`.github/workflows/dependabot-auto-merge.yml`)。CI がすべて通ったことを
+確認してからマージするので、壊れた状態が入ることはありません。
+
+minor / major の更新は自動マージされないので、これまでどおり人がレビューします。
+
 ## 開発環境
 
 ### Dev Container (推奨)
