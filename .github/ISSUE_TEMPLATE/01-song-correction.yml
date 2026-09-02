@@ -1,0 +1,97 @@
+name: 楽曲情報修正依頼
+description: セットリストや楽曲マスタの誤り (曲名・曲順・作曲者・歌唱者・リンクなど) を知らせる
+title: '[データ] '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        データの正は [`dataset/`](https://github.com/Uno-Takashi/magicalmirai-setlists/blob/main/dataset/README.md) の YAML です。
+        **一次情報源 (公式サイト・公演のパンフレット・円盤のブックレットなど) を添えてください。**
+        自分で直せる場合は、issue ではなく Pull Request を送ってもらえると早く反映できます。
+
+  - type: dropdown
+    id: edition
+    attributes:
+      label: 対象の開催回
+      description: 楽曲マスタ (`dataset/songs.yaml`) 全体の話なら「開催回によらない」を選びます。
+      options:
+        - '2013'
+        - '2014'
+        - '2015'
+        - '2016'
+        - '2017'
+        - '2018'
+        - '2019'
+        - '2020'
+        - '2021'
+        - 10th Anniversary (2022)
+        - '2023'
+        - '2024'
+        - '2025'
+        - '2026'
+        - 複数の開催回にまたがる
+        - 開催回によらない (楽曲マスタ)
+    validations:
+      required: true
+
+  - type: input
+    id: song
+    attributes:
+      label: 対象の曲名
+      description: サイトに出ている表記のまま書いてください。複数あれば列挙してかまいません。
+      placeholder: 例) カルチャ
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: kind
+    attributes:
+      label: 修正したい項目
+      options:
+        - label: 曲名の表記
+        - label: 曲順・演奏の有無 (日替わり / 会場替わり / 昼夜入れ替えを含む)
+        - label: 作曲者
+        - label: 歌唱するボーカロイド
+        - label: タグ (テーマソング / 楽曲グランプリ / アンコールなど)
+        - label: 音楽サービスへのリンク (YouTube / Spotify / Apple Music)
+        - label: その他
+
+  - type: textarea
+    id: current
+    attributes:
+      label: 現在の表示
+      description: いまサイトにどう出ているか。
+      placeholder: 例) 2023 の 3 曲目が「ローリンガール」固定になっている
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 正しい情報
+      description: どう直すべきか。
+      placeholder: 例) Day.1 が「ローリンガール」、Day.2 が「ゴーストルール」の日替わり枠
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: 情報源
+      description: |
+        確認できる URL や出典を書いてください。
+        公式サイト・公演の物販パンフレット・Blu-ray のブックレットなど。
+        SNS の投稿しか無い場合は、それが誰の投稿かも書いてください。
+      placeholder: |
+        例) https://magicalmirai.com/2023/ の SETLIST ページ
+        例) Blu-ray「マジカルミライ 2023」ブックレット p.12
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 補足
+      description: 判断に迷った点、関連する issue など。
+    validations:
+      required: false

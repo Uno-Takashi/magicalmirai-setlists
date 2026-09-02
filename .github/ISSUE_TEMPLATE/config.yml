@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: データの編集方法 (自分で直したいとき)
+    url: https://github.com/Uno-Takashi/magicalmirai-setlists/blob/main/dataset/README.md
+    about: dataset/ の YAML を直せば Pull Request で修正を送れます。
+  - name: 開発への参加方法
+    url: https://github.com/Uno-Takashi/magicalmirai-setlists/blob/main/CONTRIBUTING.md
+    about: ブランチの切り方から CI・リリースまでの流れをまとめています。

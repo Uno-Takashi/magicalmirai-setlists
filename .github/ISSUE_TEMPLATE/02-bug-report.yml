@@ -1,0 +1,72 @@
+name: バグ修正依頼
+description: 表示の崩れ、動かない操作、エラーなどを知らせる
+title: '[バグ] '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        データそのものの誤り (曲名・曲順・作曲者など) は「楽曲情報修正依頼」を使ってください。
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 何が起きたか
+      placeholder: 例) 統計ページで作曲者ランキングの行を押しても曲の詳細が開かない
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: どうなるはずだったか
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: 起きたページの URL
+      placeholder: https://magicalmirai-setlists.u-not.app/2023
+    validations:
+      required: false
+
+  - type: input
+    id: environment
+    attributes:
+      label: 環境
+      description: ブラウザとその版、OS、端末 (スマートフォンなら機種)。
+      placeholder: 例) Chrome 128 / Windows 11 / デスクトップ
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: 表示していた言語
+      options:
+        - 日本語
+        - English
+        - 繁體中文
+        - 한국어
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: スクリーンショット・コンソールのエラー
+      description: 画像はこの欄に貼り付けられます。ブラウザのコンソールにエラーが出ていれば、その文言も貼ってください。
+    validations:
+      required: false
