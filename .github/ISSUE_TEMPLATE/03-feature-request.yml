@@ -1,0 +1,50 @@
+name: 機能リクエスト
+description: 新しい機能や、いまの使い勝手の改善を提案する
+title: '[提案] '
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        このサイトは完全に static な SPA (バックエンドなし) として GitHub Pages で配信しています。
+        提案がこの制約に収まるかも、あわせて考えてもらえると助かります。
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 困っていること
+      description: どんなときに、何ができなくて困るか。
+      placeholder: 例) ある曲がどの年に演奏されたかを調べたいが、年ごとにページを見て回るしかない
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 提案する機能
+      description: どう解決したいか。画面の案があれば図やスケッチを貼ってください。
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 関係する箇所
+      options:
+        - 開催回のページ (セットリスト)
+        - 曲の詳細・検索
+        - 統計ページ
+        - 多言語対応 (ja / en / zh-Hant / ko)
+        - アクセシビリティ
+        - データ (dataset)
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: ほかに考えた案
+      description: 別のやり方や、いまの機能で代用できるか検討したことがあれば。
+    validations:
+      required: false
