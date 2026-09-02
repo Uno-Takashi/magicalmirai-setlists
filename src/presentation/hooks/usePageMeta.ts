@@ -54,11 +54,13 @@ export function usePageMeta(): void {
     }
 
     const name = localize(entry.edition.name, locale)
+    // ホームは既定の開催回を出すが、正規 URL は base 直下にまとめる。
+    // その URL はサイトの入口でもあるので、title には開催回を入れずサイト名だけにする。
+    const isHome = entry.edition.slug === homeSlug
     return {
-      title: t('meta.editionTitle', { name }),
+      title: isHome ? undefined : t('meta.editionTitle', { name }),
       description: t('meta.editionDescription', { name }),
-      // ホームは既定の開催回を出すが、正規 URL は base 直下にまとめる。
-      path: entry.edition.slug === homeSlug ? '' : entry.edition.slug,
+      path: isHome ? '' : entry.edition.slug,
     }
   }, [entry, homeSlug, locale, route, t])
 
