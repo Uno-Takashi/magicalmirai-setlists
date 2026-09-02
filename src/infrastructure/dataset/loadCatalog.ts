@@ -36,6 +36,19 @@ const vocaloidFile = import.meta.glob('/dataset/vocaloids.yaml', {
   eager: true,
 }) as RawModules
 
+/**
+ * dataset/ の YAML をパスごとに引ける形。
+ *
+ * CI の検証 (`dataset.node.test.ts`) が、上のグロブを書き写さずに全ファイルを
+ * 走査するために使う。中身は上の 4 つと同じモジュールなので、バンドルは増えない。
+ */
+export const datasetSources: Readonly<RawModules> = {
+  ...editionFiles,
+  ...setlistFiles,
+  ...songFile,
+  ...vocaloidFile,
+}
+
 function parseOne<T>(source: string, path: string): T {
   try {
     return parse(source) as T

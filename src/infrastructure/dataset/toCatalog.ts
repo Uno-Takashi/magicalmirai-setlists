@@ -83,7 +83,14 @@ function toTrack(raw: RawTrack): Track {
       singers: variant.singers,
     })) ??
     (raw.song !== undefined
-      ? [{ song: raw.song, shows: raw.shows?.map(toShowRef) ?? [], singers: raw.singers }]
+      ? [
+          {
+            song: raw.song,
+            shows: raw.shows?.map(toShowRef) ?? [],
+            note: raw.note,
+            singers: raw.singers,
+          },
+        ]
       : [])
 
   return { order: raw.order, variants, tags: toTags(raw.tags) }

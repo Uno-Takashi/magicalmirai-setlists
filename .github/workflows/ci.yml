@@ -35,6 +35,11 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
+      # dataset の YAML はビルドでは解釈されないので、壊れていてもビルドは通り、
+      # 開いたときに初めて真っ白になる。ブラウザが要らず速いのでここで先に見る
+      - name: Validate dataset
+        run: pnpm run test:dataset
+
       - name: Build
         run: pnpm run build
 

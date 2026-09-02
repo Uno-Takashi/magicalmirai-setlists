@@ -17,6 +17,36 @@ dataset/
   ...
 ```
 
+## 検証
+
+編集したら次を実行する。**ブラウザを立ち上げないので 1 秒ほどで終わる。**
+
+```bash
+pnpm test:dataset
+```
+
+CI (`.github/workflows/ci.yml`) でも同じものが走る。中身は
+`src/infrastructure/dataset/dataset.node.test.ts` で、3 段階を見ている。
+
+1. **YAML として読めるか。** キーの重複やインデントの崩れをここで落とす。
+2. **構造がスキーマに合うか。** `src/infrastructure/dataset/datasetSchema.ts` の
+   Zod スキーマと突き合わせる。**書いていないキーは受け付けない**ので、
+   `youtub:` のような綴り違いは「黙って無視」ではなくエラーになる。
+   `region` / `session` / `tags` の値、日付の形式、YouTube の動画 ID が
+   11 文字であることもここで見る。
+3. **ファイルをまたいだ参照が解決するか。** セットリストの曲名が `songs.yaml` に
+   あるか、`singers` が `vocaloids.yaml` にあるか、`shows` が指す公演回が
+   `edition.yaml` にあるか、年ディレクトリ名と `year` が一致しているか。
+
+**`pnpm build` はこれを見ない。** dataset の YAML は文字列としてバンドルされ、
+解釈はブラウザで初めて起きる。壊れていてもビルドは通り、配信してから真っ白になる
+(実際に起きた: [#46](https://github.com/Uno-Takashi/magicalmirai-setlists/pull/46))。
+データを触ったら必ず `pnpm test:dataset` を通すこと。
+
+**項目を増やすときは `datasetSchema.ts` に足す。** 足さないと未知のキーとして弾かれる。
+`src/infrastructure/dataset/rawTypes.ts` の型はスキーマから導いているので、
+型を別に書き足す必要はない。
+
 ## タイトル画像
 
 `dataset/<年>/title.png` を置くと、その年のページの上部に左右中央揃えで表示される。
@@ -218,7 +248,7 @@ shows:
 
 ```yaml
 'カルチャ':
-  producer: ツミキ
+  producers: [ツミキ] # 合作があるので配列。1 人でも配列で書く
   singers: [miku] # 原曲の歌唱ボーカロイド
   youtube: xxxxxxxxxxx # YouTube の動画 ID (URL ではなく ID)
   spotify: https://open.spotify.com/track/...

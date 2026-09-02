@@ -105,6 +105,7 @@
 | アイコン             | react-icons                                                              |
 | アニメーション       | motion (framer-motion 後継) / gsap / React Bits                          |
 | データ               | dataset/ の YAML を `yaml` パッケージでビルド時に取り込む                |
+| データの検証         | Zod v4 (CI 専用。配信するバンドルには入らない)                           |
 | UI カタログ          | Storybook 10 (`@storybook/react-vite`)                                   |
 | テスト               | Vitest + Storybook addon-vitest (Playwright / Chromium のブラウザモード) |
 | Lint                 | oxlint                                                                   |
@@ -120,7 +121,8 @@ pnpm build            # tsc -b && vite build
 pnpm preview          # ビルド成果物のプレビュー
 pnpm storybook        # Storybook (http://localhost:6006)
 pnpm build-storybook  # Storybook の静的ビルド
-pnpm test             # Vitest (Storybook のストーリーをブラウザで実行)
+pnpm test             # Vitest (Storybook のストーリー + dataset の検証)
+pnpm test:dataset     # dataset/ の YAML だけを検証 (ブラウザ不要、1 秒)
 pnpm lint             # oxlint
 pnpm typecheck        # tsc -b
 pnpm format           # oxfmt --write .
@@ -155,8 +157,10 @@ src/
     statistics.ts           カタログ全体の集計 (ランキング・推移)
   infrastructure/         外部との境界
     dataset/loadCatalog.ts  dataset/ の YAML を取り込む
-    dataset/rawTypes.ts     YAML をそのまま写した型
+    dataset/datasetSchema.ts YAML の構造を定める Zod スキーマ (型の出どころ + 検証)
+    dataset/rawTypes.ts     YAML をそのまま写した型 (スキーマから z.infer で導く)
     dataset/toCatalog.ts    生データ → ドメインモデルの変換
+    dataset/dataset.node.test.ts dataset/ の検証 (CI で走る)
     i18n/                   多言語対応 (ja / en / zh-Hant / ko)
     youtube/embedPlayer.ts  YouTube 埋め込みプレイヤーの状態購読
   presentation/           React
@@ -217,6 +221,16 @@ src/
 - **ドメイン層に React を持ち込まない。** `import type { ReactNode }` すら書かない。
 - **YAML の形をドメインに漏らさない。** `rawTypes.ts` は YAML の写しで、必ず
   `toCatalog.ts` を通してドメインの型に変換する。データ形式を変えるときはここだけ直す。
+- **YAML の構造は `datasetSchema.ts` の Zod スキーマが正。** `rawTypes.ts` の型は
+  そこから `z.infer` で導いているので、項目を増やすときはスキーマだけを直す。
+  スキーマはすべて `strictObject` なので、**書いていないキーは検証エラーになる**。
+  逆に言えば、スキーマに足し忘れたキーはデータに書いても CI で弾かれる。
+- **Zod をアプリの実行時に使わない。** dataset はビルド時に固定されるので、検証は
+  CI (`pnpm test:dataset`) で足りる。zod は devDependency に置き、`rawTypes.ts` からは
+  `import type` でしか参照しない (型は消えるのでバンドルに入らない)。
+- **`pnpm build` は dataset の YAML を解釈しない。** 文字列としてバンドルするだけなので、
+  データが壊れていてもビルドは通り、開いたときに初めて真っ白になる。Storybook のテストも
+  `src/fixtures/` を使うので dataset を読まない。**止められるのは `pnpm test:dataset` だけ。**
 - **表示ロジックはドメインに置かない。** ただし「動画 ID が無ければ検索リンクに落とす」
   のような意思決定はドメインのポリシー (`musicServiceUrl.ts`)。
 
