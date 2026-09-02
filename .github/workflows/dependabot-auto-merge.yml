@@ -1,0 +1,89 @@
+name: dependabot auto-merge
+
+# Dependabot の PR に渡る GITHUB_TOKEN は pull_request では読み取り専用なので、
+# マージのために書き込みが要るこのワークフローは pull_request_target で動かす。
+# **PR のコードはチェックアウトしない。** ここで実行するのは gh コマンドだけで、
+# PR 側のコード (postinstall スクリプトなど) は一切走らせない。
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Dependabot が rebase して push し直したら、古い待機は捨てて新しいものだけ残す
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  auto-merge:
+    # Dependabot が開いた PR だけが対象
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    # CI は Playwright のブラウザテストまで走るので、待ち時間を長めに見ておく
+    timeout-minutes: 40
+    steps:
+      # PR の commit に埋まっている Dependabot のメタデータ (更新の種類など) を読む
+      - name: Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v3
+
+      # ここから先は patch のときだけ進む。minor / major は人が見る。
+      #
+      # このリポジトリには dependabot.yml を置いていないので、Dependabot が開く PR は
+      # セキュリティアップデートだけになる。つまり「Dependabot の PR かつ patch」が
+      # そのまま「セキュリティアップデートの patch」にあたる。
+      # 将来 version updates を有効にするなら、fetch-metadata の alert-lookup で
+      # ghsa-id が付いているものだけに絞る (alert-lookup には PAT か GitHub App の
+      # トークンが要る。GITHUB_TOKEN では Dependabot alerts を読めない)。
+      - name: Wait for CI
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # main に保護ルールを置いていないため、auto-merge を有効にすると CI を
+          # 待たずに即マージされてしまう。この PR の head に対する CI の結果を
+          # 自分で待って、通ったときだけ次のマージへ進む
+          for _ in $(seq 1 80); do
+            state=$(gh api "repos/$GH_REPO/actions/workflows/ci.yml/runs?head_sha=$SHA&per_page=1" \
+              --jq '.workflow_runs[0].status + ":" + (.workflow_runs[0].conclusion // "")')
+            case "$state" in
+              completed:success)
+                echo "CI が通った"
+                exit 0
+                ;;
+              completed:*)
+                echo "CI が通っていないのでマージしない ($state)" >&2
+                exit 1
+                ;;
+              *)
+                # 実行前 (":") / queued / in_progress
+                echo "CI を待っている ($state)"
+                sleep 20
+                ;;
+            esac
+          done
+          echo "CI が終わらなかったのでマージしない" >&2
+          exit 1
+
+      - name: Merge
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          DEPENDENCIES: ${{ steps.meta.outputs.dependency-names }}
+          FROM: ${{ steps.meta.outputs.previous-version }}
+          TO: ${{ steps.meta.outputs.new-version }}
+        run: |
+          gh pr merge --merge "$PR_URL"
+          echo "$DEPENDENCIES $FROM -> $TO をマージした" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Leave to a human
+        if: steps.meta.outputs.update-type != 'version-update:semver-patch'
+        env:
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+        run: echo "$UPDATE_TYPE は自動マージしない" >> "$GITHUB_STEP_SUMMARY"
