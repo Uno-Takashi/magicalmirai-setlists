@@ -1,18 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { findEntry } from '@/domain/catalog/Catalog'
-import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
+import { fixtureMainEntry, fixtureMultiSetlistEntry } from '@/fixtures/catalog'
 import { SetlistDownloadButton } from './SetlistDownloadButton'
-
-const catalog = loadCatalog()
-
-function entryOf(slug: string) {
-  const entry = findEntry(catalog, slug)
-  const setlist = entry?.setlists[0]
-  if (entry === undefined || setlist === undefined) {
-    throw new Error(`${slug} のセットリストがありません`)
-  }
-  return { setlist, edition: entry.edition, setlistIndex: 0, setlistCount: entry.setlists.length }
-}
 
 const meta = {
   title: 'Setlist/SetlistDownloadButton',
@@ -23,12 +11,25 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** 日替わりや会場替わりのある年。候補ごとに 1 行として書き出す。 */
+/**
+ * 日替わりや会場替わりのある回。候補ごとに 1 行として書き出す。
+ * カンマを含む曲名 (Hello, Fixture) が引用符で囲まれることも、この回で確かめられる。
+ */
 export const WithVariants: Story = {
-  args: entryOf('2023'),
+  args: {
+    setlist: fixtureMainEntry.setlists[0]!,
+    edition: fixtureMainEntry.edition,
+    setlistIndex: 0,
+    setlistCount: 1,
+  },
 }
 
-/** セットリストを 2 つ持つ年。ファイル名に通し番号が付く。 */
+/** セットリストを 2 つ持つ回。ファイル名に通し番号が付く。 */
 export const MultipleSetlists: Story = {
-  args: entryOf('10th'),
+  args: {
+    setlist: fixtureMultiSetlistEntry.setlists[0]!,
+    edition: fixtureMultiSetlistEntry.edition,
+    setlistIndex: 0,
+    setlistCount: fixtureMultiSetlistEntry.setlists.length,
+  },
 }

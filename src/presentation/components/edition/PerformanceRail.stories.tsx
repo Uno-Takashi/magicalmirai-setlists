@@ -1,15 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect } from 'storybook/test'
-import { findEntry } from '@/domain/catalog/Catalog'
 import type { Performance } from '@/domain/edition/Performance'
-import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
+import {
+  fixtureMainEntry,
+  fixtureMultiSetlistEntry,
+  fixtureSingleEntry,
+  fixtureUpcomingEntry,
+} from '@/fixtures/catalog'
 import { PerformanceRail } from './PerformanceRail'
-
-const catalog = loadCatalog()
-
-function performancesOf(slug: string) {
-  return findEntry(catalog, slug)?.edition.performances ?? []
-}
 
 const meta = {
   title: 'Setlist/PerformanceRail',
@@ -21,24 +19,24 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** 1 公演のみ。マジカルミライ初年度。 */
+/** 1 公演のみ。カードが行いっぱいに広がる。 */
 export const SinglePerformance: Story = {
-  args: { performances: performancesOf('2013') },
+  args: { performances: fixtureSingleEntry.edition.performances },
 }
 
-/** 東京・大阪の 2 公演。 */
+/** 2 公演。幅を分け合う。 */
 export const TwoPerformances: Story = {
-  args: { performances: performancesOf('2023') },
+  args: { performances: fixtureMainEntry.edition.performances },
 }
 
 /**
- * 3 公演。開催年をまたぐ札幌公演を含む。
+ * 3 公演。開催年をまたぐ地方公演を含む。
  *
- * 札幌は日程が 2 日で他より少ないが、カードの高さは一番高いものに揃う。
+ * 地方公演だけ日程が 2 日で他より少ないが、カードの高さは一番高いものに揃う。
  * 横幅も 3 枚で行いっぱいに広がり、セットリストや公演情報のトグルと端が揃う。
  */
 export const ThreePerformancesAcrossYears: Story = {
-  args: { performances: performancesOf('10th') },
+  args: { performances: fixtureMultiSetlistEntry.edition.performances },
   play: async ({ canvasElement }) => {
     const list = canvasElement.querySelector('ul')!
     const cards = [...list.querySelectorAll('li')]
@@ -57,23 +55,22 @@ export const ThreePerformancesAcrossYears: Story = {
   },
 }
 
+/** 会場が未確定の回。 */
+export const VenueUndecided: Story = {
+  args: { performances: fixtureUpcomingEntry.edition.performances },
+}
+
 /**
- * 公演が 4 つ以上に増えた場合。データセットにまだ無いので、10th の公演地を
- * 増やしてこしらえている。基準の幅に収まらないので、縮めずに横スクロールへ逃がす。
+ * 公演が 4 つ以上に増えた場合。基準の幅に収まらないので、縮めずに横スクロールへ逃がす。
  */
 export const ManyPerformances: Story = {
   args: {
     performances: [
-      ...performancesOf('10th'),
-      ...performancesOf('2026').map((performance, index): Performance => ({
+      ...fixtureMultiSetlistEntry.edition.performances,
+      ...fixtureMainEntry.edition.performances.map((performance, index): Performance => ({
         ...performance,
         id: `extra-${index}`,
       })),
     ],
   },
-}
-
-/** 会場が未確定の年。 */
-export const VenueUndecided: Story = {
-  args: { performances: performancesOf('2026') },
 }

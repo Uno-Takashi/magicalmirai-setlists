@@ -165,6 +165,7 @@ src/
     providers/              Catalog / Locale / Player / Navigation / Dialogs
     hooks/                  ルーティング、キーボード操作、meta、日付整形
     components/             UI コンポーネント + .stories.tsx (下記の区分ごと)
+  fixtures/               Storybook 用の作り物のカタログ (dataset は読まない)
   components/react-bits/  React Bits から取り込んだベンダーコード
 ```
 
@@ -284,8 +285,14 @@ src/
 
 - 新しい UI コンポーネントには必ず `*.stories.tsx` を併置する。Storybook が UI 確認の主経路。
 - ストーリーは `.storybook/preview.tsx` のデコレータでアプリ本体と同じ Provider
-  (Locale / Catalog / Navigation / Dialogs / Player) に包まれる。カタログは実データを
-  読むので、ストーリーはデータセットの変更に自動で追従する。
+  (Locale / Preferences / Catalog / Navigation / Favorites / Dialogs / Player) に包まれる。
+- **ストーリーは dataset を読まない。** カタログは `src/fixtures/catalog.ts` の
+  作り物を使う。曲名・作曲者・開催回はすべて架空で、実在のものは入れない
+  (ボーカロイド 6 人だけは、テーマカラーが見た目そのものなので実在のまま)。
+  - dataset が変わってもストーリーの意図が動かない。
+  - 長い曲名やカンマを含む曲名のように**崩れやすい形を意図して置ける。**
+    実データから条件に合う枠を探し回らなくてよい。
+  - 見せたい形が足りなければ、ストーリー側で作らず作り物のカタログに足す。
 - **1 つの部品が長くなってきたら、まず「決める」と「描く」を分ける。** 表示のための
   計算 (`trackVariantLabels.ts` / `rankingRows.ts`) や DOM の測定・配置
   (`useScrollEdges` / `useFloatingPlayerBox`) は素の関数やフックに出し、

@@ -1,18 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { findEntry } from '@/domain/catalog/Catalog'
-import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
+import { fixtureMainEntry, fixtureMultiSetlistEntry, fixtureSingleEntry } from '@/fixtures/catalog'
 import { SetlistTimeline } from './SetlistTimeline'
-
-const catalog = loadCatalog()
-
-function entryOf(slug: string) {
-  const entry = findEntry(catalog, slug)
-  const setlist = entry?.setlists[0]
-  if (entry === undefined || setlist === undefined) {
-    throw new Error(`${slug} のセットリストがありません`)
-  }
-  return { setlist, edition: entry.edition }
-}
 
 const meta = {
   title: 'Setlist/SetlistTimeline',
@@ -23,17 +11,20 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** 日替わり枠と昼夜差し替えの両方が入っている年。 */
+/** 会場替わり・昼夜入れ替え・日程替わりと、ボーナストラックが一通り入った回。 */
 export const WithVariants: Story = {
-  args: entryOf('2023'),
-}
-
-/** 会場別の差し替えとボーナストラックがある年。 */
-export const WithBonusTrack: Story = {
-  args: entryOf('2018'),
+  args: { setlist: fixtureMainEntry.setlists[0]!, edition: fixtureMainEntry.edition },
 }
 
 /** 日替わりが一切ない最初期の公演。 */
 export const FixedSetlist: Story = {
-  args: entryOf('2013'),
+  args: { setlist: fixtureSingleEntry.setlists[0]!, edition: fixtureSingleEntry.edition },
+}
+
+/** 地方公演だけの短いセットリスト。 */
+export const ShortSetlist: Story = {
+  args: {
+    setlist: fixtureMultiSetlistEntry.setlists[1]!,
+    edition: fixtureMultiSetlistEntry.edition,
+  },
 }
