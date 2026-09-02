@@ -89,10 +89,10 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(dirname, './src'),
       },
     },
-    // Storybook のストーリーをテストとして実行する
-    // https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
     test: {
       projects: [
+        // Storybook のストーリーをテストとして実行する
+        // https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
         {
           extends: true,
           plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],
@@ -104,6 +104,17 @@ export default defineConfig(({ mode }) => {
               provider: playwright({}),
               instances: [{ browser: 'chromium' }],
             },
+          },
+        },
+        // dataset/ の検証。ブラウザを立ち上げないので単体で速く回せる
+        // (`pnpm test:dataset`)。Vite 経由なので loadCatalog の
+        // import.meta.glob がそのまま動き、本番と同じ読み込み経路を通る。
+        {
+          extends: true,
+          test: {
+            name: 'dataset',
+            environment: 'node',
+            include: ['src/**/*.node.test.ts'],
           },
         },
       ],
