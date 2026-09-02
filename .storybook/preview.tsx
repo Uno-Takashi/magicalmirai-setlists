@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react-vite'
 // Tailwind CSS + HeroUI のスタイルを Storybook 全体に適用する
 import '../src/index.css'
-import { loadCatalog } from '../src/infrastructure/dataset/loadCatalog'
+import { fixtureCatalog } from '../src/fixtures/catalog'
 import { CatalogProvider } from '../src/presentation/providers/CatalogProvider'
 import { DialogsProvider } from '../src/presentation/providers/DialogsProvider'
 import { FavoritesProvider } from '../src/presentation/providers/FavoritesProvider'
@@ -10,8 +10,9 @@ import { NavigationProvider } from '../src/presentation/providers/NavigationProv
 import { PreferencesProvider } from '../src/presentation/providers/PreferencesProvider'
 import { PlayerProvider } from '../src/presentation/providers/PlayerProvider'
 
-// 実データを使う。ストーリーがデータセットの変更に追従する。
-const catalog = loadCatalog()
+// dataset ではなく作り物のカタログを使う。ストーリーの意図がデータの中身に
+// 縛られず、崩れやすい形 (長い曲名など) も意図して置ける。
+const catalog = fixtureCatalog
 
 const preview: Preview = {
   parameters: {

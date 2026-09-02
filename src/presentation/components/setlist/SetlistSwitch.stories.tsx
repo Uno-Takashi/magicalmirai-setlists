@@ -1,17 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState, type ComponentProps } from 'react'
-import { findEntry } from '@/domain/catalog/Catalog'
 import type { Setlist } from '@/domain/setlist/Setlist'
-import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
+import { fixtureMainEntry, fixtureMultiSetlistEntry } from '@/fixtures/catalog'
 import { SetlistSwitch } from './SetlistSwitch'
-
-const catalog = loadCatalog()
-
-function entryOf(slug: string) {
-  const entry = findEntry(catalog, slug)
-  if (entry === undefined) throw new Error(`${slug} の開催回がありません`)
-  return entry
-}
 
 /** 選択状態を持たせた見本。ストーリーから押して切り替えを試せるようにする。 */
 function SwitchDemo(props: ComponentProps<typeof SetlistSwitch>) {
@@ -31,28 +22,25 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-const tenth = entryOf('10th')
+const { edition, setlists } = fixtureMultiSetlistEntry
 
-/** セットリストが 1 つだけの年。切り替えるものが無いので何も出さない。 */
+/** セットリストが 1 つだけの回。切り替えるものが無いので何も出さない。 */
 export const SingleSetlist: Story = {
-  args: { setlists: entryOf('2023').setlists, edition: entryOf('2023').edition },
+  args: { setlists: fixtureMainEntry.setlists, edition: fixtureMainEntry.edition },
 }
 
-/** 10th。東京・大阪と、曲目が大きく違う札幌の 2 つを切り替える。 */
+/** 2 つのセットリストを切り替える回。札の色は適用先の公演地に合わせる。 */
 export const TwoSetlists: Story = {
-  args: { setlists: tenth.setlists, edition: tenth.edition },
+  args: { setlists, edition },
 }
 
-/**
- * セットリストが 3 つに増えた場合。データセットにまだ無いので、10th の公演地を
- * 1 つずつに割ってこしらえている。3 つ以上でも札が折り返して並ぶことを見る。
- */
+/** 3 つに増えた場合。公演地ごとに 1 つずつ割り当てて、札が並ぶ様子を見る。 */
 export const ThreeSetlists: Story = {
   args: {
-    edition: tenth.edition,
-    setlists: tenth.edition.performances.map((performance, index): Setlist => ({
+    edition,
+    setlists: edition.performances.map((performance, index): Setlist => ({
       performanceIds: [performance.id],
-      tracks: tenth.setlists[index]?.tracks ?? tenth.setlists[0]?.tracks ?? [],
+      tracks: setlists[index]?.tracks ?? setlists[0]!.tracks,
     })),
   },
 }
@@ -63,7 +51,7 @@ export const ThreeSetlists: Story = {
  */
 export const UnknownPerformance: Story = {
   args: {
-    edition: tenth.edition,
-    setlists: [tenth.setlists[0]!, { performanceIds: [], tracks: tenth.setlists[1]?.tracks ?? [] }],
+    edition,
+    setlists: [setlists[0]!, { performanceIds: [], tracks: setlists[1]!.tracks }],
   },
 }

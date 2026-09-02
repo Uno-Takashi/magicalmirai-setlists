@@ -1,53 +1,32 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { sessionIndex, type Edition } from '@/domain/edition/Edition'
+import { expect } from 'storybook/test'
+import { sessionIndex } from '@/domain/edition/Edition'
 import type { Track } from '@/domain/setlist/Track'
-import type { TrackTag } from '@/domain/setlist/TrackTag'
 import { classifyVariation, type TrackVariation } from '@/domain/setlist/TrackVariation'
-import { loadCatalog } from '@/infrastructure/dataset/loadCatalog'
+import { fixtureMainEntry } from '@/fixtures/catalog'
 import { TrackRow } from './TrackRow'
 
-const catalog = loadCatalog()
+const { edition, setlists } = fixtureMainEntry
+const tracks = setlists[0]!.tracks
 
-/**
- * データセット全体を走査して、条件に合う最初の枠とその開催回を取り出す。
- *
- * 年を決め打ちにすると dataset の更新でストーリーの意図がずれるので、
- * 「こういう枠」という条件で選ぶ。
- */
-function trackWhere(match: (track: Track, edition: Edition) => boolean, what: string) {
-  for (const { edition, setlists } of catalog.entries) {
-    for (const setlist of setlists) {
-      const track = setlist.tracks.find((candidate) => match(candidate, edition))
-      if (track !== undefined) return { track, edition }
-    }
-  }
-  throw new Error(`${what} にあたる枠がデータセットにありません`)
+/** 作り物のカタログから、順番で枠を取り出す。 */
+function trackAt(order: number): Track {
+  const track = tracks.find((candidate) => candidate.order === order)
+  if (track === undefined) throw new Error(`${order} 番の枠が作り物のカタログにありません`)
+  return track
 }
 
-/**
- * 入れ替わりの分類で選ぶ。
- *
- * 昼夜入れ替えは公演回の昼/夜を引かないと日程替わりと区別できないので、
- * 画面と同じように開催回の索引を渡して分類する。
- */
-function trackOf(variation: TrackVariation) {
-  return trackWhere(
-    (track, edition) =>
-      classifyVariation(track, (ref) => sessionIndex(edition).get(ref)) === variation,
-    variation,
-  )
-}
-
-/** タグで選ぶ。 */
-function taggedTrack(tag: TrackTag) {
-  return trackWhere((track) => track.tags.includes(tag), tag)
+/** その枠が意図した入れ替わりに分類されることを確かめる。 */
+function expectVariation(track: Track, expected: TrackVariation) {
+  const sessions = sessionIndex(edition)
+  expect(classifyVariation(track, (ref) => sessions.get(ref))).toBe(expected)
 }
 
 const meta = {
   title: 'Setlist/TrackRow',
   component: TrackRow,
   parameters: { layout: 'padded' },
-  args: { index: 0, onSelect: () => {} },
+  args: { index: 0, edition, onSelect: () => {} },
   // TrackRow は li なので、実際と同じ ol の中に置く。
   decorators: [
     (Story) => (
@@ -63,53 +42,49 @@ type Story = StoryObj<typeof meta>
 
 /** 候補が 1 つだけの固定曲。曲順・曲名・作曲者・歌唱者だけの最小の行。 */
 export const Fixed: Story = {
-  args: trackOf('fixed'),
+  args: { track: trackAt(1) },
+  play: () => expectVariation(trackAt(1), 'fixed'),
 }
 
 /** 会場替わり。候補ごとに公演地が出る。 */
 export const VenueVariation: Story = {
-  args: trackOf('venue'),
-}
-
-/** 日程替わり。候補ごとに日付、または昼夜が出る。 */
-export const ScheduleVariation: Story = {
-  args: trackOf('schedule'),
+  args: { track: trackAt(2) },
+  play: () => expectVariation(trackAt(2), 'venue'),
 }
 
 /** 昼公演と夜公演で入れ替わるだけの枠。候補には「昼公演」「夜公演」が出る。 */
 export const SessionVariation: Story = {
-  args: trackOf('session'),
+  args: { track: trackAt(3) },
+  play: () => expectVariation(trackAt(3), 'session'),
 }
 
-/** 会場替わりとも日程替わりとも言えない日替わり。 */
-export const DailyVariation: Story = {
-  args: trackOf('daily'),
+/** 日程替わり。候補ごとに日付が出る。 */
+export const ScheduleVariation: Story = {
+  args: { track: trackAt(4) },
+  play: () => expectVariation(trackAt(4), 'schedule'),
 }
 
 /** 公演回が記録されておらず、出典の但し書き (note) をそのまま出す枠。 */
 export const WithNote: Story = {
-  args: trackWhere(
-    (track) => track.variants.some((variant) => variant.shows.length === 0 && variant.note != null),
-    'note を持つ候補',
-  ),
+  args: { track: trackAt(6) },
 }
 
-/** テーマソングのタグが付いた枠。 */
-export const ThemeSong: Story = {
-  args: taggedTrack('theme-song'),
+/** バンド紹介のタグが付いた枠。 */
+export const BandIntro: Story = {
+  args: { track: trackAt(7) },
 }
 
 /** 楽曲グランプリのタグが付いた枠。 */
 export const GrandPrix: Story = {
-  args: taggedTrack('grand-prix'),
+  args: { track: trackAt(8) },
 }
 
-/** アンコールのタグが付いた枠。 */
-export const Encore: Story = {
-  args: taggedTrack('encore'),
+/** アンコールのテーマソング。多くの開催回がこの組み合わせになる。 */
+export const EncoreThemeSong: Story = {
+  args: { track: trackAt(10) },
 }
 
 /** 一覧の途中に現れる行。index に応じて出現アニメーションが遅れる。 */
 export const Delayed: Story = {
-  args: { ...trackOf('fixed'), index: 20 },
+  args: { track: trackAt(1), index: 20 },
 }
