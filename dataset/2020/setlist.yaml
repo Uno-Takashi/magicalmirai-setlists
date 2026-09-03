@@ -71,7 +71,7 @@ sets:
         song: '初音ミクの激唱'
         singers: [miku]
       - order: 14
-        song: 'キミぺディア'
+        song: 'キミペディア'
         singers: [rin, len]
       - order: 15
         song: 'セカイ'
