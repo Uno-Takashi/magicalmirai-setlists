@@ -1,10 +1,21 @@
-# マジカルミライ歴代セットリスト
+<p align="center">
+  <img src="public/favicon.svg" alt="" width="96" height="96">
+</p>
+
+<h1 align="center">
+  <img src="docs/logo/wordmark.svg" alt="マジカルミライ歴代セットリスト" width="440">
+</h1>
+
+<p align="center">
 
 [![CI](https://github.com/Uno-Takashi/magicalmirai-setlists/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Uno-Takashi/magicalmirai-setlists/actions/workflows/ci.yml?query=branch%3Amain) [![Website](https://img.shields.io/website?url=https%3A%2F%2Fmagicalmirai-setlists.u-not.app%2F&up_message=online&down_message=offline&label=website)](https://magicalmirai-setlists.u-not.app/)
 
-初音ミク「マジカルミライ」歴代公演のセットリストを年ごとに振り返るファンページ。
+</p>
 
-**公開先:** https://magicalmirai-setlists.u-not.app/
+<p align="center">
+  初音ミク「マジカルミライ」歴代公演のセットリストを年ごとに振り返るファンページ。<br>
+  <strong>公開先:</strong> <a href="https://magicalmirai-setlists.u-not.app/">https://magicalmirai-setlists.u-not.app/</a>
+</p>
 
 ## 概要
 

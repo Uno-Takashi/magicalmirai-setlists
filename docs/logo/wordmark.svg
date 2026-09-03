@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 112" role="img" aria-label="マジカルミライ歴代セットリスト">
+  <title>マジカルミライ歴代セットリスト</title>
+  <!--
+    README 用の文字のロゴ。マークの図形は持たない (実体は public/favicon.svg ひとつ)。
+    色はヘッダーのタイトル (text-miku) と同じ #39c5bb。
+    textLength で幅を固定してあるので、閲覧者の環境でどの和文フォントに落ちても
+    描画される幅は変わらない。文言を変えるときは字数に合わせて textLength (1 文字 56) も直す。
+  -->
+  <text
+    x="450"
+    y="76"
+    text-anchor="middle"
+    textLength="840"
+    lengthAdjust="spacingAndGlyphs"
+    font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP','Noto Sans CJK JP','Yu Gothic',YuGothic,Meiryo,sans-serif"
+    font-size="56"
+    font-weight="800"
+    fill="#39c5bb"
+  >マジカルミライ歴代セットリスト</text>
+</svg>
