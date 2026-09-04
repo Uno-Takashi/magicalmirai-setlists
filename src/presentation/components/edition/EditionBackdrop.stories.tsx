@@ -1,0 +1,45 @@
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { EditionBackdrop } from './EditionBackdrop'
+
+/**
+ * 開催回の背景。実際は開催回の中身の下に敷くので、ここでは高さのある箱に入れて
+ * 単体で見せる。色と意匠は `editionThemes.ts` の表が持つ。
+ */
+const meta = {
+  title: 'Setlist/EditionBackdrop',
+  component: EditionBackdrop,
+  parameters: { layout: 'fullscreen' },
+  decorators: [
+    (Story) => (
+      <div className="relative h-[640px] w-full overflow-hidden">
+        <Story />
+        <div className="relative mx-auto w-full max-w-3xl px-4 pt-6">
+          <h2 className="text-miku text-2xl leading-snug font-black sm:text-3xl">
+            マジカルミライ 20XX
+          </h2>
+          <p className="surface-card mt-5 rounded-2xl p-5 text-sm">
+            文字とカードがこの背景の上でどう見えるかを確かめる。
+          </p>
+        </div>
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof EditionBackdrop>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+/** 2026。若草色から水色へのグラデーションに、ヒマワリを散らす。 */
+export const Sunflower: Story = {
+  args: { theme: { colors: ['#ECFEE8', '#E4FEFD'], motif: 'sunflower' } },
+}
+
+/** モチーフの無い年。色だけを敷く。 */
+export const ColorsOnly: Story = {
+  args: { theme: { colors: ['#ECFEE8', '#E4FEFD'] } },
+}
+
+/** 単色の年。1 色でもグラデーションの式はそのまま使える。 */
+export const SingleColor: Story = {
+  args: { theme: { colors: ['#ECFEE8'] } },
+}
