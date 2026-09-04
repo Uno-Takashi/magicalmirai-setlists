@@ -83,6 +83,12 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: env.VITE_BASE_PATH,
+    server: {
+      // すべてのアドレスで待ち受ける。既定の localhost は Node が ::1 (IPv6) に
+      // 解決するため、devcontainer だと VS Code のポート転送 (127.0.0.1 へ繋ぐ) が
+      // 届かず、ブラウザが読み込み中のまま止まる。
+      host: true,
+    },
     plugins: [react(), tailwindcss(), spaFallback(), seoFiles(env.VITE_SITE_URL)],
     resolve: {
       alias: {
