@@ -32,7 +32,9 @@ function EditionHeading({ edition }: { edition: Edition }) {
       {/* 画像がある年は見出しを読み上げ専用にして、同じ文字の重複を避ける */}
       <h2
         className={
-          titleImage !== undefined ? 'sr-only' : 'text-2xl leading-snug font-black sm:text-3xl'
+          titleImage !== undefined
+            ? 'sr-only'
+            : 'text-miku text-2xl leading-snug font-black sm:text-3xl'
         }
       >
         {name}
