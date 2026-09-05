@@ -115,6 +115,9 @@ export const ko: Translations = {
   'settings.display': '표시',
   'settings.compactTags.label': '태그를 간단하게 표시',
   'settings.compactTags.description': '마우스를 올리면 자세히 표시합니다',
+  'settings.plainDesign.label': '심플한 디자인으로 표시',
+  'settings.plainDesign.description':
+    '공연별 배경과 제목 색을 사용하지 않고 기본 배색으로 표시합니다.',
   'setlist.download': '세트리스트를 CSV로 저장',
   'setlist.csv.order': '곡순',
   'setlist.csv.title': '곡명',

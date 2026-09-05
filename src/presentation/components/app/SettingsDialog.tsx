@@ -42,7 +42,7 @@ function SettingRow({
  */
 export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t, locale, setLocale } = useLocale()
-  const { compactTags, setCompactTags } = usePreferences()
+  const { compactTags, setCompactTags, plainDesign, setPlainDesign } = usePreferences()
 
   return (
     <Modal open={open} onClose={onClose} label={t('settings.title')} width="sm">
@@ -77,12 +77,20 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
       </ModalSection>
 
       <ModalSection title={t('settings.display')}>
-        <SettingRow
-          label={t('settings.compactTags.label')}
-          description={t('settings.compactTags.description')}
-          selected={compactTags}
-          onChange={setCompactTags}
-        />
+        <div className="grid gap-4">
+          <SettingRow
+            label={t('settings.compactTags.label')}
+            description={t('settings.compactTags.description')}
+            selected={compactTags}
+            onChange={setCompactTags}
+          />
+          <SettingRow
+            label={t('settings.plainDesign.label')}
+            description={t('settings.plainDesign.description')}
+            selected={plainDesign}
+            onChange={setPlainDesign}
+          />
+        </div>
       </ModalSection>
     </Modal>
   )

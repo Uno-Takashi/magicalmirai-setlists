@@ -4,7 +4,7 @@ import { EditionBackdrop } from '@/presentation/components/edition/EditionBackdr
 import { EditionCarousel } from '@/presentation/components/edition/EditionCarousel'
 import { EditionSideNav } from '@/presentation/components/edition/EditionSideNav'
 import { EditionView } from '@/presentation/components/edition/EditionView'
-import { editionThemeOf } from '@/presentation/components/edition/editionThemes'
+import { useEditionTheme } from '@/presentation/components/edition/useEditionTheme'
 import { YearNavigator } from '@/presentation/components/edition/YearNavigator'
 import { useKeyboardNavigation } from '@/presentation/hooks/useKeyboardNavigation'
 import { useNavigation } from '@/presentation/providers/NavigationProvider'
@@ -18,8 +18,8 @@ export function EditionPage({ entry }: { entry: EditionEntry }) {
     useNavigation()
   useKeyboardNavigation(goNewer, goOlder)
 
-  // その年の背景。表に無い年は undefined で、素の地色のまま出る。
-  const theme = editionThemeOf(entry.edition.slug)
+  // その年の背景。表に無い年とシンプルな表示のときは undefined で、素の地色になる。
+  const theme = useEditionTheme(entry.edition.slug)
 
   return (
     <>
