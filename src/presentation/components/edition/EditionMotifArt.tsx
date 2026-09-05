@@ -1,4 +1,4 @@
-import { useId, type CSSProperties } from 'react'
+import type { CSSProperties } from 'react'
 import type { EditionMotif } from './editionThemes'
 
 /**
@@ -679,14 +679,22 @@ function DotField({ figures, color }: { figures: Scatter<DotKind>; color: string
 }
 
 /**
- * きらきらした立方体。等角投影で 3 面を見せ、面ごとに違う淡い色を流す。
+ * きらきらした立方体。等角投影で 3 面を見せ、各面をさらに 2 つに割る。
  *
- * 面の色は 1 つずつずらして環になるようにする (上→左→右→上)。同じ組を
- * 使い回しても、面の並びが変わるだけで光り方が変わって見える。
+ * 割った面には単色を 1 つずつ置き、境目は白い線で切る。グラデーションで
+ * 混ぜると濁った 1 色に見えるが、面で切ると色の変わり目がはっきり出る。
  */
-const CUBE_TOP = '50,6 92,30 50,54 8,30'
-const CUBE_LEFT = '8,30 50,54 50,98 8,74'
-const CUBE_RIGHT = '92,30 50,54 50,98 92,74'
+const CUBE_FACETS = [
+  // 上の面
+  '50,6 92,30 50,54',
+  '50,6 50,54 8,30',
+  // 左の面
+  '8,30 50,54 50,98',
+  '8,30 50,98 8,74',
+  // 右の面
+  '92,30 50,54 50,98',
+  '92,30 50,98 92,74',
+]
 
 /**
  * 光の粒。4 方向へ尖った星で、頂点で光が跳ねているように見せる。
@@ -706,41 +714,29 @@ function sparkle(cx: number, cy: number, r: number): string {
 
 const CUBE_SPARKLES = [sparkle(50, 6, 11), sparkle(92, 30, 7)]
 
-/** 面に流す淡い色。虹色に振れるよう、隣り合う色相を離して並べる。 */
-const CUBE_TONES: (readonly [string, string, string])[] = [
-  ['#FF9ED2', '#8FD8FF', '#FFF08A'],
-  ['#B79BFF', '#7FEBFF', '#FFC199'],
-  ['#7DF5C4', '#FFE86B', '#FF9CC8'],
-  ['#63D6FF', '#C7A5FF', '#FFD27F'],
+/**
+ * 面に置く色。1 つの立方体で 4 色を使い回し、割った 6 面に順に配る。
+ *
+ * 色相を離して並べる。隣り合う面が近い色だと、切ったところが見えない。
+ */
+const CUBE_TONES: (readonly string[])[] = [
+  ['#FF9ED2', '#8FD8FF', '#FFF08A', '#B79BFF'],
+  ['#7DF5C4', '#FFC199', '#63D6FF', '#FF9CC8'],
+  ['#C7A5FF', '#FFE86B', '#7FEBFF', '#FF9ED2'],
+  ['#FFD27F', '#9CE8FF', '#FF9CC8', '#8FD8FF'],
 ]
 
-function Cube({ tones }: { tones: readonly [string, string, string] }) {
-  // 面ごとにグラデーションを持つので、id は組ごとに分ける
-  const id = useId()
-  const faces = [
-    { points: CUBE_TOP, from: tones[0], to: tones[1] },
-    { points: CUBE_LEFT, from: tones[1], to: tones[2] },
-    { points: CUBE_RIGHT, from: tones[2], to: tones[0] },
-  ]
-
+function Cube({ tones }: { tones: readonly string[] }) {
   return (
     <svg viewBox="0 0 100 104" aria-hidden focusable="false" className="w-full">
-      <defs>
-        {faces.map(({ from, to }, index) => (
-          <linearGradient key={index} id={`${id}-${index}`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor={from} />
-            <stop offset="100%" stopColor={to} />
-          </linearGradient>
-        ))}
-      </defs>
-      {faces.map(({ points }, index) => (
+      {CUBE_FACETS.map((points, index) => (
         <polygon
           key={index}
           points={points}
-          fill={`url(#${id}-${index})`}
+          fill={tones[index % tones.length]}
           stroke="#ffffff"
-          strokeWidth="1.5"
-          strokeOpacity="0.8"
+          strokeWidth="1.2"
+          strokeOpacity="0.85"
           strokeLinejoin="round"
         />
       ))}
