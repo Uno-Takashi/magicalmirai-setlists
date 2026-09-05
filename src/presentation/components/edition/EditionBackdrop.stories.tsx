@@ -34,6 +34,11 @@ export const Sunflower: Story = {
   args: { theme: { colors: ['#ECFEE8', '#E4FEFD'], motif: 'sunflower' } },
 }
 
+/** 2025。濃紺から水色、藤色へのグラデーションに、白い点の星を散らす。 */
+export const Starfield: Story = {
+  args: { theme: { colors: ['#0C2E64', '#78D9E1', '#CBC1FB'], motif: 'starfield' } },
+}
+
 /** モチーフの無い年。色だけを敷く。 */
 export const ColorsOnly: Story = {
   args: { theme: { colors: ['#ECFEE8', '#E4FEFD'] } },

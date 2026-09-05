@@ -73,6 +73,33 @@ const SUNFLOWERS: { className: string; animation: string }[] = [
   },
 ]
 
+/**
+ * 星の散らし方。位置と瞬きの拍を数として持ち、白い丸で描く。
+ *
+ * 並びは擬似乱数だが種を固定してあるので、いつ描いても同じ空になる。
+ * 描き直しのたびに散らばりが変われば、年を送って戻っただけで別の空に見える。
+ *
+ * 縦は rem で置く。割合にすると、曲数の多い年ほど星が下の明るいところまで
+ * 伸びて見えなくなる。色が濃紺から水色に変わりきるまでの範囲に留める。
+ */
+function createStars(count: number) {
+  let seed = 20250808
+  const random = () => {
+    seed = (seed * 1103515245 + 12345) % 2147483648
+    return seed / 2147483648
+  }
+
+  return Array.from({ length: count }, () => ({
+    left: `${random() * 100}%`,
+    // 上ほど密にする。地の色が濃いところに寄せると夜空らしくなる
+    top: `${random() ** 1.7 * 52}rem`,
+    size: `${1.5 + random() * 2}px`,
+    animation: `twinkle ${3 + random() * 4}s ease-in-out ${-random() * 6}s infinite`,
+  }))
+}
+
+const STARS = createStars(56)
+
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {
     return (
@@ -87,5 +114,20 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
       </>
     )
   }
+
+  if (motif === 'starfield') {
+    return (
+      <>
+        {STARS.map(({ left, top, size, animation }, index) => (
+          <span
+            key={index}
+            className="absolute rounded-full bg-white"
+            style={{ left, top, width: size, height: size, animation }}
+          />
+        ))}
+      </>
+    )
+  }
+
   return null
 }

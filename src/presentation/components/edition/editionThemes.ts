@@ -11,7 +11,7 @@
  */
 
 /** 背景に添える意匠。絵そのものは `EditionMotifArt` が持つ。 */
-export type EditionMotif = 'sunflower'
+export type EditionMotif = 'sunflower' | 'starfield'
 
 export interface EditionTheme {
   /** 背景のグラデーション。上から下へ順に並べる。1 色だけなら単色になる。 */
@@ -21,6 +21,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
+  // 2025: 濃紺から水色、藤色へ。白い点の星を散らす。
+  ['2025', { colors: ['#0C2E64', '#78D9E1', '#CBC1FB'], motif: 'starfield' }],
   // 2026: 若草色から水色へ。テーマにヒマワリを含む。
   ['2026', { colors: ['#ECFEE8', '#E4FEFD'], motif: 'sunflower' }],
 ])
