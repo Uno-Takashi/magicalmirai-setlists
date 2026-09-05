@@ -103,7 +103,11 @@ Ubuntu ベースの Dev Container を用意しています。Node.js は Dev Con
 
 ### ホスト設定の引き継ぎ
 
-`claude` と `gh` をコンテナ内でもホストと同じ認証状態で使えるよう、設定ディレクトリを
+`claude` はマウント、`gh` はトークンと、引き継ぎ方を使い分けています。
+
+#### Claude Code (`~/.claude` のマウント)
+
+コンテナ内でもホストと同じ認証状態・設定・履歴で使えるよう、設定ディレクトリごと
 バインドマウントしています。マウント元は次のように書いており、OS 非依存です。
 
 ```
@@ -111,29 +115,42 @@ ${localEnv:HOME}${localEnv:USERPROFILE}/.claude
 ```
 
 `HOME` は macOS / Linux でのみ、`USERPROFILE` は Windows でのみ定義されるため、
-どちらの OS でも「ホストのホームディレクトリ」に解決されます。
-
-| ホスト設定     | マウント先                | 備考                                                                                                                     |
-| -------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `~/.claude`    | `/home/vscode/.claude`    | Windows でも `%USERPROFILE%\.claude`。`CLAUDE_CONFIG_DIR` をこのパスに向けているため、設定・認証・履歴がすべて共有される |
-| `~/.config/gh` | `/home/vscode/.config/gh` | macOS / Linux / WSL の GitHub CLI 設定                                                                                   |
+どちらの OS でも「ホストのホームディレクトリ」に解決されます。`CLAUDE_CONFIG_DIR` を
+`/home/vscode/.claude` に向けているので、認証だけでなく設定・履歴も共有されます。
 
 **マウント元はコンテナ起動前にホスト側に存在している必要があります。**
 存在しないと Docker が空ディレクトリを作ってしまうため、事前に作成してください。
 
 ```bash
-# macOS / Linux / WSL
-mkdir -p ~/.claude ~/.config/gh
+mkdir -p ~/.claude   # Windows ネイティブなら %USERPROFILE%\.claude
 ```
 
-#### Windows ネイティブのホストの場合
+#### GitHub CLI (`GH_TOKEN`)
 
-GitHub CLI は Windows では `%AppData%\GitHub CLI` に設定を置くため、
-`~/.config/gh` のマウントは空になります。次のいずれかで認証してください。
+`gh` は設定ディレクトリをマウントせず、**ホストの環境変数 `GH_TOKEN` に一任**しています。
+`devcontainer.json` の `remoteEnv` でコンテナへ引き継がれます。
 
-- ホストの環境変数に `GH_TOKEN` を設定する (`gh auth token` の値)。
-  `devcontainer.json` の `remoteEnv` でコンテナへ引き継がれます。
-- コンテナ内で `gh auth login` を実行する。
+```bash
+# ホスト側のシェル設定 (.zshrc / .bashrc など) に置く
+export GH_TOKEN="$(gh auth token)"
+```
+
+`gh auth token` の値の代わりに、GitHub で発行した PAT を入れても構いません
+(必要なスコープは `repo` と `read:org`。Actions を操作するなら `workflow` も)。
+
+マウントをやめている理由は 2 つです。
+
+- **設定の置き場所が OS ごとに違う問題が無くなる。** Windows ネイティブのホストは
+  `%AppData%\GitHub CLI` を使うため、`~/.config/gh` をマウントしても空になっていた。
+- **ホストの認証情報をコンテナへ晒さずに済む。**
+
+注意点もあります。
+
+- `GH_TOKEN` が設定されている間は、コンテナ内の **`gh auth login` は拒否されます**
+  (環境変数が優先されるため)。認証を変えるときはホスト側の `GH_TOKEN` を変更してください。
+- `gh` の `git_protocol` は既定の `https` になります。`git push` などは
+  `git remote` の URL に従うので影響を受けません。ssh の remote を使う場合、鍵は
+  VS Code が ssh-agent を転送してくれるのでそのまま動きます。
 
 ### Dev Container を使わない場合
 

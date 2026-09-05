@@ -15,7 +15,7 @@
       "version": "lts",
       "installYarnUsingApt": false
     },
-    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1.1.2": {},
     "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
   },
 
@@ -29,20 +29,21 @@
   // これによりホーム配下のパスを 1 行で OS 非依存に指定できる。
   //
   // - ~/.claude ... Claude Code の設定・認証・履歴 (Windows でも %USERPROFILE%\.claude)
-  // - ~/.config/gh ... GitHub CLI の認証情報 (macOS / Linux / WSL)
-  //   Windows ネイティブのホストでは %AppData%\GitHub CLI が使われるためこのパスは
-  //   存在しない。その場合はホスト側で GH_TOKEN を設定すれば下の remoteEnv で
-  //   引き継がれる (`gh auth token` の値を入れる)。詳細は CONTRIBUTING.md 参照。
+  //
+  // gh はマウントしない。認証は下の remoteEnv の GH_TOKEN に一任している。
+  // 設定ディレクトリの置き場所が OS ごとに違う (Windows は %AppData%\GitHub CLI)
+  // 問題が無くなり、ホストの認証情報をコンテナへ晒さずに済む。
+  // 詳細は CONTRIBUTING.md 参照。
   // ---------------------------------------------------------------------------
   "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached",
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh,target=/home/vscode/.config/gh,type=bind,consistency=cached"
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached"
   ],
 
   "remoteEnv": {
     // Claude Code の設定一式をマウントした ~/.claude に集約する
     "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
-    // gh 設定をマウントできないホスト (Windows ネイティブ等) 向けのフォールバック
+    // gh の認証。ホスト側で設定しておく (`gh auth token` の値か PAT)。
+    // 空文字のときは gh から無視されるので、未設定でもコンテナは壊れない。
     "GH_TOKEN": "${localEnv:GH_TOKEN}",
     "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
   },
