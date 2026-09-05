@@ -35,6 +35,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
+  // 2020: 濃い桃色から、ほとんど白い桃色へ。
+  ['2020', { colors: ['#ED3266', '#F5EBEA'] }],
   // 2021: 空。青から白へ抜ける地に、うっすら雲を浮かべる。
   ['2021', { colors: ['#7FA5CA', '#FFFFFF'], motif: 'cloud', titleColor: '#1B3A63' }],
   // 10th: 淡い水色から桃色へ。開催は 2022〜2023 年だが、識別子は西暦ではない。
