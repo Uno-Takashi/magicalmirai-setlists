@@ -1,19 +1,34 @@
+import { motion, useReducedMotion } from 'motion/react'
 import { EditionMotifArt } from './EditionMotifArt'
 import type { EditionTheme } from './editionThemes'
+
+/** 出るときは少し長く。地色から浮かび上がるのを見せる。 */
+const FADE_IN = { duration: 0.3, ease: [0.22, 1, 0.36, 1] } as const
+
+/** 引くときは短く。次の年の色を待たせない。 */
+const FADE_OUT = { duration: 0.18, ease: 'easeOut' } as const
+
+const NO_MOTION = { duration: 0 } as const
 
 /**
  * 開催回の背景。その年の色を敷き、モチーフがあれば薄く散らす。
  *
- * 年送りのスライドと一緒に動かしたいので、画面ではなく開催回の中身
- * (`EditionView` の section) の中に置く。中身より先に描かれるだけで、
- * z-index は使わない (本文側が `relative` なので、そのまま上に乗る)。
+ * 年送りのときは横に滑らせず、いったん地色まで引いてから次の年の色を出す
+ * (`EditionPage` の `AnimatePresence` が exit → enter の順で繋ぐ)。2 つの色が
+ * 横に並んで流れると、境目で色が濁って見えるため。
  *
- * 読み上げからは外す。色もヒマワリも飾りで、文字の情報を足さない。
+ * 中身より先に描かれるだけで、z-index は使わない (本文側が `relative` なので
+ * そのまま上に乗る)。読み上げからは外す。色も飾りで、文字の情報を足さない。
  */
 export function EditionBackdrop({ theme }: { theme: EditionTheme }) {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <div
+    <motion.div
       aria-hidden
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: reduceMotion ? NO_MOTION : FADE_IN }}
+      exit={{ opacity: 0, transition: reduceMotion ? NO_MOTION : FADE_OUT }}
       className="pointer-events-none absolute inset-0 overflow-hidden"
       style={{
         // 色の移り変わりは上から 60rem までで終わらせ、その先は最後の色で塗る。
@@ -27,6 +42,6 @@ export function EditionBackdrop({ theme }: { theme: EditionTheme }) {
       }}
     >
       {theme.motif !== undefined ? <EditionMotifArt motif={theme.motif} /> : null}
-    </div>
+    </motion.div>
   )
 }

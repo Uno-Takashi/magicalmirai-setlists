@@ -98,7 +98,7 @@ function createStars(count: number) {
   }))
 }
 
-const STARS = createStars(56)
+const STARS = createStars(140)
 
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {

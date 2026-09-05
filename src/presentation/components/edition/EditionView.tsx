@@ -5,9 +5,7 @@ import type { Performance } from '@/domain/edition/Performance'
 import { performedTracks, type Setlist } from '@/domain/setlist/Setlist'
 import { localize } from '@/domain/vocaloid/Vocaloid'
 import { titleImageOf } from '@/infrastructure/dataset/titleImages'
-import { EditionBackdrop } from '@/presentation/components/edition/EditionBackdrop'
 import { EditionInfoPanel } from '@/presentation/components/edition/EditionInfoPanel'
-import { editionThemeOf } from '@/presentation/components/edition/editionThemes'
 import { PerformanceDialog } from '@/presentation/components/edition/PerformanceDialog'
 import { SetlistDownloadButton } from '@/presentation/components/setlist/SetlistDownloadButton'
 import { SetlistSwitch } from '@/presentation/components/setlist/SetlistSwitch'
@@ -98,13 +96,8 @@ export function EditionView({ entry }: { entry: EditionEntry }) {
   // 会場情報のモーダル。開くきっかけは公演地カードだけなので、ここで持つ。
   const [detail, setDetail] = useState<Performance | null>(null)
 
-  // その年の背景。表に無い年は undefined で、素の地色のまま出る。
-  const theme = editionThemeOf(edition.slug)
-
   return (
     <section className="relative min-h-full">
-      {theme !== undefined ? <EditionBackdrop theme={theme} /> : null}
-
       <div className="relative mx-auto w-full max-w-3xl px-4 pt-6 pb-24">
         <EditionHeading edition={edition} />
         {/* 公式サイト・日程・会場は既定で畳んでおく */}
