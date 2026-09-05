@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { useId, type CSSProperties } from 'react'
 import type { EditionMotif } from './editionThemes'
 
 /**
@@ -678,6 +678,127 @@ function DotField({ figures, color }: { figures: Scatter<DotKind>; color: string
   )
 }
 
+/**
+ * きらきらした立方体。等角投影で 3 面を見せ、面ごとに違う淡い色を流す。
+ *
+ * 面の色は 1 つずつずらして環になるようにする (上→左→右→上)。同じ組を
+ * 使い回しても、面の並びが変わるだけで光り方が変わって見える。
+ */
+const CUBE_TOP = '50,6 92,30 50,54 8,30'
+const CUBE_LEFT = '8,30 50,54 50,98 8,74'
+const CUBE_RIGHT = '92,30 50,54 50,98 92,74'
+
+/**
+ * 光の粒。4 方向へ尖った星で、頂点で光が跳ねているように見せる。
+ *
+ * 制御点を中心に置くと辺がへこみ、尖りだけが残る。
+ */
+function sparkle(cx: number, cy: number, r: number): string {
+  return [
+    `M${cx},${cy - r}`,
+    `Q${cx},${cy} ${cx + r},${cy}`,
+    `Q${cx},${cy} ${cx},${cy + r}`,
+    `Q${cx},${cy} ${cx - r},${cy}`,
+    `Q${cx},${cy} ${cx},${cy - r}`,
+    'Z',
+  ].join('')
+}
+
+const CUBE_SPARKLES = [sparkle(50, 6, 11), sparkle(92, 30, 7)]
+
+/** 面に流す淡い色。虹色に振れるよう、隣り合う色相を離して並べる。 */
+const CUBE_TONES: (readonly [string, string, string])[] = [
+  ['#FFD9EC', '#CDE9FF', '#FFF6C9'],
+  ['#D9CCFF', '#C9F7FF', '#FFE0D0'],
+  ['#C9FFE8', '#FFF6C9', '#FFC7E0'],
+  ['#AEEBFF', '#E4D4FF', '#FFE7B8'],
+]
+
+function Cube({ tones }: { tones: readonly [string, string, string] }) {
+  // 面ごとにグラデーションを持つので、id は組ごとに分ける
+  const id = useId()
+  const faces = [
+    { points: CUBE_TOP, from: tones[0], to: tones[1] },
+    { points: CUBE_LEFT, from: tones[1], to: tones[2] },
+    { points: CUBE_RIGHT, from: tones[2], to: tones[0] },
+  ]
+
+  return (
+    <svg viewBox="0 0 100 104" aria-hidden focusable="false" className="w-full">
+      <defs>
+        {faces.map(({ from, to }, index) => (
+          <linearGradient key={index} id={`${id}-${index}`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor={from} />
+            <stop offset="100%" stopColor={to} />
+          </linearGradient>
+        ))}
+      </defs>
+      {faces.map(({ points }, index) => (
+        <polygon
+          key={index}
+          points={points}
+          fill={`url(#${id}-${index})`}
+          stroke="#ffffff"
+          strokeWidth="1.5"
+          strokeOpacity="0.8"
+          strokeLinejoin="round"
+        />
+      ))}
+      {/* 角で光が跳ねる。上と右の頂点にだけ置いて、光の向きを揃える */}
+      {CUBE_SPARKLES.map((path, index) => (
+        <path key={index} d={path} fill="#ffffff" fillOpacity={index === 0 ? 0.95 : 0.7} />
+      ))}
+    </svg>
+  )
+}
+
+/** 2018: 立方体を散らす。 */
+const CUBES = createScatter({
+  count: 11,
+  seed: 20180810,
+  kinds: ['cube'] as const,
+  size: [70, 200],
+  outlinedRate: 0,
+  opacity: [0.6, 0.95],
+  depth: 46,
+  from: 3,
+})
+
+/**
+ * 立方体の傾きの幅 (度)。
+ *
+ * 等角投影の絵なので、大きく回すと立体に見えなくなる。少しだけ傾けて、
+ * 浮かんでいる向きの違いだけを出す。
+ */
+const CUBE_SPIN = 22
+
+/** 散らした立方体を並べる。白い光を添えて、きらきらして見せる。 */
+function CubeField({ cubes }: { cubes: Scatter<'cube'> }) {
+  return (
+    <>
+      {cubes.map(({ left, top, size, rotate, opacity, animation }, index) => (
+        <span
+          key={index}
+          className="absolute"
+          style={{
+            left,
+            top,
+            width: `${size}px`,
+            translate: '-50% 0',
+            rotate: `${(rotate / 360) * CUBE_SPIN - CUBE_SPIN / 2}deg`,
+            opacity,
+            filter: 'drop-shadow(0 0 6px rgb(255 255 255 / 0.9))',
+          }}
+        >
+          <span className="block" style={{ animation }}>
+            <Cube tones={CUBE_TONES[index % CUBE_TONES.length]!} />
+          </span>
+        </span>
+      ))}
+    </>
+  )
+}
+
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {
     return (
@@ -725,6 +846,10 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
 
   if (motif === 'dots') {
     return <DotField figures={DOT_FIGURES} color="#484965" />
+  }
+
+  if (motif === 'cube') {
+    return <CubeField cubes={CUBES} />
   }
 
   return null

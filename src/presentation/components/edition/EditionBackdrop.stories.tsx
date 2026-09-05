@@ -49,6 +49,11 @@ export const Neon: Story = {
   args: { theme: { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' } },
 }
 
+/** 2018。淡い水色に、きらきらした立方体を散らす。 */
+export const Cube: Story = {
+  args: { theme: { colors: ['#AAFCFF'], motif: 'cube' } },
+}
+
 /** 2019。暗い紺を上からの光でぼんやり照らし、点で描いた図形を散らす。 */
 export const Spotlight: Story = {
   args: { theme: { colors: ['#171723'], layout: 'spotlight', motif: 'dots' } },
