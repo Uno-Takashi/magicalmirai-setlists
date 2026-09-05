@@ -6,6 +6,7 @@ import { performedTracks, type Setlist } from '@/domain/setlist/Setlist'
 import { localize } from '@/domain/vocaloid/Vocaloid'
 import { titleImageOf } from '@/infrastructure/dataset/titleImages'
 import { EditionInfoPanel } from '@/presentation/components/edition/EditionInfoPanel'
+import { useEditionTheme } from '@/presentation/components/edition/useEditionTheme'
 import { PerformanceDialog } from '@/presentation/components/edition/PerformanceDialog'
 import { SetlistDownloadButton } from '@/presentation/components/setlist/SetlistDownloadButton'
 import { SetlistSwitch } from '@/presentation/components/setlist/SetlistSwitch'
@@ -17,6 +18,8 @@ function EditionHeading({ edition }: { edition: Edition }) {
   const { locale } = useLocale()
   const name = localize(edition.name, locale)
   const titleImage = titleImageOf(edition.year)
+  // 背景に埋もれる年だけ、その年の色で上書きする (既定は text-miku)
+  const titleColor = useEditionTheme(edition.slug)?.titleColor
 
   return (
     <header className="mb-5">
@@ -32,8 +35,11 @@ function EditionHeading({ edition }: { edition: Edition }) {
       {/* 画像がある年は見出しを読み上げ専用にして、同じ文字の重複を避ける */}
       <h2
         className={
-          titleImage !== undefined ? 'sr-only' : 'text-2xl leading-snug font-black sm:text-3xl'
+          titleImage !== undefined
+            ? 'sr-only'
+            : 'text-miku text-2xl leading-snug font-black sm:text-3xl'
         }
+        style={titleColor !== undefined ? { color: titleColor } : undefined}
       >
         {name}
       </h2>

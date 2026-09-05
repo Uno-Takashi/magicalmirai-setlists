@@ -117,6 +117,8 @@ export const en: Translations = {
   'settings.display': 'Display',
   'settings.compactTags.label': 'Simplify tags',
   'settings.compactTags.description': 'Details appear when you hover over a tag',
+  'settings.plainDesign.label': 'Use the plain design',
+  'settings.plainDesign.description': 'Drops the per-edition background and heading colour.',
   'setlist.download': 'Download the setlist as CSV',
   'setlist.csv.order': 'Order',
   'setlist.csv.title': 'Song',

@@ -116,6 +116,8 @@ export const ja = {
   'settings.display': '表示',
   'settings.compactTags.label': 'タグをシンプルに表示する',
   'settings.compactTags.description': 'マウスを載せたときに詳細表示します',
+  'settings.plainDesign.label': 'シンプルなデザインで表示する',
+  'settings.plainDesign.description': '開催回ごとの背景と見出しの色をやめて、素の配色にします',
   'setlist.download': 'セットリストを CSV で保存',
   'setlist.csv.order': '曲順',
   'setlist.csv.title': '曲名',

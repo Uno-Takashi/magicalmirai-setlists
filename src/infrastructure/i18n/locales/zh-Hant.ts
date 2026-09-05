@@ -114,6 +114,8 @@ export const zhHant: Translations = {
   'settings.display': '顯示',
   'settings.compactTags.label': '簡潔顯示標籤',
   'settings.compactTags.description': '滑鼠移上時顯示詳細內容',
+  'settings.plainDesign.label': '以簡約設計顯示',
+  'settings.plainDesign.description': '不套用各屆的背景與標題顏色，改用基本配色。',
   'setlist.download': '將歌單下載為 CSV',
   'setlist.csv.order': '曲序',
   'setlist.csv.title': '曲名',

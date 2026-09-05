@@ -1,11 +1,12 @@
 import { createContext, use, useCallback, useMemo, useState, type ReactNode } from 'react'
+import { readPlainDesign, writePlainDesign } from '@/infrastructure/preferences/plainDesign'
 import { readCompactTags, writeCompactTags } from '@/infrastructure/preferences/tagDisplay'
 
 /**
  * 見た目の好み。設定モーダルで切り替え、次に来たときも同じ見え方になるよう
  * 端末に覚えさせる。
  *
- * 現在は「タグの省略表示」だけだが、増えるならここに足していく。
+ * 増えるならここに足していく。
  */
 interface PreferencesValue {
   /**
@@ -17,21 +18,35 @@ interface PreferencesValue {
    */
   readonly compactTags: boolean
   setCompactTags: (compact: boolean) => void
+  /**
+   * 開催回ごとの配色をやめて、素の見た目で出すか。
+   *
+   * true にすると、年ごとの背景と見出しの色を敷かなくなる。飾りより中身を
+   * 落ち着いて読みたい人のための設定。
+   */
+  readonly plainDesign: boolean
+  setPlainDesign: (plain: boolean) => void
 }
 
 const PreferencesContext = createContext<PreferencesValue | null>(null)
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [compactTags, setCompactTagsState] = useState(readCompactTags)
+  const [plainDesign, setPlainDesignState] = useState(readPlainDesign)
 
   const setCompactTags = useCallback((compact: boolean) => {
     setCompactTagsState(compact)
     writeCompactTags(compact)
   }, [])
 
+  const setPlainDesign = useCallback((plain: boolean) => {
+    setPlainDesignState(plain)
+    writePlainDesign(plain)
+  }, [])
+
   const value = useMemo<PreferencesValue>(
-    () => ({ compactTags, setCompactTags }),
-    [compactTags, setCompactTags],
+    () => ({ compactTags, setCompactTags, plainDesign, setPlainDesign }),
+    [compactTags, setCompactTags, plainDesign, setPlainDesign],
   )
 
   return <PreferencesContext value={value}>{children}</PreferencesContext>
