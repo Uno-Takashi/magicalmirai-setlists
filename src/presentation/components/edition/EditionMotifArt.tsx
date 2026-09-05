@@ -105,7 +105,7 @@ function createStars(count: number) {
   }))
 }
 
-const STARS = createStars(140)
+const STARS = createStars(420)
 
 /** 散らす形。年ごとにどれを使うかは散らし方の指定 (`kinds`) で決める。 */
 type ShapeKind = 'circle' | 'star' | 'triangle' | 'diamond'
