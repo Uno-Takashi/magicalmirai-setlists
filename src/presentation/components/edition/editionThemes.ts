@@ -28,6 +28,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
+  // 10th: 淡い水色から桃色へ。開催は 2022〜2023 年だが、識別子は西暦ではない。
+  ['10th', { colors: ['#9DF1FC', '#F898E0'], titleColor: '#C0187E' }],
   // 2023: 黒一色に、白い線の図形を色とりどりのネオンで光らせる。
   ['2023', { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' }],
   // 2024: 水色から淡い水色へ。星・丸・角丸の三角を薄く散らす。
