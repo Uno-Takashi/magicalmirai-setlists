@@ -44,6 +44,11 @@ export const Shapes: Story = {
   args: { theme: { colors: ['#85D5DE', '#D8F4F5'], motif: 'shapes' } },
 }
 
+/** 2023。黒一色の地に、白い線の星・三角・ひし形を赤いネオンで光らせる。 */
+export const Neon: Story = {
+  args: { theme: { colors: ['#000000'], motif: 'neon', titleColor: '#E50617' } },
+}
+
 /** モチーフの無い年。色だけを敷く。 */
 export const ColorsOnly: Story = {
   args: { theme: { colors: ['#ECFEE8', '#E4FEFD'] } },

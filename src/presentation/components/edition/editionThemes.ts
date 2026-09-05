@@ -11,7 +11,7 @@
  */
 
 /** 背景に添える意匠。絵そのものは `EditionMotifArt` が持つ。 */
-export type EditionMotif = 'sunflower' | 'starfield' | 'shapes'
+export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon'
 
 export interface EditionTheme {
   /** 背景のグラデーション。上から下へ順に並べる。1 色だけなら単色になる。 */
@@ -28,8 +28,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
-  // 2023: 黒一色。赤は見出しに置く。
-  ['2023', { colors: ['#000000'], titleColor: '#E50617' }],
+  // 2023: 黒一色。赤は見出しと、白い線の図形を光らせるネオンに使う。
+  ['2023', { colors: ['#000000'], motif: 'neon', titleColor: '#E50617' }],
   // 2024: 水色から淡い水色へ。星・丸・角丸の三角を薄く散らす。
   ['2024', { colors: ['#85D5DE', '#D8F4F5'], motif: 'shapes', titleColor: '#FFCD5A' }],
   // 2025: 濃紺から水色、藤色へ。白い点の星を散らす。

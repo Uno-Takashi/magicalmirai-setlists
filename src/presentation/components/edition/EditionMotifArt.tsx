@@ -113,20 +113,34 @@ const STARS = createStars(140)
  * 丸めは stroke-linejoin="round" で行う。線を塗りと同じ色で太く重ねると、
  * 角だけが丸まった一回り大きい図形になる。角丸の頂点を path で書き起こすより短い。
  */
-const SHAPE_KINDS = ['circle', 'star', 'triangle'] as const
-type ShapeKind = (typeof SHAPE_KINDS)[number]
+/** 散らす形。年ごとにどれを使うかは散らし方の指定 (`kinds`) で決める。 */
+type ShapeKind = 'circle' | 'star' | 'triangle' | 'diamond'
 
 const STAR_POINTS =
   '50.0,8.0 60.0,36.2 89.9,37.0 66.2,55.3 74.7,84.0 50.0,67.0 25.3,84.0 33.8,55.3 10.1,37.0 40.0,36.2'
 const TRIANGLE_POINTS = '50,12 84,76 16,76'
+const DIAMOND_POINTS = '50,8 86,50 50,92 14,50'
 
-/** 図形 1 つ。色は呼ぶ側の currentColor に従う。 */
-function Shape({ kind, outlined }: { kind: ShapeKind; outlined: boolean }) {
-  // 塗りつぶしと輪郭を混ぜる。同じ形が並んでも単調にならない
+/**
+ * 図形 1 つ。色は呼ぶ側の currentColor に従う。
+ *
+ * 角の丸めは stroke-linejoin="round" で行う。線を塗りと同じ色で重ねると、
+ * 角だけが丸まった図形になる。角丸の頂点を path で書き起こすより短い。
+ */
+function Shape({
+  kind,
+  outlined,
+  lineWidth = 8,
+}: {
+  kind: ShapeKind
+  outlined: boolean
+  /** 輪郭の太さ (viewBox は 100 四方)。ネオンは細いほど管らしく見える。 */
+  lineWidth?: number
+}) {
   const paint = {
     fill: outlined ? 'none' : 'currentColor',
     stroke: 'currentColor',
-    strokeWidth: outlined ? 8 : 10,
+    strokeWidth: outlined ? lineWidth : 10,
     strokeLinejoin: 'round' as const,
   }
 
@@ -135,8 +149,32 @@ function Shape({ kind, outlined }: { kind: ShapeKind; outlined: boolean }) {
       {kind === 'circle' ? <circle cx="50" cy="50" r="40" {...paint} /> : null}
       {kind === 'star' ? <polygon points={STAR_POINTS} {...paint} /> : null}
       {kind === 'triangle' ? <polygon points={TRIANGLE_POINTS} {...paint} /> : null}
+      {kind === 'diamond' ? <polygon points={DIAMOND_POINTS} {...paint} /> : null}
     </svg>
   )
+}
+
+/** 散らし方の指定。年ごとに違うのはこの数値だけ。 */
+interface ScatterSpec {
+  readonly count: number
+  /** 乱数の種。年ごとに変えて、同じ並びが繰り返されないようにする。 */
+  readonly seed: number
+  readonly kinds: readonly ShapeKind[]
+  /** 大きさの下限と上限 (px)。 */
+  readonly size: readonly [number, number]
+  /** 輪郭だけで描く割合。1 なら全部が輪郭になる。 */
+  readonly outlinedRate: number
+  /** 濃さの下限と上限。 */
+  readonly opacity: readonly [number, number]
+  /** 縦に散らす範囲 (rem)。 */
+  readonly depth: number
+  /**
+   * 上端をどれだけ空けるか (rem)。既定は 0。
+   *
+   * 大きくて明るい図形は、見出しに重なると文字を食う。ネオンのように光る年は
+   * ここを空けて、題名の帯に掛からないようにする。
+   */
+  readonly from?: number
 }
 
 /**
@@ -145,25 +183,92 @@ function Shape({ kind, outlined }: { kind: ShapeKind; outlined: boolean }) {
  * 横は幅を図形の数で割った帯に 1 つずつ置き、帯の中で位置をずらす。まるごと
  * 乱数に任せると固まったり空いたりして、端の 1 つが浮いて見える。
  *
- * 星と同じく縦は rem で置き、地の色が濃いうちに収める。下は色が薄くなるので、
- * 白に近い図形を置いても見えなくなる。
+ * 星と同じく縦は rem で置き、地の色が濃いうちに収める。割合にすると、曲数の
+ * 多い年ほど下の明るいところまで伸びて見えなくなる。
  */
-function createShapes(count: number) {
-  const random = createRandom(20240809)
+function createScatter(spec: ScatterSpec) {
+  const random = createRandom(spec.seed)
+  const [minSize, maxSize] = spec.size
+  const [minOpacity, maxOpacity] = spec.opacity
 
-  return Array.from({ length: count }, (_, index) => ({
-    kind: SHAPE_KINDS[Math.floor(random() * SHAPE_KINDS.length)]!,
-    outlined: random() < 0.4,
-    left: `${((index + random()) / count) * 100}%`,
-    top: `${random() ** 1.4 * 48}rem`,
-    size: `${56 + random() * 116}px`,
+  return Array.from({ length: spec.count }, (_, index) => ({
+    kind: spec.kinds[Math.floor(random() * spec.kinds.length)]!,
+    outlined: random() < spec.outlinedRate,
+    left: `${((index + random()) / spec.count) * 100}%`,
+    top: `${(spec.from ?? 0) + random() ** 1.4 * spec.depth}rem`,
+    size: `${minSize + random() * (maxSize - minSize)}px`,
     rotate: `${random() * 360}deg`,
-    opacity: 0.2 + random() * 0.3,
+    opacity: minOpacity + random() * (maxOpacity - minOpacity),
     animation: `drift ${18 + random() * 16}s ease-in-out ${-random() * 20}s infinite`,
   }))
 }
 
-const SHAPES = createShapes(22)
+type Scatter = ReturnType<typeof createScatter>
+
+/** 2024: 星・丸・角丸の三角を薄く散らす。 */
+const SHAPES = createScatter({
+  count: 22,
+  seed: 20240809,
+  kinds: ['circle', 'star', 'triangle'],
+  size: [56, 172],
+  outlinedRate: 0.4,
+  opacity: [0.2, 0.5],
+  depth: 48,
+})
+
+/** 2023: 星・三角・ひし形を白い線で描く。 */
+const NEON = createScatter({
+  count: 16,
+  seed: 20230816,
+  kinds: ['star', 'triangle', 'diamond'],
+  size: [72, 208],
+  outlinedRate: 1,
+  opacity: [0.75, 1],
+  depth: 48,
+  // 狭い画面では題名が 2 行になる。その下から散らす
+  from: 7,
+})
+
+/**
+ * 赤いネオンの光。白い線を芯にして、赤い滲みを 3 段重ねる。
+ *
+ * 近いところは濃く、遠いところは広く薄く。1 段だけだと縁取りに見えて、
+ * 光っているようにならない。
+ */
+const NEON_GLOW =
+  'drop-shadow(0 0 3px #E50617) drop-shadow(0 0 10px #E50617) drop-shadow(0 0 26px #E50617)'
+
+/** 散らした図形を並べる。光らせるときは glow に filter を渡す。 */
+function ScatterField({
+  shapes,
+  glow,
+  lineWidth,
+}: {
+  shapes: Scatter
+  glow?: string
+  lineWidth?: number
+}) {
+  return (
+    <>
+      {shapes.map(({ kind, outlined, left, top, size, rotate, opacity, animation }, index) => (
+        /*
+          傾きは外側に、揺れは内側に。同じ要素に重ねると、揺れの transform が
+          傾きを上書きしてしまう。left は図形の中心なので translate で半分戻す。
+          戻さないと、大きい図形ほど右へはみ出して散らばりの重心が右に寄る。
+        */
+        <span
+          key={index}
+          className="absolute text-white"
+          style={{ left, top, width: size, translate: '-50% 0', rotate, opacity, filter: glow }}
+        >
+          <span className="block" style={{ animation }}>
+            <Shape kind={kind} outlined={outlined} lineWidth={lineWidth} />
+          </span>
+        </span>
+      ))}
+    </>
+  )
+}
 
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {
@@ -195,24 +300,11 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   }
 
   if (motif === 'shapes') {
-    return (
-      <>
-        {SHAPES.map(({ kind, outlined, left, top, size, rotate, opacity, animation }, index) => (
-          /* 傾きは外側に、揺れは内側に。同じ要素に重ねると揺れが傾きを上書きする */
-          <span
-            key={index}
-            className="absolute text-white"
-            /* left は図形の中心。translate で半分戻さないと、大きい図形ほど
-               右へはみ出して、散らばりの重心が右に寄る */
-            style={{ left, top, width: size, translate: '-50% 0', rotate, opacity }}
-          >
-            <span className="block" style={{ animation }}>
-              <Shape kind={kind} outlined={outlined} />
-            </span>
-          </span>
-        ))}
-      </>
-    )
+    return <ScatterField shapes={SHAPES} />
+  }
+
+  if (motif === 'neon') {
+    return <ScatterField shapes={NEON} glow={NEON_GLOW} lineWidth={5} />
   }
 
   return null
