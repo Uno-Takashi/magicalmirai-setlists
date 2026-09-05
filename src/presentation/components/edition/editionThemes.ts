@@ -11,7 +11,7 @@
  */
 
 /** 背景に添える意匠。絵そのものは `EditionMotifArt` が持つ。 */
-export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon' | 'cloud'
+export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon' | 'cloud' | 'lantern'
 
 export interface EditionTheme {
   /** 背景の色。上から下へ順に並べる。1 色だけなら単色になる。 */
@@ -35,8 +35,9 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
-  // 2020: 濃い桃色と淡い桃色を、左右にうっすら浮かべる。
-  ['2020', { colors: ['#ED3266', '#F5EBEA'], layout: 'sides' }],
+  // 2020: 濃い桃色と淡い桃色を左右にうっすら浮かべ、提灯を吊るす。
+  //       公式のテーマが「MATSURI」で、キービジュアルは夜祭りの屋台と提灯。
+  ['2020', { colors: ['#ED3266', '#F5EBEA'], layout: 'sides', motif: 'lantern' }],
   // 2021: 空。青から白へ抜ける地に、うっすら雲を浮かべる。
   ['2021', { colors: ['#7FA5CA', '#FFFFFF'], motif: 'cloud', titleColor: '#1B3A63' }],
   // 10th: 淡い水色から桃色へ。開催は 2022〜2023 年だが、識別子は西暦ではない。

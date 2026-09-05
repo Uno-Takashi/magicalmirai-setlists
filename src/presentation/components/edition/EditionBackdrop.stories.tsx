@@ -49,6 +49,11 @@ export const Neon: Story = {
   args: { theme: { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' } },
 }
 
+/** 2020。左右に浮かべた桃色に、祭りの提灯を吊るす。 */
+export const Lantern: Story = {
+  args: { theme: { colors: ['#ED3266', '#F5EBEA'], layout: 'sides', motif: 'lantern' } },
+}
+
 /** 2021。青から白へ抜ける空に、うっすら雲を浮かべる。 */
 export const Sky: Story = {
   args: { theme: { colors: ['#7FA5CA', '#FFFFFF'], motif: 'cloud', titleColor: '#1B3A63' } },

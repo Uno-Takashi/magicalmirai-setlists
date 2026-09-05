@@ -114,6 +114,17 @@
   }
 }
 
+/* 紐で吊るしたものの揺れ。上端を軸にゆっくり振れる。 */
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-2.5deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+
 @keyframes twinkle {
   0%,
   100% {
