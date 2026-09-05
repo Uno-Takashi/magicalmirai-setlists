@@ -110,10 +110,53 @@ const STARS = createStars(140)
 /** 散らす形。年ごとにどれを使うかは散らし方の指定 (`kinds`) で決める。 */
 type ShapeKind = 'circle' | 'star' | 'triangle' | 'diamond'
 
-const STAR_POINTS =
-  '50.0,8.0 60.0,36.2 89.9,37.0 66.2,55.3 74.7,84.0 50.0,67.0 25.3,84.0 33.8,55.3 10.1,37.0 40.0,36.2'
 const TRIANGLE_POINTS = '50,12 84,76 16,76'
 const DIAMOND_POINTS = '50,8 86,50 50,92 14,50'
+
+type Point = readonly [number, number]
+
+/** 星の頂点。外と内を交互に、真上から時計回りに 10 個。 */
+function starVertices(outer: number, inner: number): Point[] {
+  return Array.from({ length: 10 }, (_, index) => {
+    const angle = ((-90 + index * 36) * Math.PI) / 180
+    const radius = index % 2 === 0 ? outer : inner
+    return [50 + radius * Math.cos(angle), 50 + radius * Math.sin(angle)]
+  })
+}
+
+/**
+ * 角を丸めた多角形の path。
+ *
+ * 各頂点の手前と先に辺の `roundness` だけ入った点を取り、頂点を制御点にした
+ * 曲線で繋ぐ。0.5 にすると辺の真ん中どうしが繋がって、角が完全に取れる。
+ *
+ * stroke-linejoin="round" でも角は丸まるが、丸みが線の太さに比例するので、
+ * ネオンのように細い線だと尖ったままになる。形そのものを丸めるとこれを避けられる。
+ */
+function roundedPath(points: readonly Point[], roundness: number): string {
+  const lerp = (from: Point, to: Point): Point => [
+    from[0] + (to[0] - from[0]) * roundness,
+    from[1] + (to[1] - from[1]) * roundness,
+  ]
+  const at = ([x, y]: Point) => `${x.toFixed(1)} ${y.toFixed(1)}`
+
+  return points
+    .map((vertex, index) => {
+      const previous = points[(index - 1 + points.length) % points.length]!
+      const next = points[(index + 1) % points.length]!
+      const head = `${index === 0 ? 'M' : 'L'}${at(lerp(vertex, previous))}`
+      return `${head}Q${at(vertex)} ${at(lerp(vertex, next))}`
+    })
+    .join('')
+    .concat('Z')
+}
+
+/**
+ * 丸みのある星。
+ *
+ * 0.45 まで丸めると星というより花に見えたので、角が取れたと分かる程度に留める。
+ */
+const STAR_PATH = roundedPath(starVertices(42, 18), 0.2)
 
 /**
  * 図形 1 つ。線の色は呼ぶ側の currentColor に従う。
@@ -146,12 +189,12 @@ function Shape({
       {kind === 'circle' ? <circle cx="50" cy="50" r="40" {...paint} /> : null}
       {kind === 'star' ? (
         <>
-          <polygon points={STAR_POINTS} {...paint} />
+          <path d={STAR_PATH} {...paint} />
           {/*
             星は二重にする。原点で半分に縮めてから中心へ寄せると、外側の星と
             中心が揃う。線の太さも一緒に縮むので、内側は自然と細くなる。
           */}
-          <polygon points={STAR_POINTS} transform="translate(25 25) scale(0.5)" {...paint} />
+          <path d={STAR_PATH} transform="translate(25 25) scale(0.5)" {...paint} />
         </>
       ) : null}
       {kind === 'triangle' ? <polygon points={TRIANGLE_POINTS} {...paint} /> : null}
@@ -174,6 +217,12 @@ interface ScatterSpec {
   readonly opacity: readonly [number, number]
   /** 縦に散らす範囲 (rem)。 */
   readonly depth: number
+  /**
+   * 視線に対する傾きの幅 (度)。省略すると画面と正対したままになる。
+   *
+   * 指定した年だけ乱数を余分に使う。既定のままの年は並びが変わらない。
+   */
+  readonly tilt?: number
   /**
    * 上端をどれだけ空けるか (rem)。既定は 0。
    *
@@ -206,6 +255,9 @@ function createScatter(spec: ScatterSpec) {
     rotate: random() * 360,
     opacity: minOpacity + random() * (maxOpacity - minOpacity),
     animation: `drift ${18 + random() * 16}s ease-in-out ${-random() * 20}s infinite`,
+    // 奥へ倒す角度と、横へ振る角度
+    tiltX: spec.tilt === undefined ? 0 : (random() - 0.5) * 2 * spec.tilt,
+    tiltY: spec.tilt === undefined ? 0 : (random() - 0.5) * 2 * spec.tilt,
   }))
 }
 
@@ -231,6 +283,8 @@ const NEON = createScatter({
   outlinedRate: 1,
   opacity: [0.75, 1],
   depth: 48,
+  // 板を空中に浮かべたように、視線に対して少し斜めに構える
+  tilt: 26,
   // 狭い画面では題名が 2 行になる。その下から散らす
   from: 7,
 })
@@ -308,7 +362,7 @@ function ScatterField({ shapes }: { shapes: Scatter }) {
 function NeonField({ shapes }: { shapes: Scatter }) {
   return (
     <>
-      {shapes.map(({ kind, left, top, size, rotate, opacity, animation }, index) => {
+      {shapes.map(({ kind, left, top, size, rotate, opacity, animation, tiltX, tiltY }, index) => {
         const color = NEON_COLORS[index % NEON_COLORS.length]!
         const { filled, scale, spin, line } = NEON_SHAPE[kind]
 
@@ -325,6 +379,11 @@ function NeonField({ shapes }: { shapes: Scatter }) {
               rotate: `${(rotate / 360) * spin - spin / 2}deg`,
               opacity,
               filter: neonGlow(color),
+              /*
+                遠近を付けてから前後に倒す。rotate (傾き) や translate とは別の
+                プロパティなので、混ぜても打ち消し合わない。
+              */
+              transform: `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
             }}
           >
             <span className="block" style={{ animation }}>
