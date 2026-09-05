@@ -634,7 +634,7 @@ function DotShape({ kind, color }: { kind: DotKind; color: string }) {
   return (
     <svg viewBox="0 0 100 100" aria-hidden focusable="false" className="w-full" fill={color}>
       {DOT_SHAPES[kind].map(({ x, y }, index) => (
-        <circle key={index} cx={x} cy={y} r="5" />
+        <circle key={index} cx={x} cy={y} r="7" />
       ))}
     </svg>
   )
@@ -642,10 +642,10 @@ function DotShape({ kind, color }: { kind: DotKind; color: string }) {
 
 /** 2019: 点で描いた図形を散らす。 */
 const DOT_FIGURES = createScatter({
-  count: 14,
+  count: 9,
   seed: 20191004,
   kinds: DOT_KINDS,
-  size: [90, 240],
+  size: [70, 150],
   outlinedRate: 0,
   opacity: [0.45, 0.85],
   depth: 46,
