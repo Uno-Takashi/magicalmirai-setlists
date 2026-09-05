@@ -706,9 +706,6 @@ const CUBE_FACES: Point[][] = [
   ],
 ]
 
-/** 立方体の外形。割った面の上に重ねて、輪郭をはっきりさせる。 */
-const CUBE_OUTLINE = '50,6 92,30 92,74 50,98 8,74 8,30'
-
 /**
  * 多角形を 2 つに切る。
  *
@@ -812,14 +809,6 @@ function Cube({ pieces, tones }: { pieces: string[]; tones: readonly string[] })
           />
         )
       })}
-      <polygon
-        points={CUBE_OUTLINE}
-        fill="none"
-        stroke="#ffffff"
-        strokeWidth="1.6"
-        strokeOpacity="0.9"
-        strokeLinejoin="round"
-      />
       {/* 角で光が跳ねる。上と右の頂点にだけ置いて、光の向きを揃える */}
       {CUBE_SPARKLES.map((path, index) => (
         <path key={index} d={path} fill="#ffffff" fillOpacity={index === 0 ? 0.95 : 0.7} />
