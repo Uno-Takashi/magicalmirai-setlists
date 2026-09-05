@@ -142,25 +142,28 @@ function Shape({ kind, outlined }: { kind: ShapeKind; outlined: boolean }) {
 /**
  * 図形の散らし方。大きさ・傾き・濃さを 1 つずつずらす。
  *
+ * 横は幅を図形の数で割った帯に 1 つずつ置き、帯の中で位置をずらす。まるごと
+ * 乱数に任せると固まったり空いたりして、端の 1 つが浮いて見える。
+ *
  * 星と同じく縦は rem で置き、地の色が濃いうちに収める。下は色が薄くなるので、
  * 白に近い図形を置いても見えなくなる。
  */
 function createShapes(count: number) {
   const random = createRandom(20240809)
 
-  return Array.from({ length: count }, () => ({
+  return Array.from({ length: count }, (_, index) => ({
     kind: SHAPE_KINDS[Math.floor(random() * SHAPE_KINDS.length)]!,
     outlined: random() < 0.4,
-    left: `${random() * 100}%`,
+    left: `${((index + random()) / count) * 100}%`,
     top: `${random() ** 1.4 * 48}rem`,
-    size: `${34 + random() * 74}px`,
+    size: `${56 + random() * 116}px`,
     rotate: `${random() * 360}deg`,
     opacity: 0.2 + random() * 0.3,
     animation: `drift ${18 + random() * 16}s ease-in-out ${-random() * 20}s infinite`,
   }))
 }
 
-const SHAPES = createShapes(30)
+const SHAPES = createShapes(22)
 
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {
@@ -199,7 +202,9 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
           <span
             key={index}
             className="absolute text-white"
-            style={{ left, top, width: size, rotate, opacity }}
+            /* left は図形の中心。translate で半分戻さないと、大きい図形ほど
+               右へはみ出して、散らばりの重心が右に寄る */
+            style={{ left, top, width: size, translate: '-50% 0', rotate, opacity }}
           >
             <span className="block" style={{ animation }}>
               <Shape kind={kind} outlined={outlined} />
