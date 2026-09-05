@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import type { EditionMotif } from './editionThemes'
 
 /**
@@ -789,9 +789,28 @@ const CUBE_TONES: (readonly string[])[] = [
   ['#E3F4FF', '#FFFFFF', '#FFDCC2', '#F3D6FF'],
 ]
 
-function Cube({ pieces, tones }: { pieces: string[]; tones: readonly string[] }) {
+/**
+ * 立方体の殻。光の粒だけを持ち、面の中身は呼ぶ側が描く。
+ *
+ * 年によって面の作り方が違う (2018 は単色の破片、2017 は半透明の三角形の重なり) が、
+ * 立体の形と光り方は同じなので、外側だけを共通にする。
+ */
+function CubeShell({ children }: { children: ReactNode }) {
   return (
     <svg viewBox="0 0 100 104" aria-hidden focusable="false" className="w-full">
+      {children}
+      {/* 角で光が跳ねる。上と右の頂点にだけ置いて、光の向きを揃える */}
+      {CUBE_SPARKLES.map((path, index) => (
+        <path key={index} d={path} fill="#ffffff" fillOpacity={index === 0 ? 0.95 : 0.7} />
+      ))}
+    </svg>
+  )
+}
+
+/** 2018 の面。割った破片を単色で敷き詰める。 */
+function Cube({ pieces, tones }: { pieces: string[]; tones: readonly string[] }) {
+  return (
+    <CubeShell>
       {pieces.map((points, index) => {
         const color = tones[index % tones.length]
         return (
@@ -809,11 +828,7 @@ function Cube({ pieces, tones }: { pieces: string[]; tones: readonly string[] })
           />
         )
       })}
-      {/* 角で光が跳ねる。上と右の頂点にだけ置いて、光の向きを揃える */}
-      {CUBE_SPARKLES.map((path, index) => (
-        <path key={index} d={path} fill="#ffffff" fillOpacity={index === 0 ? 0.95 : 0.7} />
-      ))}
-    </svg>
+    </CubeShell>
   )
 }
 
@@ -863,6 +878,106 @@ function CubeField({ cubes }: { cubes: Scatter<'cube'> }) {
               pieces={CUBE_PIECES[index % CUBE_PIECES.length]!}
               tones={CUBE_TONES[index % CUBE_TONES.length]!}
             />
+          </span>
+        </span>
+      ))}
+    </>
+  )
+}
+
+/**
+ * 2017 の面。大きな三角形を半透明で重ねる。
+ *
+ * 面ごとに色の系統を 1 つか 2 つだけ選び、その中で濃さをばらばらに取る。
+ * 重なったところは下の色が透けて濃くなるので、塗り分けなくても濃淡が生まれる。
+ */
+const PRISM_FAMILIES: (readonly string[])[] = [
+  ['#FFE9A8', '#FFD37A', '#FFB65E'],
+  ['#BFEBFF', '#8FD8F5', '#6BC3E8'],
+  ['#FFD3E4', '#FFAFCC', '#FF8FB8'],
+  ['#DCD3FF', '#BEAEF5', '#A794EC'],
+  ['#CFF3DC', '#A5E3BF', '#7FD3A4'],
+]
+
+function prismCube(index: number): { points: string; color: string }[] {
+  const random = createRandom(20170819 + index * 733)
+
+  return CUBE_FACES.flatMap((face) => {
+    // 2 系統にするときは色相を 2 つ飛ばす。隣の系統だと混ぜても違いが出ない
+    const first = Math.floor(random() * PRISM_FAMILIES.length)
+    const families =
+      random() < 0.5
+        ? [PRISM_FAMILIES[first]!]
+        : [PRISM_FAMILIES[first]!, PRISM_FAMILIES[(first + 2) % PRISM_FAMILIES.length]!]
+
+    const center: Point = [
+      face.reduce((sum, [x]) => sum + x, 0) / face.length,
+      face.reduce((sum, [, y]) => sum + y, 0) / face.length,
+    ]
+
+    return Array.from({ length: 3 + Math.floor(random() * 2) }, () => {
+      // 4 隅から 1 つ落として三角形にする。落とす角を変えると向きが変わる
+      const drop = Math.floor(random() * face.length)
+      const points = face
+        .filter((_, at) => at !== drop)
+        .map(([x, y]) => {
+          // 半分は角のまま。残りだけ中心へ寄せて、重なり方をずらす
+          const pull = random() < 0.5 ? 0 : random() * 0.26
+          return `${(x + (center[0] - x) * pull).toFixed(1)},${(y + (center[1] - y) * pull).toFixed(1)}`
+        })
+        .join(' ')
+
+      const family = families[Math.floor(random() * families.length)]!
+      return { points, color: family[Math.floor(random() * family.length)]! }
+    })
+  })
+}
+
+const PRISM_PIECES = Array.from({ length: 16 }, (_, index) => prismCube(index))
+
+/** 2017 の面。三角形を半透明で重ね、重なったところを濃く見せる。 */
+function PrismCube({ pieces }: { pieces: { points: string; color: string }[] }) {
+  return (
+    <CubeShell>
+      {pieces.map(({ points, color }, index) => (
+        <polygon key={index} points={points} fill={color} fillOpacity="0.5" />
+      ))}
+    </CubeShell>
+  )
+}
+
+/** 2017: 三角形を重ねた立方体を散らす。 */
+const PRISMS = createScatter({
+  count: PRISM_PIECES.length,
+  seed: 20170826,
+  kinds: ['prism'] as const,
+  size: [60, 190],
+  outlinedRate: 0,
+  opacity: [0.7, 1],
+  depth: 46,
+  from: 3,
+})
+
+/** 散らした立方体を並べる。白い光を添えて、きらきらして見せる。 */
+function PrismField({ prisms }: { prisms: Scatter<'prism'> }) {
+  return (
+    <>
+      {prisms.map(({ left, top, size, rotate, opacity, animation }, index) => (
+        <span
+          key={index}
+          className="absolute"
+          style={{
+            left,
+            top,
+            width: `${size}px`,
+            translate: '-50% 0',
+            rotate: `${(rotate / 360) * CUBE_SPIN - CUBE_SPIN / 2}deg`,
+            opacity,
+            filter: 'drop-shadow(0 0 6px rgb(255 255 255 / 0.9))',
+          }}
+        >
+          <span className="block" style={{ animation }}>
+            <PrismCube pieces={PRISM_PIECES[index % PRISM_PIECES.length]!} />
           </span>
         </span>
       ))}
@@ -921,6 +1036,10 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
 
   if (motif === 'cube') {
     return <CubeField cubes={CUBES} />
+  }
+
+  if (motif === 'prism') {
+    return <PrismField prisms={PRISMS} />
   }
 
   return null

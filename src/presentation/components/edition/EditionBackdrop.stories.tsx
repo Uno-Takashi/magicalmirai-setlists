@@ -49,6 +49,11 @@ export const Neon: Story = {
   args: { theme: { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' } },
 }
 
+/** 2017。白い地に、三角形を重ねた立方体を散らす。 */
+export const Prism: Story = {
+  args: { theme: { colors: ['#FFFFFF'], motif: 'prism' } },
+}
+
 /** 2018。淡い水色に、きらきらした立方体を散らす。 */
 export const Cube: Story = {
   args: { theme: { colors: ['#AAFCFF'], motif: 'cube' } },

@@ -20,6 +20,7 @@ export type EditionMotif =
   | 'lantern'
   | 'dots'
   | 'cube'
+  | 'prism'
 
 export interface EditionTheme {
   /** 背景の色。上から下へ順に並べる。1 色だけなら単色になる。 */
@@ -44,6 +45,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
+  // 2017: 白。三角形を重ねた立方体を散らす。
+  ['2017', { colors: ['#FFFFFF'], motif: 'prism' }],
   // 2018: 淡い水色。きらきらした立方体を散らす。
   ['2018', { colors: ['#AAFCFF'], motif: 'cube' }],
   // 2019: 暗い紺を上からの光でぼんやり照らし、点で描いた図形を散らす。
