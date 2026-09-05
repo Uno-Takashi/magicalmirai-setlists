@@ -25,8 +25,8 @@ function backdropStyle(theme: EditionTheme): CSSProperties {
       backgroundColor: theme.colors[theme.colors.length - 1],
       // 白を薄く 2 枚重ねる。1 枚だと光の縁がはっきり出て、輪郭のある円に見える
       backgroundImage: [
-        'radial-gradient(64rem 22rem at 50% -4rem, rgb(255 255 255 / 0.16), transparent 70%)',
-        'radial-gradient(34rem 34rem at 50% -8rem, rgb(255 255 255 / 0.10), transparent 72%)',
+        'radial-gradient(70rem 26rem at 50% -4rem, rgb(255 255 255 / 0.26), transparent 72%)',
+        'radial-gradient(38rem 38rem at 50% -8rem, rgb(255 255 255 / 0.18), transparent 74%)',
       ].join(', '),
     }
   }
