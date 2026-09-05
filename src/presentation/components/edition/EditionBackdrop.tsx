@@ -1,6 +1,41 @@
+import type { CSSProperties } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { EditionMotifArt } from './EditionMotifArt'
 import type { EditionTheme } from './editionThemes'
+
+/** 色を薄める。左右に浮かべるときは、地色が透けるくらいまで引く。 */
+const veil = (color: string) => `color-mix(in srgb, ${color} 55%, transparent)`
+
+/**
+ * 色の敷き方。
+ *
+ * どちらも上から 60rem までで敷き終える。高さいっぱいに引き伸ばすと、曲数の
+ * 多い年ほど変化が薄まって単色に見える。
+ *
+ * - `gradient`: 上から下へ流し、敷き終わりから下は最後の色で塗る
+ * - `sides`: 左右の端にうっすら浮かべる。真ん中と下は素の地色のまま残す
+ */
+function backdropStyle(theme: EditionTheme): CSSProperties {
+  const common = { backgroundSize: '100% 60rem', backgroundRepeat: 'no-repeat' } as const
+
+  if (theme.layout === 'sides') {
+    const left = theme.colors[0]
+    const right = theme.colors[theme.colors.length - 1]!
+    return {
+      ...common,
+      backgroundImage: [
+        `radial-gradient(52rem 44rem at -12% 18%, ${veil(left)}, transparent 64%)`,
+        `radial-gradient(52rem 44rem at 112% 42%, ${veil(right)}, transparent 64%)`,
+      ].join(', '),
+    }
+  }
+
+  return {
+    ...common,
+    backgroundColor: theme.colors[theme.colors.length - 1],
+    backgroundImage: `linear-gradient(to bottom, ${theme.colors.join(', ')})`,
+  }
+}
 
 /** 出るときは少し長く。地色から浮かび上がるのを見せる。 */
 const FADE_IN = { duration: 0.3, ease: [0.22, 1, 0.36, 1] } as const
@@ -31,12 +66,7 @@ export function EditionBackdrop({ theme }: { theme: EditionTheme }) {
       exit={{ opacity: 0, transition: reduceMotion ? NO_MOTION : FADE_OUT }}
       className="pointer-events-none absolute inset-0 overflow-hidden"
       style={{
-        // 色の移り変わりは上から 60rem までで終わらせ、その先は最後の色で塗る。
-        // 高さいっぱいに引き伸ばすと、曲数の多い年ほど変化が薄まって単色に見える。
-        backgroundColor: theme.colors[theme.colors.length - 1],
-        backgroundImage: `linear-gradient(to bottom, ${theme.colors.join(', ')})`,
-        backgroundSize: '100% 60rem',
-        backgroundRepeat: 'no-repeat',
+        ...backdropStyle(theme),
         // 下端は脚注の地色へ溶かす。敷き終わりに横線が出ないようにする。
         maskImage: 'linear-gradient(to bottom, #000 calc(100% - 6rem), transparent)',
       }}

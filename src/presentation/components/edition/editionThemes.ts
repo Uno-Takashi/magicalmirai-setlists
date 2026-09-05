@@ -14,8 +14,15 @@
 export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon'
 
 export interface EditionTheme {
-  /** 背景のグラデーション。上から下へ順に並べる。1 色だけなら単色になる。 */
+  /** 背景の色。上から下へ順に並べる。1 色だけなら単色になる。 */
   readonly colors: readonly [string, ...string[]]
+  /**
+   * 色の敷き方。既定は `gradient`。
+   *
+   * - `gradient`: 上から下へ流す。地の色として画面を占める
+   * - `sides`: 左右の端にうっすら浮かべる。真ん中は素の地色のまま残る
+   */
+  readonly layout?: 'gradient' | 'sides'
   /** その年のモチーフ。無い年は色だけで見せる。 */
   readonly motif?: EditionMotif
   /**
@@ -29,7 +36,7 @@ export interface EditionTheme {
 
 const THEMES = new Map<string, EditionTheme>([
   // 10th: 淡い水色から桃色へ。開催は 2022〜2023 年だが、識別子は西暦ではない。
-  ['10th', { colors: ['#9DF1FC', '#F898E0'], titleColor: '#C0187E' }],
+  ['10th', { colors: ['#9DF1FC', '#F898E0'], layout: 'sides', titleColor: '#06B6E3' }],
   // 2023: 黒一色に、白い線の図形を色とりどりのネオンで光らせる。
   ['2023', { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' }],
   // 2024: 水色から淡い水色へ。星・丸・角丸の三角を薄く散らす。
