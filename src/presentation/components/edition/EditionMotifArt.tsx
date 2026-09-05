@@ -589,6 +589,95 @@ function LanternField() {
   )
 }
 
+/**
+ * 点で描いた図形。小さい丸を格子に並べて、四角形や三角形の形を表す。
+ *
+ * 面で塗らずに点の集まりにすると、暗い地の上でも重くならない。
+ */
+const DOT_KINDS = ['grid', 'frame', 'triangle'] as const
+type DotKind = (typeof DOT_KINDS)[number]
+
+/** 5 行 5 列の格子。図形ごとに、どの目に丸を置くかだけを変える。 */
+const DOT_STEPS = [0, 1, 2, 3, 4]
+
+function dotsOf(kind: DotKind): { x: number; y: number }[] {
+  const at = (column: number, row: number) => ({ x: 10 + column * 20, y: 10 + row * 20 })
+
+  if (kind === 'frame') {
+    // 外周だけ。中を抜くと四角形の輪郭として読める
+    return DOT_STEPS.flatMap((row) =>
+      DOT_STEPS.filter((column) => row === 0 || row === 4 || column === 0 || column === 4).map(
+        (column) => at(column, row),
+      ),
+    )
+  }
+
+  if (kind === 'triangle') {
+    // 行が下がるほど 1 つずつ増やし、中央に寄せる
+    return DOT_STEPS.flatMap((row) =>
+      Array.from({ length: row + 1 }, (_, index) => ({
+        x: 50 + (index - row / 2) * 20,
+        y: 10 + row * 20,
+      })),
+    )
+  }
+
+  return DOT_STEPS.flatMap((row) => DOT_STEPS.map((column) => at(column, row)))
+}
+
+const DOT_SHAPES = Object.fromEntries(DOT_KINDS.map((kind) => [kind, dotsOf(kind)])) as Record<
+  DotKind,
+  { x: number; y: number }[]
+>
+
+function DotShape({ kind, color }: { kind: DotKind; color: string }) {
+  return (
+    <svg viewBox="0 0 100 100" aria-hidden focusable="false" className="w-full" fill={color}>
+      {DOT_SHAPES[kind].map(({ x, y }, index) => (
+        <circle key={index} cx={x} cy={y} r="5" />
+      ))}
+    </svg>
+  )
+}
+
+/** 2019: 点で描いた図形を散らす。 */
+const DOT_FIGURES = createScatter({
+  count: 14,
+  seed: 20191004,
+  kinds: DOT_KINDS,
+  size: [90, 240],
+  outlinedRate: 0,
+  opacity: [0.45, 0.85],
+  depth: 46,
+  from: 4,
+})
+
+/** 点で描いた図形を並べる。 */
+function DotField({ figures, color }: { figures: Scatter<DotKind>; color: string }) {
+  return (
+    <>
+      {figures.map(({ kind, left, top, size, rotate, opacity, animation }, index) => (
+        <span
+          key={index}
+          className="absolute"
+          style={{
+            left,
+            top,
+            width: `${size}px`,
+            translate: '-50% 0',
+            rotate: `${rotate}deg`,
+            opacity,
+          }}
+        >
+          <span className="block" style={{ animation }}>
+            <DotShape kind={kind} color={color} />
+          </span>
+        </span>
+      ))}
+    </>
+  )
+}
+
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {
     return (
@@ -632,6 +721,10 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
 
   if (motif === 'lantern') {
     return <LanternField />
+  }
+
+  if (motif === 'dots') {
+    return <DotField figures={DOT_FIGURES} color="#484965" />
   }
 
   return null

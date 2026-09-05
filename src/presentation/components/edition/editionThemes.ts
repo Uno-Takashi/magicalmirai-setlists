@@ -11,7 +11,14 @@
  */
 
 /** 背景に添える意匠。絵そのものは `EditionMotifArt` が持つ。 */
-export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon' | 'cloud' | 'lantern'
+export type EditionMotif =
+  | 'sunflower'
+  | 'starfield'
+  | 'shapes'
+  | 'neon'
+  | 'cloud'
+  | 'lantern'
+  | 'dots'
 
 export interface EditionTheme {
   /** 背景の色。上から下へ順に並べる。1 色だけなら単色になる。 */
@@ -21,8 +28,9 @@ export interface EditionTheme {
    *
    * - `gradient`: 上から下へ流す。地の色として画面を占める
    * - `sides`: 左右の端にうっすら浮かべる。真ん中は素の地色のまま残る
+   * - `spotlight`: 最後の色で塗りつぶし、上から光を当てる
    */
-  readonly layout?: 'gradient' | 'sides'
+  readonly layout?: 'gradient' | 'sides' | 'spotlight'
   /** その年のモチーフ。無い年は色だけで見せる。 */
   readonly motif?: EditionMotif
   /**
@@ -35,6 +43,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
+  // 2019: 暗い紺を上からの光でぼんやり照らし、点で描いた図形を散らす。
+  ['2019', { colors: ['#171723'], layout: 'spotlight', motif: 'dots' }],
   // 2020: 濃い桃色と淡い桃色を左右にうっすら浮かべ、提灯を吊るす。
   //       公式のテーマが「MATSURI」で、キービジュアルは夜祭りの屋台と提灯。
   ['2020', { colors: ['#ED3266', '#F5EBEA'], layout: 'sides', motif: 'lantern' }],

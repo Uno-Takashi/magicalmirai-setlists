@@ -14,9 +14,22 @@ const veil = (color: string) => `color-mix(in srgb, ${color} 55%, transparent)`
  *
  * - `gradient`: 上から下へ流し、敷き終わりから下は最後の色で塗る
  * - `sides`: 左右の端にうっすら浮かべる。真ん中と下は素の地色のまま残す
+ * - `spotlight`: 最後の色で塗りつぶし、上から光を当てる
  */
 function backdropStyle(theme: EditionTheme): CSSProperties {
   const common = { backgroundSize: '100% 60rem', backgroundRepeat: 'no-repeat' } as const
+
+  if (theme.layout === 'spotlight') {
+    return {
+      ...common,
+      backgroundColor: theme.colors[theme.colors.length - 1],
+      // 白を薄く 2 枚重ねる。1 枚だと光の縁がはっきり出て、輪郭のある円に見える
+      backgroundImage: [
+        'radial-gradient(64rem 22rem at 50% -4rem, rgb(255 255 255 / 0.16), transparent 70%)',
+        'radial-gradient(34rem 34rem at 50% -8rem, rgb(255 255 255 / 0.10), transparent 72%)',
+      ].join(', '),
+    }
+  }
 
   if (theme.layout === 'sides') {
     const left = theme.colors[0]

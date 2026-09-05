@@ -49,6 +49,11 @@ export const Neon: Story = {
   args: { theme: { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' } },
 }
 
+/** 2019。暗い紺を上からの光でぼんやり照らし、点で描いた図形を散らす。 */
+export const Spotlight: Story = {
+  args: { theme: { colors: ['#171723'], layout: 'spotlight', motif: 'dots' } },
+}
+
 /** 2020。左右に浮かべた桃色に、祭りの提灯を吊るす。 */
 export const Lantern: Story = {
   args: { theme: { colors: ['#ED3266', '#F5EBEA'], layout: 'sides', motif: 'lantern' } },
