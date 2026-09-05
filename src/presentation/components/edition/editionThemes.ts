@@ -11,7 +11,7 @@
  */
 
 /** 背景に添える意匠。絵そのものは `EditionMotifArt` が持つ。 */
-export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon'
+export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon' | 'rose'
 
 export interface EditionTheme {
   /** 背景の色。上から下へ順に並べる。1 色だけなら単色になる。 */
@@ -35,6 +35,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
+  // 2021: 落ち着いた葡萄酒色。薔薇を静かに散らす。
+  ['2021', { colors: ['#57202F', '#24101A'], motif: 'rose', titleColor: '#E8D5B5' }],
   // 10th: 淡い水色から桃色へ。開催は 2022〜2023 年だが、識別子は西暦ではない。
   ['10th', { colors: ['#9DF1FC', '#F898E0'], layout: 'sides', titleColor: '#06B6E3' }],
   // 2023: 黒一色に、白い線の図形を色とりどりのネオンで光らせる。

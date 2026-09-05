@@ -203,12 +203,17 @@ function Shape({
   )
 }
 
-/** 散らし方の指定。年ごとに違うのはこの数値だけ。 */
-interface ScatterSpec {
+/**
+ * 散らし方の指定。年ごとに違うのはこの数値だけ。
+ *
+ * 形の種類は総称にしてある。薔薇のように `Shape` を通さない絵でも、置き方だけは
+ * 同じ仕組みに乗せられる。
+ */
+interface ScatterSpec<Kind extends string> {
   readonly count: number
   /** 乱数の種。年ごとに変えて、同じ並びが繰り返されないようにする。 */
   readonly seed: number
-  readonly kinds: readonly ShapeKind[]
+  readonly kinds: readonly Kind[]
   /** 大きさの下限と上限 (px)。 */
   readonly size: readonly [number, number]
   /** 輪郭だけで描く割合。1 なら全部が輪郭になる。 */
@@ -241,7 +246,7 @@ interface ScatterSpec {
  * 星と同じく縦は rem で置き、地の色が濃いうちに収める。割合にすると、曲数の
  * 多い年ほど下の明るいところまで伸びて見えなくなる。
  */
-function createScatter(spec: ScatterSpec) {
+function createScatter<Kind extends string>(spec: ScatterSpec<Kind>) {
   const random = createRandom(spec.seed)
   const [minSize, maxSize] = spec.size
   const [minOpacity, maxOpacity] = spec.opacity
@@ -261,7 +266,7 @@ function createScatter(spec: ScatterSpec) {
   }))
 }
 
-type Scatter = ReturnType<typeof createScatter>
+type Scatter<Kind extends string = ShapeKind> = ReturnType<typeof createScatter<Kind>>
 
 /** 2024: 星・丸・角丸の三角を薄く散らす。 */
 const SHAPES = createScatter({
@@ -397,6 +402,119 @@ function NeonField({ shapes }: { shapes: Scatter }) {
   )
 }
 
+/**
+ * 薔薇。花びらの層を大きい順に重ね、中心に渦を置く。
+ *
+ * 写実にはしない。落ち着いた色を数段だけ使って面で塗り、輪郭線を持たない。
+ * 背景に置く飾りなので、遠目に薔薇と分かれば足りる。
+ */
+
+/** 花びらの輪。半径の位置に、大きさの揃った丸を等間隔で並べる。 */
+function petalRing(count: number, radius: number, size: number, turn: number) {
+  return Array.from({ length: count }, (_, index) => {
+    const angle = ((index * 360) / count + turn) * (Math.PI / 180)
+    return {
+      cx: 50 + radius * Math.cos(angle),
+      cy: 50 + radius * Math.sin(angle),
+      r: size,
+    }
+  })
+}
+
+const ROSE_OUTER = petalRing(7, 30, 17, 0)
+const ROSE_INNER = petalRing(5, 17, 12, 26)
+
+/** 中心の渦。1.75 周だけ巻いて、薔薇の芯に見せる。 */
+const ROSE_SPIRAL =
+  'M50.0,47.0L50.8,46.7L51.7,46.7L52.7,47.0L53.7,47.5L54.5,48.4L55.1,49.5L55.4,50.8L55.4,52.2L55.0,53.6L54.2,55.0L53.0,56.2L51.5,57.1L49.7,57.6L47.8,57.7L45.8,57.2L44.0,56.3L42.3,54.8L41.1,52.9L40.3,50.7L40.0,48.2L40.4,45.7L41.5,43.3L43.1,41.2L45.3,39.5L47.9,38.3L50.9,37.8L53.9,38.0L56.9,39.0L59.6,40.8L61.8,43.2L63.5,46.1L64.4,49.5L64.4,53.1L63.6,56.6L61.8,59.9L59.3,62.8L56.1,65.0L52.3,66.4L48.2,66.8L44.1,66.2L40.2,64.6L36.7,62.0L33.9,58.6L31.9,54.5L31.0,50.0'
+
+/**
+ * 薔薇 1 輪。3 段の色は外・中・芯の順。
+ *
+ * 花びらには 1 段暗い色で細い線を入れる。面だけで重ねると層の境目が消えて、
+ * 雲のかたまりに見えてしまう。
+ */
+function Rose({ tones }: { tones: readonly [string, string, string] }) {
+  const [petal, shade, core] = tones
+  const edge = { stroke: shade, strokeWidth: 1.4 }
+  const innerEdge = { stroke: core, strokeWidth: 1.4 }
+
+  return (
+    <svg viewBox="0 0 100 100" aria-hidden focusable="false" className="w-full">
+      {ROSE_OUTER.map(({ cx, cy, r }, index) => (
+        <circle key={index} cx={cx} cy={cy} r={r} fill={petal} {...edge} />
+      ))}
+      <circle cx="50" cy="50" r="32" fill={petal} {...edge} />
+      {/* 外と中のあいだの輪。巻きが一段深くなったように見せる */}
+      <circle cx="50" cy="50" r="26" fill="none" stroke={shade} strokeWidth="1.4" />
+      {ROSE_INNER.map(({ cx, cy, r }, index) => (
+        <circle key={index} cx={cx} cy={cy} r={r} fill={shade} {...innerEdge} />
+      ))}
+      <circle cx="50" cy="50" r="20" fill={shade} {...innerEdge} />
+      <path
+        d={ROSE_SPIRAL}
+        fill="none"
+        stroke={core}
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+/**
+ * 薔薇の色。外・中・芯の 3 段で 1 組。順に取り出して色が固まらないようにする。
+ *
+ * 生成り・くすんだ薔薇色・灰緑・藤鼠・練色。彩度を落とした古い花束の色で揃える。
+ */
+const ROSE_TONES: (readonly [string, string, string])[] = [
+  ['#E3D4B8', '#C9B394', '#A8917A'],
+  ['#C98F92', '#AE7276', '#8E585E'],
+  ['#A9B3A6', '#8C978B', '#6E7A6E'],
+  ['#9C86A8', '#7F6B8C', '#63536F'],
+  ['#D9A277', '#BC8560', '#98684A'],
+]
+
+/** 2021: 薔薇を静かに散らす。 */
+const ROSES = createScatter({
+  count: 13,
+  seed: 20210000,
+  kinds: ['rose'] as const,
+  size: [96, 232],
+  outlinedRate: 0,
+  opacity: [0.5, 0.8],
+  depth: 46,
+  // 題名の帯には掛けない
+  from: 5,
+})
+
+/** 散らした薔薇を並べる。 */
+function RoseField({ roses }: { roses: Scatter<'rose'> }) {
+  return (
+    <>
+      {roses.map(({ left, top, size, rotate, opacity, animation }, index) => (
+        <span
+          key={index}
+          className="absolute"
+          style={{
+            left,
+            top,
+            width: `${size}px`,
+            translate: '-50% 0',
+            rotate: `${rotate}deg`,
+            opacity,
+          }}
+        >
+          <span className="block" style={{ animation }}>
+            <Rose tones={ROSE_TONES[index % ROSE_TONES.length]!} />
+          </span>
+        </span>
+      ))}
+    </>
+  )
+}
+
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {
     return (
@@ -432,6 +550,10 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
 
   if (motif === 'neon') {
     return <NeonField shapes={NEON} />
+  }
+
+  if (motif === 'rose') {
+    return <RoseField roses={ROSES} />
   }
 
   return null

@@ -49,6 +49,16 @@ export const Neon: Story = {
   args: { theme: { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' } },
 }
 
+/** 2021。落ち着いた葡萄酒色の地に、くすんだ色の薔薇を散らす。 */
+export const Rose: Story = {
+  args: { theme: { colors: ['#57202F', '#24101A'], motif: 'rose', titleColor: '#E8D5B5' } },
+}
+
+/** 左右にうっすら浮かべる敷き方 (10th)。真ん中は素の地色のまま残る。 */
+export const Sides: Story = {
+  args: { theme: { colors: ['#9DF1FC', '#F898E0'], layout: 'sides', titleColor: '#06B6E3' } },
+}
+
 /** モチーフの無い年。色だけを敷く。 */
 export const ColorsOnly: Story = {
   args: { theme: { colors: ['#ECFEE8', '#E4FEFD'] } },
