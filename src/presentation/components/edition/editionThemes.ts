@@ -44,9 +44,19 @@ export interface EditionTheme {
   readonly titleColor?: string
 }
 
+/**
+ * 2013〜2016 の配色。まだ年ごとの意匠を決めていないので、まとめて同じにする。
+ *
+ * 個別に決まったらこの共有をやめて、その年だけ書き下ろす。
+ */
+const EARLY: EditionTheme = { colors: ['#6ADDFC', '#9CE0DF'], layout: 'sides' }
+
 const THEMES = new Map<string, EditionTheme>([
-  // 2016: 水色と浅葱色を、左右にうっすら浮かべる。
-  ['2016', { colors: ['#6ADDFC', '#9CE0DF'], layout: 'sides' }],
+  // 2013〜2016: 水色と浅葱色を、左右にうっすら浮かべる。
+  ['2013', EARLY],
+  ['2014', EARLY],
+  ['2015', EARLY],
+  ['2016', EARLY],
   // 2017: 白。三角形を重ねた立方体を散らす。
   ['2017', { colors: ['#FFFFFF'], motif: 'prism' }],
   // 2018: 淡い水色。きらきらした立方体を散らす。
