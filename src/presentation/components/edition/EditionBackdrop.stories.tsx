@@ -39,6 +39,11 @@ export const Starfield: Story = {
   args: { theme: { colors: ['#0C2E64', '#78D9E1', '#CBC1FB'], motif: 'starfield' } },
 }
 
+/** 2024。水色から淡い水色へ。星・丸・角丸の三角を薄く散らす。 */
+export const Shapes: Story = {
+  args: { theme: { colors: ['#85D5DE', '#D8F4F5'], motif: 'shapes' } },
+}
+
 /** モチーフの無い年。色だけを敷く。 */
 export const ColorsOnly: Story = {
   args: { theme: { colors: ['#ECFEE8', '#E4FEFD'] } },

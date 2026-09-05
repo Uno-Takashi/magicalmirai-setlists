@@ -74,20 +74,27 @@ const SUNFLOWERS: { className: string; animation: string }[] = [
 ]
 
 /**
- * 星の散らし方。位置と瞬きの拍を数として持ち、白い丸で描く。
+ * 種を固定した擬似乱数。散らし方を決めるのに使う。
  *
- * 並びは擬似乱数だが種を固定してあるので、いつ描いても同じ空になる。
- * 描き直しのたびに散らばりが変われば、年を送って戻っただけで別の空に見える。
+ * 描き直すたびに散らばりが変わると、年を送って戻っただけで別の絵になってしまう。
+ * 種から決めておけば、いつ描いても同じ並びになる。
+ */
+function createRandom(seed: number) {
+  let value = seed
+  return () => {
+    value = (value * 1103515245 + 12345) % 2147483648
+    return value / 2147483648
+  }
+}
+
+/**
+ * 星の散らし方。位置と瞬きの拍を数として持ち、白い丸で描く。
  *
  * 縦は rem で置く。割合にすると、曲数の多い年ほど星が下の明るいところまで
  * 伸びて見えなくなる。色が濃紺から水色に変わりきるまでの範囲に留める。
  */
 function createStars(count: number) {
-  let seed = 20250808
-  const random = () => {
-    seed = (seed * 1103515245 + 12345) % 2147483648
-    return seed / 2147483648
-  }
+  const random = createRandom(20250808)
 
   return Array.from({ length: count }, () => ({
     left: `${random() * 100}%`,
@@ -99,6 +106,61 @@ function createStars(count: number) {
 }
 
 const STARS = createStars(140)
+
+/**
+ * 散らす形。角は丸める。
+ *
+ * 丸めは stroke-linejoin="round" で行う。線を塗りと同じ色で太く重ねると、
+ * 角だけが丸まった一回り大きい図形になる。角丸の頂点を path で書き起こすより短い。
+ */
+const SHAPE_KINDS = ['circle', 'star', 'triangle'] as const
+type ShapeKind = (typeof SHAPE_KINDS)[number]
+
+const STAR_POINTS =
+  '50.0,8.0 60.0,36.2 89.9,37.0 66.2,55.3 74.7,84.0 50.0,67.0 25.3,84.0 33.8,55.3 10.1,37.0 40.0,36.2'
+const TRIANGLE_POINTS = '50,12 84,76 16,76'
+
+/** 図形 1 つ。色は呼ぶ側の currentColor に従う。 */
+function Shape({ kind, outlined }: { kind: ShapeKind; outlined: boolean }) {
+  // 塗りつぶしと輪郭を混ぜる。同じ形が並んでも単調にならない
+  const paint = {
+    fill: outlined ? 'none' : 'currentColor',
+    stroke: 'currentColor',
+    strokeWidth: outlined ? 8 : 10,
+    strokeLinejoin: 'round' as const,
+  }
+
+  return (
+    <svg viewBox="0 0 100 100" aria-hidden focusable="false" className="w-full">
+      {kind === 'circle' ? <circle cx="50" cy="50" r="40" {...paint} /> : null}
+      {kind === 'star' ? <polygon points={STAR_POINTS} {...paint} /> : null}
+      {kind === 'triangle' ? <polygon points={TRIANGLE_POINTS} {...paint} /> : null}
+    </svg>
+  )
+}
+
+/**
+ * 図形の散らし方。大きさ・傾き・濃さを 1 つずつずらす。
+ *
+ * 星と同じく縦は rem で置き、地の色が濃いうちに収める。下は色が薄くなるので、
+ * 白に近い図形を置いても見えなくなる。
+ */
+function createShapes(count: number) {
+  const random = createRandom(20240809)
+
+  return Array.from({ length: count }, () => ({
+    kind: SHAPE_KINDS[Math.floor(random() * SHAPE_KINDS.length)]!,
+    outlined: random() < 0.4,
+    left: `${random() * 100}%`,
+    top: `${random() ** 1.4 * 48}rem`,
+    size: `${14 + random() * 30}px`,
+    rotate: `${random() * 360}deg`,
+    opacity: 0.2 + random() * 0.3,
+    animation: `drift ${18 + random() * 16}s ease-in-out ${-random() * 20}s infinite`,
+  }))
+}
+
+const SHAPES = createShapes(30)
 
 export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   if (motif === 'sunflower') {
@@ -124,6 +186,25 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
             className="absolute rounded-full bg-white"
             style={{ left, top, width: size, height: size, animation }}
           />
+        ))}
+      </>
+    )
+  }
+
+  if (motif === 'shapes') {
+    return (
+      <>
+        {SHAPES.map(({ kind, outlined, left, top, size, rotate, opacity, animation }, index) => (
+          /* 傾きは外側に、揺れは内側に。同じ要素に重ねると揺れが傾きを上書きする */
+          <span
+            key={index}
+            className="absolute text-white"
+            style={{ left, top, width: size, rotate, opacity }}
+          >
+            <span className="block" style={{ animation }}>
+              <Shape kind={kind} outlined={outlined} />
+            </span>
+          </span>
         ))}
       </>
     )
