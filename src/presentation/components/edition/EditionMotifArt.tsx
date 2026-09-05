@@ -708,10 +708,10 @@ const CUBE_SPARKLES = [sparkle(50, 6, 11), sparkle(92, 30, 7)]
 
 /** 面に流す淡い色。虹色に振れるよう、隣り合う色相を離して並べる。 */
 const CUBE_TONES: (readonly [string, string, string])[] = [
-  ['#FFD9EC', '#CDE9FF', '#FFF6C9'],
-  ['#D9CCFF', '#C9F7FF', '#FFE0D0'],
-  ['#C9FFE8', '#FFF6C9', '#FFC7E0'],
-  ['#AEEBFF', '#E4D4FF', '#FFE7B8'],
+  ['#FF9ED2', '#8FD8FF', '#FFF08A'],
+  ['#B79BFF', '#7FEBFF', '#FFC199'],
+  ['#7DF5C4', '#FFE86B', '#FF9CC8'],
+  ['#63D6FF', '#C7A5FF', '#FFD27F'],
 ]
 
 function Cube({ tones }: { tones: readonly [string, string, string] }) {
@@ -754,12 +754,12 @@ function Cube({ tones }: { tones: readonly [string, string, string] }) {
 
 /** 2018: 立方体を散らす。 */
 const CUBES = createScatter({
-  count: 11,
+  count: 20,
   seed: 20180810,
   kinds: ['cube'] as const,
-  size: [70, 200],
+  size: [46, 120],
   outlinedRate: 0,
-  opacity: [0.6, 0.95],
+  opacity: [0.75, 1],
   depth: 46,
   from: 3,
 })
