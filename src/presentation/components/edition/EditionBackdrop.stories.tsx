@@ -49,9 +49,9 @@ export const Neon: Story = {
   args: { theme: { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' } },
 }
 
-/** 2021。落ち着いた葡萄酒色の地に、くすんだ色の薔薇を散らす。 */
-export const Rose: Story = {
-  args: { theme: { colors: ['#57202F', '#24101A'], motif: 'rose', titleColor: '#E8D5B5' } },
+/** 2021。青から白へ抜ける空に、うっすら雲を浮かべる。 */
+export const Sky: Story = {
+  args: { theme: { colors: ['#7FA5CA', '#FFFFFF'], motif: 'cloud', titleColor: '#1B3A63' } },
 }
 
 /** 左右にうっすら浮かべる敷き方 (10th)。真ん中は素の地色のまま残る。 */

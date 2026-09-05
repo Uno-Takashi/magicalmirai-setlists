@@ -11,7 +11,7 @@
  */
 
 /** 背景に添える意匠。絵そのものは `EditionMotifArt` が持つ。 */
-export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon' | 'rose'
+export type EditionMotif = 'sunflower' | 'starfield' | 'shapes' | 'neon' | 'cloud'
 
 export interface EditionTheme {
   /** 背景の色。上から下へ順に並べる。1 色だけなら単色になる。 */
@@ -35,8 +35,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
-  // 2021: 落ち着いた葡萄酒色。薔薇を静かに散らす。
-  ['2021', { colors: ['#57202F', '#24101A'], motif: 'rose', titleColor: '#E8D5B5' }],
+  // 2021: 空。青から白へ抜ける地に、うっすら雲を浮かべる。
+  ['2021', { colors: ['#7FA5CA', '#FFFFFF'], motif: 'cloud', titleColor: '#1B3A63' }],
   // 10th: 淡い水色から桃色へ。開催は 2022〜2023 年だが、識別子は西暦ではない。
   ['10th', { colors: ['#9DF1FC', '#F898E0'], layout: 'sides', titleColor: '#06B6E3' }],
   // 2023: 黒一色に、白い線の図形を色とりどりのネオンで光らせる。
@@ -51,4 +51,14 @@ const THEMES = new Map<string, EditionTheme>([
 
 export function editionThemeOf(slug: string): EditionTheme | undefined {
   return THEMES.get(slug)
+}
+
+/**
+ * 表にあるすべての開催回。slug と配色の組を、表に書いた順で返す。
+ *
+ * Storybook の一覧が使う。年を足せばそちらにも自動で並ぶので、見本を別に
+ * 書き写さずに済む。
+ */
+export function allEditionThemes(): [string, EditionTheme][] {
+  return [...THEMES]
 }

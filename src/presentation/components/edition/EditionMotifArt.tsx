@@ -206,7 +206,7 @@ function Shape({
 /**
  * 散らし方の指定。年ごとに違うのはこの数値だけ。
  *
- * 形の種類は総称にしてある。薔薇のように `Shape` を通さない絵でも、置き方だけは
+ * 形の種類は総称にしてある。雲のように `Shape` を通さない絵でも、置き方だけは
  * 同じ仕組みに乗せられる。
  */
 interface ScatterSpec<Kind extends string> {
@@ -403,97 +403,69 @@ function NeonField({ shapes }: { shapes: Scatter }) {
 }
 
 /**
- * 薔薇。花びらの層を大きい順に重ね、中心に渦を置く。
+ * 雲。大きさの違う丸をいくつも重ねて塊を作る。
  *
- * 写実にはしない。落ち着いた色を数段だけ使って面で塗り、輪郭線を持たない。
- * 背景に置く飾りなので、遠目に薔薇と分かれば足りる。
+ * 形は 1 つずつ変える。同じ絵を並べると模様に見えて、空に浮かんでいる感じが出ない。
+ * 種は雲の順番から決めるので、いつ描いても同じ空になる。
  */
+function cloudPuffs(index: number) {
+  const random = createRandom(20211015 + index * 977)
+  const count = 7 + Math.floor(random() * 5)
 
-/** 花びらの輪。半径の位置に、大きさの揃った丸を等間隔で並べる。 */
-function petalRing(count: number, radius: number, size: number, turn: number) {
-  return Array.from({ length: count }, (_, index) => {
-    const angle = ((index * 360) / count + turn) * (Math.PI / 180)
+  return Array.from({ length: count }, (_, puff) => {
+    // 横は左から順に、間隔を少しずつ揺らして置く
+    const along = (puff + 0.25 + random() * 0.5) / count
+    const radius = 11 + random() * 15
     return {
-      cx: 50 + radius * Math.cos(angle),
-      cy: 50 + radius * Math.sin(angle),
-      r: size,
+      cx: 8 + along * 104,
+      // 下は揃え、上へだけ膨らませる。積乱雲のように上が盛り上がって見える
+      cy: 42 - radius * (0.3 + random() * 0.55),
+      r: radius,
     }
   })
 }
 
-const ROSE_OUTER = petalRing(7, 30, 17, 0)
-const ROSE_INNER = petalRing(5, 17, 12, 26)
+const CLOUD_SHAPES = Array.from({ length: 9 }, (_, index) => cloudPuffs(index))
 
-/** 中心の渦。1.75 周だけ巻いて、薔薇の芯に見せる。 */
-const ROSE_SPIRAL =
-  'M50.0,47.0L50.8,46.7L51.7,46.7L52.7,47.0L53.7,47.5L54.5,48.4L55.1,49.5L55.4,50.8L55.4,52.2L55.0,53.6L54.2,55.0L53.0,56.2L51.5,57.1L49.7,57.6L47.8,57.7L45.8,57.2L44.0,56.3L42.3,54.8L41.1,52.9L40.3,50.7L40.0,48.2L40.4,45.7L41.5,43.3L43.1,41.2L45.3,39.5L47.9,38.3L50.9,37.8L53.9,38.0L56.9,39.0L59.6,40.8L61.8,43.2L63.5,46.1L64.4,49.5L64.4,53.1L63.6,56.6L61.8,59.9L59.3,62.8L56.1,65.0L52.3,66.4L48.2,66.8L44.1,66.2L40.2,64.6L36.7,62.0L33.9,58.6L31.9,54.5L31.0,50.0'
-
-/**
- * 薔薇 1 輪。3 段の色は外・中・芯の順。
- *
- * 花びらには 1 段暗い色で細い線を入れる。面だけで重ねると層の境目が消えて、
- * 雲のかたまりに見えてしまう。
- */
-function Rose({ tones }: { tones: readonly [string, string, string] }) {
-  const [petal, shade, core] = tones
-  const edge = { stroke: shade, strokeWidth: 1.4 }
-  const innerEdge = { stroke: core, strokeWidth: 1.4 }
-
+/** 雲 1 つ。丸の集まりを白で塗るだけで、輪郭線は持たない。 */
+function Cloud({ puffs }: { puffs: { cx: number; cy: number; r: number }[] }) {
   return (
-    <svg viewBox="0 0 100 100" aria-hidden focusable="false" className="w-full">
-      {ROSE_OUTER.map(({ cx, cy, r }, index) => (
-        <circle key={index} cx={cx} cy={cy} r={r} fill={petal} {...edge} />
+    <svg viewBox="0 0 120 60" aria-hidden focusable="false" className="w-full" fill="#ffffff">
+      <ellipse cx="60" cy="44" rx="50" ry="11" />
+      {puffs.map(({ cx, cy, r }, index) => (
+        <circle key={index} cx={cx} cy={cy} r={r} />
       ))}
-      <circle cx="50" cy="50" r="32" fill={petal} {...edge} />
-      {/* 外と中のあいだの輪。巻きが一段深くなったように見せる */}
-      <circle cx="50" cy="50" r="26" fill="none" stroke={shade} strokeWidth="1.4" />
-      {ROSE_INNER.map(({ cx, cy, r }, index) => (
-        <circle key={index} cx={cx} cy={cy} r={r} fill={shade} {...innerEdge} />
-      ))}
-      <circle cx="50" cy="50" r="20" fill={shade} {...innerEdge} />
-      <path
-        d={ROSE_SPIRAL}
-        fill="none"
-        stroke={core}
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
     </svg>
   )
 }
 
 /**
- * 薔薇の色。外・中・芯の 3 段で 1 組。順に取り出して色が固まらないようにする。
+ * 2021: 雲を空の高いところに散らす。
  *
- * 生成り・くすんだ薔薇色・灰緑・藤鼠・練色。彩度を落とした古い花束の色で揃える。
+ * 下へ行くほど地の色が白に抜けるので、白い雲は見えなくなる。青が残っている
+ * あいだに収める。
  */
-const ROSE_TONES: (readonly [string, string, string])[] = [
-  ['#E3D4B8', '#C9B394', '#A8917A'],
-  ['#C98F92', '#AE7276', '#8E585E'],
-  ['#A9B3A6', '#8C978B', '#6E7A6E'],
-  ['#9C86A8', '#7F6B8C', '#63536F'],
-  ['#D9A277', '#BC8560', '#98684A'],
-]
-
-/** 2021: 薔薇を静かに散らす。 */
-const ROSES = createScatter({
-  count: 13,
-  seed: 20210000,
-  kinds: ['rose'] as const,
-  size: [96, 232],
+const CLOUDS = createScatter({
+  count: CLOUD_SHAPES.length,
+  seed: 20210301,
+  kinds: ['cloud'] as const,
+  size: [220, 520],
   outlinedRate: 0,
-  opacity: [0.5, 0.8],
-  depth: 46,
-  // 題名の帯には掛けない
-  from: 5,
+  opacity: [0.38, 0.72],
+  depth: 28,
+  from: 2,
 })
 
-/** 散らした薔薇を並べる。 */
-function RoseField({ roses }: { roses: Scatter<'rose'> }) {
+/**
+ * 散らした雲を並べる。雲は回さない。傾けると空に浮かんで見えなくなる。
+ *
+ * 縁は 2 段でぼかす。大きさに合わせた blur で丸の継ぎ目を消し、さらに外へ向けて
+ * 透けさせて、輪郭がどこで終わるのか分からないようにする。
+ */
+function CloudField({ clouds }: { clouds: Scatter<'cloud'> }) {
   return (
     <>
-      {roses.map(({ left, top, size, rotate, opacity, animation }, index) => (
+      {clouds.map(({ left, top, size, opacity, animation }, index) => (
         <span
           key={index}
           className="absolute"
@@ -502,12 +474,13 @@ function RoseField({ roses }: { roses: Scatter<'rose'> }) {
             top,
             width: `${size}px`,
             translate: '-50% 0',
-            rotate: `${rotate}deg`,
             opacity,
+            filter: `blur(${size / 44}px)`,
+            maskImage: 'radial-gradient(closest-side, #000 55%, transparent 100%)',
           }}
         >
           <span className="block" style={{ animation }}>
-            <Rose tones={ROSE_TONES[index % ROSE_TONES.length]!} />
+            <Cloud puffs={CLOUD_SHAPES[index]!} />
           </span>
         </span>
       ))}
@@ -552,8 +525,8 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
     return <NeonField shapes={NEON} />
   }
 
-  if (motif === 'rose') {
-    return <RoseField roses={ROSES} />
+  if (motif === 'cloud') {
+    return <CloudField clouds={CLOUDS} />
   }
 
   return null
