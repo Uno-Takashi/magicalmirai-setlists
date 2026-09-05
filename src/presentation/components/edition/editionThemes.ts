@@ -28,8 +28,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
-  // 2023: 黒一色。赤は見出しと、白い線の図形を光らせるネオンに使う。
-  ['2023', { colors: ['#000000'], motif: 'neon', titleColor: '#E50617' }],
+  // 2023: 黒一色に、白い線の図形を色とりどりのネオンで光らせる。
+  ['2023', { colors: ['#000000'], motif: 'neon', titleColor: '#FFFFFF' }],
   // 2024: 水色から淡い水色へ。星・丸・角丸の三角を薄く散らす。
   ['2024', { colors: ['#85D5DE', '#D8F4F5'], motif: 'shapes', titleColor: '#FFCD5A' }],
   // 2025: 濃紺から水色、藤色へ。白い点の星を散らす。

@@ -107,12 +107,6 @@ function createStars(count: number) {
 
 const STARS = createStars(140)
 
-/**
- * 散らす形。角は丸める。
- *
- * 丸めは stroke-linejoin="round" で行う。線を塗りと同じ色で太く重ねると、
- * 角だけが丸まった一回り大きい図形になる。角丸の頂点を path で書き起こすより短い。
- */
 /** 散らす形。年ごとにどれを使うかは散らし方の指定 (`kinds`) で決める。 */
 type ShapeKind = 'circle' | 'star' | 'triangle' | 'diamond'
 
@@ -122,7 +116,7 @@ const TRIANGLE_POINTS = '50,12 84,76 16,76'
 const DIAMOND_POINTS = '50,8 86,50 50,92 14,50'
 
 /**
- * 図形 1 つ。色は呼ぶ側の currentColor に従う。
+ * 図形 1 つ。線の色は呼ぶ側の currentColor に従う。
  *
  * 角の丸めは stroke-linejoin="round" で行う。線を塗りと同じ色で重ねると、
  * 角だけが丸まった図形になる。角丸の頂点を path で書き起こすより短い。
@@ -131,14 +125,17 @@ function Shape({
   kind,
   outlined,
   lineWidth = 8,
+  fillColor,
 }: {
   kind: ShapeKind
   outlined: boolean
   /** 輪郭の太さ (viewBox は 100 四方)。ネオンは細いほど管らしく見える。 */
   lineWidth?: number
+  /** 塗りつぶす色。省略すると線と同じ色になる。 */
+  fillColor?: string
 }) {
   const paint = {
-    fill: outlined ? 'none' : 'currentColor',
+    fill: outlined ? 'none' : (fillColor ?? 'currentColor'),
     stroke: 'currentColor',
     strokeWidth: outlined ? lineWidth : 10,
     strokeLinejoin: 'round' as const,
@@ -147,7 +144,16 @@ function Shape({
   return (
     <svg viewBox="0 0 100 100" aria-hidden focusable="false" className="w-full">
       {kind === 'circle' ? <circle cx="50" cy="50" r="40" {...paint} /> : null}
-      {kind === 'star' ? <polygon points={STAR_POINTS} {...paint} /> : null}
+      {kind === 'star' ? (
+        <>
+          <polygon points={STAR_POINTS} {...paint} />
+          {/*
+            星は二重にする。原点で半分に縮めてから中心へ寄せると、外側の星と
+            中心が揃う。線の太さも一緒に縮むので、内側は自然と細くなる。
+          */}
+          <polygon points={STAR_POINTS} transform="translate(25 25) scale(0.5)" {...paint} />
+        </>
+      ) : null}
       {kind === 'triangle' ? <polygon points={TRIANGLE_POINTS} {...paint} /> : null}
       {kind === 'diamond' ? <polygon points={DIAMOND_POINTS} {...paint} /> : null}
     </svg>
@@ -196,8 +202,8 @@ function createScatter(spec: ScatterSpec) {
     outlined: random() < spec.outlinedRate,
     left: `${((index + random()) / spec.count) * 100}%`,
     top: `${(spec.from ?? 0) + random() ** 1.4 * spec.depth}rem`,
-    size: `${minSize + random() * (maxSize - minSize)}px`,
-    rotate: `${random() * 360}deg`,
+    size: minSize + random() * (maxSize - minSize),
+    rotate: random() * 360,
     opacity: minOpacity + random() * (maxOpacity - minOpacity),
     animation: `drift ${18 + random() * 16}s ease-in-out ${-random() * 20}s infinite`,
   }))
@@ -221,7 +227,7 @@ const NEON = createScatter({
   count: 16,
   seed: 20230816,
   kinds: ['star', 'triangle', 'diamond'],
-  size: [72, 208],
+  size: [120, 320],
   outlinedRate: 1,
   opacity: [0.75, 1],
   depth: 48,
@@ -230,42 +236,104 @@ const NEON = createScatter({
 })
 
 /**
- * 赤いネオンの光。白い線を芯にして、赤い滲みを 3 段重ねる。
+ * ネオンの色。順に取り出して、隣り合う図形が同じ色にならないようにする。
+ *
+ * 乱数で選ぶと同じ色が固まって、色数があるように見えないことがある。
+ */
+const NEON_COLORS = ['#E50617', '#FF4FA3', '#FFD54A', '#39C5BB', '#7B5CFF']
+
+/**
+ * ネオンの形ごとの見せ方。大きさ・塗り・傾きの幅を形ごとに変える。
+ *
+ * ひし形だけは中を塗って小さくする。塗ると光の量が増えるので、輪郭の図形と
+ * 同じ大きさでは背景を占めすぎる。
+ */
+const NEON_SHAPE = {
+  // 二重の星は線が二本並ぶので、他より細くしないと光が固まって見える
+  star: { filled: false, scale: 1, spin: 360, line: 2 },
+  triangle: { filled: false, scale: 1, spin: 360, line: 5 },
+  // ひし形は縦長なので、大きく回すと正方形に見えてしまう。少しだけ傾ける
+  diamond: { filled: true, scale: 0.45, spin: 24, line: 5 },
+  circle: { filled: false, scale: 1, spin: 360, line: 5 },
+} as const satisfies Record<
+  ShapeKind,
+  { filled: boolean; scale: number; spin: number; line: number }
+>
+
+/**
+ * ネオンの光。白い線を芯にして、色の滲みを 3 段重ねる。
  *
  * 近いところは濃く、遠いところは広く薄く。1 段だけだと縁取りに見えて、
  * 光っているようにならない。
  */
-const NEON_GLOW =
-  'drop-shadow(0 0 3px #E50617) drop-shadow(0 0 10px #E50617) drop-shadow(0 0 26px #E50617)'
+function neonGlow(color: string) {
+  return `drop-shadow(0 0 3px ${color}) drop-shadow(0 0 10px ${color}) drop-shadow(0 0 26px ${color})`
+}
 
-/** 散らした図形を並べる。光らせるときは glow に filter を渡す。 */
-function ScatterField({
-  shapes,
-  glow,
-  lineWidth,
-}: {
-  shapes: Scatter
-  glow?: string
-  lineWidth?: number
-}) {
+/*
+  以下の 2 つは、どちらも
+  「傾きは外側の span、揺れは内側の span」に分けている。同じ要素に重ねると、
+  揺れの transform が傾きを上書きしてしまうため。
+  left は図形の中心なので translate で半分戻す。戻さないと、大きい図形ほど
+  右へはみ出して散らばりの重心が右に寄る。
+*/
+
+/** 散らした図形を並べる。 */
+function ScatterField({ shapes }: { shapes: Scatter }) {
   return (
     <>
       {shapes.map(({ kind, outlined, left, top, size, rotate, opacity, animation }, index) => (
-        /*
-          傾きは外側に、揺れは内側に。同じ要素に重ねると、揺れの transform が
-          傾きを上書きしてしまう。left は図形の中心なので translate で半分戻す。
-          戻さないと、大きい図形ほど右へはみ出して散らばりの重心が右に寄る。
-        */
         <span
           key={index}
           className="absolute text-white"
-          style={{ left, top, width: size, translate: '-50% 0', rotate, opacity, filter: glow }}
+          style={{
+            left,
+            top,
+            width: `${size}px`,
+            translate: '-50% 0',
+            rotate: `${rotate}deg`,
+            opacity,
+          }}
         >
           <span className="block" style={{ animation }}>
-            <Shape kind={kind} outlined={outlined} lineWidth={lineWidth} />
+            <Shape kind={kind} outlined={outlined} />
           </span>
         </span>
       ))}
+    </>
+  )
+}
+
+/** 散らした図形をネオンにして並べる。線は白のまま、滲みだけ図形ごとに色を変える。 */
+function NeonField({ shapes }: { shapes: Scatter }) {
+  return (
+    <>
+      {shapes.map(({ kind, left, top, size, rotate, opacity, animation }, index) => {
+        const color = NEON_COLORS[index % NEON_COLORS.length]!
+        const { filled, scale, spin, line } = NEON_SHAPE[kind]
+
+        return (
+          <span
+            key={index}
+            className="absolute text-white"
+            style={{
+              left,
+              top,
+              width: `${size * scale}px`,
+              translate: '-50% 0',
+              // 0〜360 の傾きを、形ごとに許した幅へ畳み込む
+              rotate: `${(rotate / 360) * spin - spin / 2}deg`,
+              opacity,
+              filter: neonGlow(color),
+            }}
+          >
+            <span className="block" style={{ animation }}>
+              {/* 塗る形は色を敷いて、白い線で縁取る。管に色が入って見える */}
+              <Shape kind={kind} outlined={!filled} lineWidth={line} fillColor={color} />
+            </span>
+          </span>
+        )
+      })}
     </>
   )
 }
@@ -304,7 +372,7 @@ export function EditionMotifArt({ motif }: { motif: EditionMotif }) {
   }
 
   if (motif === 'neon') {
-    return <ScatterField shapes={NEON} glow={NEON_GLOW} lineWidth={5} />
+    return <NeonField shapes={NEON} />
   }
 
   return null
