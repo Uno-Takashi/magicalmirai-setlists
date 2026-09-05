@@ -28,8 +28,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
-  // 2023: 黒地から赤へ。
-  ['2023', { colors: ['#000000', '#E50617'] }],
+  // 2023: 黒一色。赤は見出しに置く。
+  ['2023', { colors: ['#000000'], titleColor: '#E50617' }],
   // 2024: 水色から淡い水色へ。星・丸・角丸の三角を薄く散らす。
   ['2024', { colors: ['#85D5DE', '#D8F4F5'], motif: 'shapes', titleColor: '#FFCD5A' }],
   // 2025: 濃紺から水色、藤色へ。白い点の星を散らす。
