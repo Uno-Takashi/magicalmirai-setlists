@@ -782,29 +782,36 @@ const CUBE_SPARKLES = [sparkle(50, 6, 11), sparkle(92, 30, 7)]
 /**
  * 面に置く色。1 つの立方体で 4 色を使い回し、割った破片へ順に配る。
  *
- * 色相を離して並べる。隣り合う破片が近い色だと、切ったところが見えない。
+ * 白と橙を交ぜ、全体に淡くする。破片どうしは線を挟まず色で直に接するので、
+ * 色相さえ離れていれば、薄くても切ったところは見える。
  */
 const CUBE_TONES: (readonly string[])[] = [
-  ['#FF9ED2', '#8FD8FF', '#FFF08A', '#B79BFF'],
-  ['#7DF5C4', '#FFC199', '#63D6FF', '#FF9CC8'],
-  ['#C7A5FF', '#FFE86B', '#7FEBFF', '#FF9ED2'],
-  ['#FFD27F', '#9CE8FF', '#FF9CC8', '#8FD8FF'],
+  ['#FFFFFF', '#FFD3A8', '#BFE9FF', '#FFD9EE'],
+  ['#FFE7CC', '#FFFFFF', '#D7CCFF', '#C9F6FF'],
+  ['#FFFFFF', '#FFC9A3', '#CFF7E4', '#FFE9A8'],
+  ['#E3F4FF', '#FFFFFF', '#FFDCC2', '#F3D6FF'],
 ]
 
 function Cube({ pieces, tones }: { pieces: string[]; tones: readonly string[] }) {
   return (
     <svg viewBox="0 0 100 104" aria-hidden focusable="false" className="w-full">
-      {pieces.map((points, index) => (
-        <polygon
-          key={index}
-          points={points}
-          fill={tones[index % tones.length]}
-          stroke="#ffffff"
-          strokeWidth="1.2"
-          strokeOpacity="0.85"
-          strokeLinejoin="round"
-        />
-      ))}
+      {pieces.map((points, index) => {
+        const color = tones[index % tones.length]
+        return (
+          /*
+            線は色と同じにする。塗りだけだと、隣り合う破片のあいだに地の色が
+            細く覗く。白い線を挟むと、そこが切れ目ではなく縁取りに見える。
+          */
+          <polygon
+            key={index}
+            points={points}
+            fill={color}
+            stroke={color}
+            strokeWidth="0.8"
+            strokeLinejoin="round"
+          />
+        )
+      })}
       <polygon
         points={CUBE_OUTLINE}
         fill="none"
