@@ -45,6 +45,8 @@ export interface EditionTheme {
 }
 
 const THEMES = new Map<string, EditionTheme>([
+  // 2016: 水色から浅葱色へ。モチーフは置かない。
+  ['2016', { colors: ['#6ADDFC', '#9CE0DF'] }],
   // 2017: 白。三角形を重ねた立方体を散らす。
   ['2017', { colors: ['#FFFFFF'], motif: 'prism' }],
   // 2018: 淡い水色。きらきらした立方体を散らす。
