@@ -153,7 +153,7 @@ function createShapes(count: number) {
     outlined: random() < 0.4,
     left: `${random() * 100}%`,
     top: `${random() ** 1.4 * 48}rem`,
-    size: `${14 + random() * 30}px`,
+    size: `${34 + random() * 74}px`,
     rotate: `${random() * 360}deg`,
     opacity: 0.2 + random() * 0.3,
     animation: `drift ${18 + random() * 16}s ease-in-out ${-random() * 20}s infinite`,
