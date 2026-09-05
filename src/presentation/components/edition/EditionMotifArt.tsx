@@ -679,22 +679,87 @@ function DotField({ figures, color }: { figures: Scatter<DotKind>; color: string
 }
 
 /**
- * きらきらした立方体。等角投影で 3 面を見せ、各面をさらに 2 つに割る。
+ * きらきらした立方体。等角投影で 3 面を見せ、面をさらに割って単色を置く。
  *
- * 割った面には単色を 1 つずつ置き、境目は白い線で切る。グラデーションで
- * 混ぜると濁った 1 色に見えるが、面で切ると色の変わり目がはっきり出る。
+ * 割り方は決め打ちにしない。辺の上の点どうしを結んで切るのを繰り返し、
+ * 大きさも形もばらばらな 3〜5 角形にする。同じ三角形を並べると規則が見えて、
+ * 結晶ではなく図案に見えてしまう。
  */
-const CUBE_FACETS = [
-  // 上の面
-  '50,6 92,30 50,54',
-  '50,6 50,54 8,30',
-  // 左の面
-  '8,30 50,54 50,98',
-  '8,30 50,98 8,74',
-  // 右の面
-  '92,30 50,54 50,98',
-  '92,30 50,98 92,74',
+const CUBE_FACES: Point[][] = [
+  [
+    [50, 6],
+    [92, 30],
+    [50, 54],
+    [8, 30],
+  ],
+  [
+    [8, 30],
+    [50, 54],
+    [50, 98],
+    [8, 74],
+  ],
+  [
+    [92, 30],
+    [50, 54],
+    [50, 98],
+    [92, 74],
+  ],
 ]
+
+/** 立方体の外形。割った面の上に重ねて、輪郭をはっきりさせる。 */
+const CUBE_OUTLINE = '50,6 92,30 92,74 50,98 8,74 8,30'
+
+/**
+ * 多角形を 2 つに切る。
+ *
+ * 2 本の辺の上に点を取り、その 2 点を結んで分ける。切る辺の組は、どちらの破片も
+ * 3〜5 角形に収まるものだけから選ぶ。角が増えすぎると、面というより破片の
+ * かたまりに見える。
+ */
+function splitPolygon(polygon: Point[], random: () => number): Point[][] | null {
+  const size = polygon.length
+  const options: [number, number][] = []
+  for (let from = 0; from < size; from += 1) {
+    for (let to = from + 1; to < size; to += 1) {
+      const near = to - from + 2
+      const far = size - (to - from) + 2
+      if (near >= 3 && near <= 5 && far >= 3 && far <= 5) options.push([from, to])
+    }
+  }
+  const pick = options[Math.floor(random() * options.length)]
+  if (pick === undefined) return null
+
+  const [from, to] = pick
+  const cut = (edge: number): Point => {
+    const start = polygon[edge]!
+    const end = polygon[(edge + 1) % size]!
+    // 端に寄せすぎると細い破片ができるので、辺の内側 3 割〜7 割で切る
+    const at = 0.3 + random() * 0.4
+    return [start[0] + (end[0] - start[0]) * at, start[1] + (end[1] - start[1]) * at]
+  }
+
+  const head = cut(from)
+  const tail = cut(to)
+  const near = [head, ...polygon.slice(from + 1, to + 1), tail]
+  const far = [tail, ...polygon.slice(to + 1), ...polygon.slice(0, from + 1), head]
+  return [near, far]
+}
+
+/** 1 つの立方体の割り方。面ごとに 2 回ずつ切って、3 枚の破片にする。 */
+function cubePieces(index: number): string[] {
+  const random = createRandom(20180825 + index * 613)
+
+  return CUBE_FACES.flatMap((face) => {
+    let pieces: Point[][] = [face]
+    for (let round = 0; round < 2; round += 1) {
+      const target = Math.floor(random() * pieces.length)
+      const split = splitPolygon(pieces[target]!, random)
+      if (split === null) continue
+      pieces = pieces.flatMap((piece, at) => (at === target ? split : [piece]))
+    }
+    return pieces.map((piece) => piece.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' '))
+  })
+}
 
 /**
  * 光の粒。4 方向へ尖った星で、頂点で光が跳ねているように見せる。
@@ -715,9 +780,9 @@ function sparkle(cx: number, cy: number, r: number): string {
 const CUBE_SPARKLES = [sparkle(50, 6, 11), sparkle(92, 30, 7)]
 
 /**
- * 面に置く色。1 つの立方体で 4 色を使い回し、割った 6 面に順に配る。
+ * 面に置く色。1 つの立方体で 4 色を使い回し、割った破片へ順に配る。
  *
- * 色相を離して並べる。隣り合う面が近い色だと、切ったところが見えない。
+ * 色相を離して並べる。隣り合う破片が近い色だと、切ったところが見えない。
  */
 const CUBE_TONES: (readonly string[])[] = [
   ['#FF9ED2', '#8FD8FF', '#FFF08A', '#B79BFF'],
@@ -726,10 +791,10 @@ const CUBE_TONES: (readonly string[])[] = [
   ['#FFD27F', '#9CE8FF', '#FF9CC8', '#8FD8FF'],
 ]
 
-function Cube({ tones }: { tones: readonly string[] }) {
+function Cube({ pieces, tones }: { pieces: string[]; tones: readonly string[] }) {
   return (
     <svg viewBox="0 0 100 104" aria-hidden focusable="false" className="w-full">
-      {CUBE_FACETS.map((points, index) => (
+      {pieces.map((points, index) => (
         <polygon
           key={index}
           points={points}
@@ -740,6 +805,14 @@ function Cube({ tones }: { tones: readonly string[] }) {
           strokeLinejoin="round"
         />
       ))}
+      <polygon
+        points={CUBE_OUTLINE}
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="1.6"
+        strokeOpacity="0.9"
+        strokeLinejoin="round"
+      />
       {/* 角で光が跳ねる。上と右の頂点にだけ置いて、光の向きを揃える */}
       {CUBE_SPARKLES.map((path, index) => (
         <path key={index} d={path} fill="#ffffff" fillOpacity={index === 0 ? 0.95 : 0.7} />
@@ -747,6 +820,9 @@ function Cube({ tones }: { tones: readonly string[] }) {
     </svg>
   )
 }
+
+/** 立方体ごとの割り方。数と同じだけ先に作っておく。 */
+const CUBE_PIECES = Array.from({ length: 20 }, (_, index) => cubePieces(index))
 
 /** 2018: 立方体を散らす。 */
 const CUBES = createScatter({
@@ -787,7 +863,10 @@ function CubeField({ cubes }: { cubes: Scatter<'cube'> }) {
           }}
         >
           <span className="block" style={{ animation }}>
-            <Cube tones={CUBE_TONES[index % CUBE_TONES.length]!} />
+            <Cube
+              pieces={CUBE_PIECES[index % CUBE_PIECES.length]!}
+              tones={CUBE_TONES[index % CUBE_TONES.length]!}
+            />
           </span>
         </span>
       ))}
