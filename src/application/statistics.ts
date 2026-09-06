@@ -7,20 +7,42 @@
 
 import type { Catalog } from '@/domain/catalog/Catalog'
 import type { Edition } from '@/domain/edition/Edition'
-import { performedTracks } from '@/domain/setlist/Setlist'
-import { variantSingers } from '@/domain/setlist/Track'
+import { performedTracks, type Setlist } from '@/domain/setlist/Setlist'
+import { variantSingers, type TrackVariant } from '@/domain/setlist/Track'
 import type { Song, SongTitle } from '@/domain/song/Song'
 import type { Vocaloid, VocaloidId } from '@/domain/vocaloid/Vocaloid'
+
+/**
+ * その開催回で実際に演奏された枠の候補を、順に返す。
+ *
+ * どの集計も「開催回のセットリストをたどって候補を見る」から始まるので、
+ * 歩き方だけをここにまとめる。円盤収録のみの枠はここで落ちる。
+ */
+function* performedVariants(setlists: readonly Setlist[]): Generator<TrackVariant> {
+  for (const setlist of setlists) {
+    for (const track of performedTracks(setlist)) {
+      yield* track.variants
+    }
+  }
+}
+
+/**
+ * `Map<鍵, 集合>` に 1 つ足す。集合がまだ無ければ作る。
+ *
+ * 「同じものを二度数えない」という数え方をこの形で表しているので、
+ * 足す場所が増えても書き方がぶれないようにまとめておく。
+ */
+function addTo<K, V>(map: Map<K, Set<V>>, key: K, value: V): void {
+  const set = map.get(key)
+  if (set === undefined) map.set(key, new Set([value]))
+  else set.add(value)
+}
 
 /** 開催回ごとに、その回で演奏された曲名の集合を返す。 */
 function performedSongsByEdition(catalog: Catalog): { edition: Edition; songs: Set<SongTitle> }[] {
   return catalog.entries.map(({ edition, setlists }) => {
     const songs = new Set<SongTitle>()
-    for (const setlist of setlists) {
-      for (const track of performedTracks(setlist)) {
-        for (const variant of track.variants) songs.add(variant.song)
-      }
-    }
+    for (const variant of performedVariants(setlists)) songs.add(variant.song)
     return { edition, songs }
   })
 }
@@ -72,9 +94,7 @@ export function producerRanking(catalog: Catalog): ProducerStat[] {
   for (const { songs: editionSongs } of performedSongsByEdition(catalog)) {
     for (const title of editionSongs) {
       for (const producer of catalog.songs.get(title)?.producers ?? []) {
-        const set = songs.get(producer) ?? new Set<SongTitle>()
-        set.add(title)
-        songs.set(producer, set)
+        addTo(songs, producer, title)
         appearances.set(producer, (appearances.get(producer) ?? 0) + 1)
       }
     }
@@ -138,18 +158,10 @@ function songsByVocaloidPerEdition(
 ): { edition: Edition; songs: Map<VocaloidId, Set<SongTitle>> }[] {
   return catalog.entries.map(({ edition, setlists }) => {
     const songs = new Map<VocaloidId, Set<SongTitle>>()
-    for (const setlist of setlists) {
-      for (const track of performedTracks(setlist)) {
-        for (const variant of track.variants) {
-          const singers = variantSingers(variant, catalog.songs.get(variant.song))
-          if (onlySolo && singers.length !== 1) continue
-          for (const id of singers) {
-            const set = songs.get(id) ?? new Set<SongTitle>()
-            set.add(variant.song)
-            songs.set(id, set)
-          }
-        }
-      }
+    for (const variant of performedVariants(setlists)) {
+      const singers = variantSingers(variant, catalog.songs.get(variant.song))
+      if (onlySolo && singers.length !== 1) continue
+      for (const id of singers) addTo(songs, id, variant.song)
     }
     return { edition, songs }
   })
@@ -183,9 +195,7 @@ function unionByVocaloid(
   const union = new Map<VocaloidId, Set<SongTitle>>()
   for (const { songs } of byEdition) {
     for (const [id, titles] of songs) {
-      const set = union.get(id) ?? new Set<SongTitle>()
-      for (const title of titles) set.add(title)
-      union.set(id, set)
+      for (const title of titles) addTo(union, id, title)
     }
   }
   return union
@@ -217,9 +227,7 @@ export function vocaloidTrend(catalog: Catalog, onlySolo = false): VocaloidTrend
     const cumulative = new Map<VocaloidId, number>()
     for (const [id, titles] of songs) perEdition.set(id, titles.size)
     for (const [id, titles] of songs) {
-      const set = seen.get(id) ?? new Set<SongTitle>()
-      for (const title of titles) set.add(title)
-      seen.set(id, set)
+      for (const title of titles) addTo(seen, id, title)
     }
     // 今回歌っていないボーカロイドも、累計は前回の値を保つ
     for (const [id, titles] of seen) cumulative.set(id, titles.size)

@@ -101,21 +101,32 @@ export type VariantScope =
   | { readonly kind: 'shows'; readonly showIds: readonly string[] }
   | { readonly kind: 'mixed'; readonly shows: readonly string[] }
 
+/**
+ * その候補がある軸の値を「まるごと占めている」なら、占めた値を返す。
+ *
+ * 同じ値を持つ回が他の候補にも回っているなら、その軸だけでは候補を言い表せない
+ * ので null。`partitionedBy` が枠全体を見るのに対し、こちらは候補 1 つを見る。
+ */
+function coveredValues(
+  scope: readonly ShowRef[],
+  variant: TrackVariant,
+  axis: (ref: ShowRef) => string,
+): string[] | null {
+  const values = [...new Set(variant.shows.map(axis))]
+  const covered = scope.filter((ref) => values.includes(axis(ref))).length
+  return covered === variant.shows.length ? values : null
+}
+
 export function variantScope(track: Track, variant: TrackVariant): VariantScope | null {
   if (variant.shows.length === 0) return null
 
   const scope = track.variants.flatMap((v) => [...v.shows])
-  const venues = [...new Set(variant.shows.map(performanceIdOf))]
-  if (
-    scope.filter((ref) => venues.includes(performanceIdOf(ref))).length === variant.shows.length
-  ) {
-    return { kind: 'venues', performanceIds: venues }
-  }
 
-  const showIds = [...new Set(variant.shows.map(showIdOf))]
-  if (scope.filter((ref) => showIds.includes(showIdOf(ref))).length === variant.shows.length) {
-    return { kind: 'shows', showIds }
-  }
+  const performanceIds = coveredValues(scope, variant, performanceIdOf)
+  if (performanceIds !== null) return { kind: 'venues', performanceIds }
+
+  const showIds = coveredValues(scope, variant, showIdOf)
+  if (showIds !== null) return { kind: 'shows', showIds }
 
   return { kind: 'mixed', shows: variant.shows }
 }

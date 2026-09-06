@@ -15,6 +15,7 @@
     "build-storybook": "storybook build",
     "test": "vitest --run",
     "test:dataset": "vitest --run --project dataset",
+    "test:unit": "vitest --run --project unit",
     "format:check": "oxfmt --check .",
     "prepare": "husky"
   },
