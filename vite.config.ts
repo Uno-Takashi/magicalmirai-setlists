@@ -123,6 +123,21 @@ export default defineConfig(({ mode }) => {
             include: ['src/**/*.node.test.ts'],
           },
         },
+        // ドメイン層・ユースケース・表示のための計算の単体テスト。
+        // React にも dataset にも依らない純粋な関数だけを対象にするので、
+        // ブラウザを立ち上げず node で速く回せる (`pnpm test:unit`)。
+        //
+        // dataset の検証 (*.node.test.ts) はここでは拾わない。あちらは実データを
+        // 読むので、データが欠けているときに落ちる範囲を分けておきたい。
+        {
+          extends: true,
+          test: {
+            name: 'unit',
+            environment: 'node',
+            include: ['src/**/*.test.ts'],
+            exclude: ['src/**/*.node.test.ts'],
+          },
+        },
       ],
     },
   }

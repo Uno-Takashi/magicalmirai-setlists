@@ -121,7 +121,8 @@ pnpm build            # tsc -b && vite build
 pnpm preview          # ビルド成果物のプレビュー
 pnpm storybook        # Storybook (http://localhost:6006)
 pnpm build-storybook  # Storybook の静的ビルド
-pnpm test             # Vitest (Storybook のストーリー + dataset の検証)
+pnpm test             # Vitest (単体テスト + Storybook のストーリー + dataset の検証)
+pnpm test:unit        # ドメイン層・ユースケースの単体テストだけ (ブラウザ不要、1 秒未満)
 pnpm test:dataset     # dataset/ の YAML だけを検証 (ブラウザ不要、1 秒)
 pnpm lint             # oxlint
 pnpm typecheck        # tsc -b
@@ -169,7 +170,7 @@ src/
     providers/              Catalog / Locale / Player / Navigation / Dialogs
     hooks/                  ルーティング、キーボード操作、meta、日付整形
     components/             UI コンポーネント + .stories.tsx (下記の区分ごと)
-  fixtures/               Storybook 用の作り物のカタログ (dataset は読まない)
+  fixtures/               Storybook と単体テスト用の作り物のカタログ (dataset は読まない)
   components/react-bits/  React Bits から取り込んだベンダーコード
 ```
 
@@ -308,9 +309,30 @@ src/
     実データから条件に合う枠を探し回らなくてよい。
   - 見せたい形が足りなければ、ストーリー側で作らず作り物のカタログに足す。
 - **1 つの部品が長くなってきたら、まず「決める」と「描く」を分ける。** 表示のための
-  計算 (`trackVariantLabels.ts` / `rankingRows.ts`) や DOM の測定・配置
-  (`useScrollEdges` / `useFloatingPlayerBox`) は素の関数やフックに出し、
+  計算 (`trackVariantLabels.ts` / `rankingRows.ts` / `motif/motifGeometry.ts`) や
+  DOM の測定・配置 (`useScrollEdges` / `useFloatingPlayerBox`) は素の関数やフックに出し、
   コンポーネントには組み立てだけを残す。
+  - 背景のモチーフ (`edition/motif/`) がこの形。散らす位置と図形の形は
+    `motifGeometry.ts` が種を固定して決め、絵は 1 モチーフ 1 ファイルで描く。
+    `EditionMotifArt.tsx` は `Record<EditionMotif, ComponentType>` で振り分けるだけなので、
+    `editionThemes.ts` にモチーフを足すと、絵を書くまで型が通らない。
+
+### テスト
+
+テストは 3 つに分かれている。**どれも `pnpm test` でまとめて走る。**
+
+| プロジェクト | 対象                                          | ブラウザ |
+| ------------ | --------------------------------------------- | -------- |
+| `unit`       | `src/**/*.test.ts` (ドメイン層・ユースケース) | 要らない |
+| `dataset`    | `src/**/*.node.test.ts` (dataset の検証)      | 要らない |
+| `storybook`  | `*.stories.tsx` (addon-vitest が実行)         | 要る     |
+
+- **ドメイン層とユースケースの決まりごとは `unit` に書く。** 入れ替わりの分類・
+  集計の数え方・URL の組み立てのように、**画面の表示がそのまま変わる決まり**が対象。
+  React にも dataset にも依らないので、`pnpm test:unit` が 1 秒未満で回る。
+- **`unit` では `*.node.test.ts` を拾わない。** あちらは実データを読むので、
+  データが欠けたときに落ちる範囲を分けてある。
+- 見た目の確認は引き続き Storybook が主経路。単体テストで見た目を確かめようとしない。
 
 ### React Bits の追加
 
