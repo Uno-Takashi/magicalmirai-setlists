@@ -29,14 +29,20 @@ export function useDocumentMeta({
   title,
   description,
   path,
+  locale,
 }: DocumentMeta & {
   siteName: string
+  /** 表示中の言語。<html lang> に反映する。 */
+  locale: string
 }) {
   useEffect(() => {
     const fullTitle = title === undefined ? siteName : `${title} | ${siteName}`
     const url = `${SITE_URL}${path}`
 
     document.title = fullTitle
+    // 読み上げソフトの発音と、検索エンジンの言語判定がここを見る。
+    // HTML に書いた lang は既定値なので、言語を切り替えたら追従させる。
+    document.documentElement.lang = locale
     setMeta('meta[name="description"]', 'content', description)
     setMeta('link[rel="canonical"]', 'href', url)
     setMeta('meta[property="og:title"]', 'content', fullTitle)
@@ -45,5 +51,5 @@ export function useDocumentMeta({
     setMeta('meta[property="og:site_name"]', 'content', siteName)
     setMeta('meta[name="twitter:title"]', 'content', fullTitle)
     setMeta('meta[name="twitter:description"]', 'content', description)
-  }, [siteName, title, description, path])
+  }, [siteName, title, description, path, locale])
 }
