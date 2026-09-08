@@ -395,15 +395,49 @@ Storybook にはストーリーがあるので、使いどころを探すとき�
   `uno-takashi.github.io` に向けてある。設定を外すと
   `https://uno-takashi.github.io/magicalmirai-setlists/` に戻るため、
   そのときは `.env` の 2 つも `/magicalmirai-setlists/` 系に戻す。
-- 検索向けの `sitemap.xml` と `robots.txt` は `vite.config.ts` の `seoFiles` プラグインが
-  ビルド時に生成する。dataset に年を足せば URL が増えるので手で並べ直さなくてよい。
-- 静的ホスティングではどの URL も同じ HTML が返るため、HTML の `title` / `description` は
-  サイト全体の既定値でしかない。ページごとの文言は `useDocumentMeta` が描画後に差し替える。
 - ルーティングは History API による実パス (base の下の `2023` や `statics`)。
-  静的ホスティングは実体の無いパスに 404 を返すので、`vite.config.ts` の
-  `spaFallback` プラグインが `index.html` を `404.html` に複製している。
-  **GitHub Pages はこの 404.html を返すため、これでディープリンクが動く。**
-  この複製を消すとリロード時に 404 になる。
+
+### ページごとの HTML (SEO)
+
+**ページの一覧は `build/pageMeta.ts` が持ち、`sitemap.xml` と各ページの HTML の
+両方がそこから作られる。** ページを増やすときはここに足す (`useRoute.ts` の
+ルーティングと揃えること)。ビルド時にしか使わないので、配信するバンドルには入らない。
+
+`vite.config.ts` の 2 つのプラグインが成果物を書き出す。
+
+| プラグイン       | 作るもの                        |
+| ---------------- | ------------------------------- |
+| `prerenderPages` | ページごとの HTML と `404.html` |
+| `seoFiles`       | `sitemap.xml` と `robots.txt`   |
+
+- **ページごとに実体の HTML を書き出している。** 静的ホスティングは実体の無いパスに
+  404 を返すため、以前は `index.html` を `404.html` に複製してディープリンクを
+  動かしていた。ブラウザでは動くが**応答は 404 のまま**なので、
+  検索エンジンからはサイトの入口以外どのページも存在しないことになっていた
+  (sitemap に載せた URL がすべて 404 だった)。実体を置くと 200 で返る。
+  **この書き出しをやめると、また入口以外がインデックスされなくなる。**
+- **1 ページにつき `<slug>.html` と `<slug>/index.html` の 2 か所へ書く。**
+  拡張子なしの URL をどちらのファイルで解決するかがホスティングによって違うため。
+  canonical はどちらも `<siteUrl><slug>` の 1 つだけを指すので、同じ内容が
+  2 つの URL として索引されることはない。
+- **`404.html` は `noindex` で、canonical を持たない。** 実在しない URL に返るページなので、
+  索引に載せず、ホームの別名としても扱わせない。中身はアプリを起動できるままにしてある。
+- 書き出す HTML はビルド済みの `index.html` の head を差し替えて作る
+  (`build/renderPage.ts`)。中身 (`<div id="root">`) は空のままで、描画は今までどおり
+  ブラウザが行う。**React を1 度も実行しないので、dataset が壊れていてもビルドは通る。**
+- 文言は `src/infrastructure/i18n/locales/ja.ts` から取る。画面と検索結果で言い回しが
+  ずれないよう、`build/` 側に書き写さない。
+- 書き出す HTML は**日本語だけ**。ページごとに URL は 1 つで、言語は表示時に切り替わる
+  (`hreflang` は URL が言語ごとに分かれていないと使えないので付けない)。
+- 描画後は `useDocumentMeta` が同じ文言で `title` / `description` / canonical を
+  差し替え、`<html lang>` を表示中の言語に合わせる。
+  **ビルド時と実行時で同じ文言になるようにしておくこと** (ホームの説明文だけは
+  既定の開催回ではなくサイト全体の説明を使う。年が変わるたびに入口の説明が
+  変わってしまうため)。
+- 構造化データは、開催回のページが `WebPage` + `about: MusicEvent`、統計まわりが
+  `CollectionPage`。どちらも `BreadcrumbList` を添える。
+  **公演のページを `MusicEvent` そのものにはしない。** ここは公演を主催する側では
+  なく公演について書いた側なので、`about` に置いて `url` は公式サイトへ向ける。
 
 ---
 

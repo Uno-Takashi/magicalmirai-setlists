@@ -57,12 +57,18 @@ export function usePageMeta(): void {
     // ホームは既定の開催回を出すが、正規 URL は base 直下にまとめる。
     // その URL はサイトの入口でもあるので、title には開催回を入れずサイト名だけにする。
     const isHome = entry.edition.slug === homeSlug
+    if (isHome) {
+      // 説明はサイト全体のものにする。既定の開催回の説明にすると、年が変わるたびに
+      // 入口の説明文が変わってしまい、サイトが何であるかを説明しなくなる。
+      // ビルド時に書き出す HTML (build/pageMeta.ts) とも、ここで一致する。
+      return { description: t('app.description'), path: '' }
+    }
     return {
-      title: isHome ? undefined : t('meta.editionTitle', { name }),
+      title: t('meta.editionTitle', { name }),
       description: t('meta.editionDescription', { name }),
-      path: isHome ? '' : entry.edition.slug,
+      path: entry.edition.slug,
     }
   }, [entry, homeSlug, locale, route, t])
 
-  useDocumentMeta({ siteName: t('app.title'), ...meta })
+  useDocumentMeta({ siteName: t('app.title'), locale, ...meta })
 }
