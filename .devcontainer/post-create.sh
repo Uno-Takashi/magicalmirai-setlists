@@ -3,11 +3,21 @@
 set -euo pipefail
 
 echo "==> corepack で pnpm を有効化"
+# Node 25 以降は corepack を同梱しない。Feature の Node は "lts" で浮いているので、
+# LTS が 26 に切り替わった時点から corepack が無くなった。そのときは Feature が入れた
+# pnpm をそのまま使う。pnpm は package.json の packageManager を読み、その版へ自分で
+# 切り替える (manage-package-manager-versions)。npm で corepack を入れ直すと、
+# Feature の pnpm と bin が衝突して失敗する。
 # sudo は付けない。node は Feature が nvm 配下 (/usr/local/share/nvm/...) に入れるが、
 # sudo の secure_path にそのパスが無いので `sudo corepack` は command not found になる。
 # nvm の bin は vscode:nvm の group-writable なので、そのまま実行すればよい。
-corepack enable
-corepack prepare --activate
+if command -v corepack >/dev/null 2>&1; then
+  corepack enable
+  corepack prepare --activate
+else
+  echo "    corepack が無い (Node $(node -v))。Feature の pnpm を使う"
+fi
+echo "    pnpm $(pnpm -v) (packageManager: $(node -p 'require("./package.json").packageManager'))"
 
 echo "==> 依存関係をインストール (prepare スクリプトで husky も設定される)"
 # CI=true を付けるのは pnpm を非対話にするため。ホスト側で作られた node_modules が
@@ -19,7 +29,10 @@ echo "==> pre-commit フックを確認"
 pnpm exec husky
 echo "    hooksPath = $(git config --get core.hooksPath || echo '(未設定)')"
 
-echo "==> Playwright (Storybook のブラウザテスト用) をインストール"
+echo "==> Playwright のヘッドレス Chromium をインストール"
+# Storybook のテスト (pnpm test) と、画面の確認・PR に貼るスクリーンショットに使う
+# (CLAUDE.md「画面の確認とスクリーンショット」)。--with-deps が OS のライブラリと
+# フォント (日本語は IPA ゴシック、ハングルは WenQuanYi) も入れるので、文字は化けない。
 pnpm exec playwright install --with-deps chromium
 
 # バインドマウントしたホスト設定は uid が食い違うことがあるので所有者を揃える。

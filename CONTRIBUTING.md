@@ -40,6 +40,12 @@ GitHub Flow はブランチが 1 本 (`main`) だけのシンプルなフロー�
 
    作業途中で議論したい場合は Draft PR を使います。
 
+   **できるだけスクリーンショットを本文に貼ってください。** 画面が変わる PR は変更前と
+   変更後が必須です。Dev Container にはヘッドレスの Chromium が入っているので、
+   `pnpm exec playwright screenshot` で撮れます。撮り方と画像の置き場
+   (`pr-screenshots` ブランチ) は [CLAUDE.md](./CLAUDE.md) の
+   「画面の確認とスクリーンショット」を参照してください。
+
 4. **CI とレビューを通す**
 
    `.github/workflows/ci.yml` が以下を検証します。すべて green であることが必須です。
@@ -89,7 +95,7 @@ Ubuntu ベースの Dev Container を用意しています。Node.js は Dev Con
    を用意する
 2. リポジトリを VS Code で開き、**Reopen in Container** を実行する
 3. `postCreateCommand` が pnpm の有効化・依存インストール・husky のフック設定・
-   Playwright のブラウザ導入まで自動で行う
+   Playwright のヘッドレス Chromium (Storybook のテストとスクリーンショット用) の導入まで自動で行う
 
 含まれるもの:
 
