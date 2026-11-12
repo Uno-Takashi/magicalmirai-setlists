@@ -334,6 +334,68 @@ src/
   データが欠けたときに落ちる範囲を分けてある。
 - 見た目の確認は引き続き Storybook が主経路。単体テストで見た目を確かめようとしない。
 
+### 画面の確認とスクリーンショット
+
+**Dev Container にはヘッドレスの Chromium が入っている** (devDependency の `playwright` と、
+`post-create.sh` の `playwright install --with-deps chromium`。Storybook のテストと同じもの)。
+画面を変えたら、実際に描画して確かめる。日本語・ハングルのフォントも入っているので文字は化けない。
+
+```bash
+# アプリ全体。開発サーバーを起動しておいて撮る (--lang で表示言語が決まる)
+pnpm dev
+pnpm exec playwright screenshot --viewport-size=1280,800 --wait-for-timeout=2000 --lang=ja-JP \
+  http://localhost:5173/2025 after.png
+# スマートフォン幅
+pnpm exec playwright screenshot --viewport-size=390,844 --wait-for-timeout=2000 --lang=ja-JP \
+  http://localhost:5173/2025 after-mobile.png
+
+# 部品だけなら Storybook を静的ビルドし、ストーリーの iframe を撮る
+pnpm build-storybook
+pnpm exec vite preview --outDir storybook-static --port 6006
+pnpm exec playwright screenshot --viewport-size=900,600 --wait-for-timeout=1500 --lang=ja-JP \
+  'http://localhost:6006/iframe.html?id=<story-id>&viewMode=story' after-story.png
+```
+
+- 入場のアニメーションがあるので、`--wait-for-timeout` で落ち着いてから撮る。
+- ストーリーの id は `storybook-static/index.json` の `entries` のキー
+  (`setlist-setlisttimeline--with-variants` など)。
+- ダークモード・モーダルを開く・hover など操作が要るときは、
+  `import { chromium } from 'playwright'` のスクリプトで操作してから `page.screenshot()` する。
+- 静的サーバーに `python3 -m http.server` は使えない (ベースイメージの python3 は最小構成で
+  `http` モジュールが無い)。`vite preview --outDir` で配る。
+- 外部サイトは bot 検出でブロックされることがある。ブラウザでの確認は localhost に絞る。
+
+**PR を出すときは、できるだけスクリーンショットを本文に貼る。**
+
+- **画面が変わる PR**: 変更前と変更後を貼る (必須)。スマートフォン幅で崩れうる変更は
+  その幅のものも貼る。変更前は `main` の作業ツリー (`git stash` や `git worktree`) で撮る。
+- **画面が変わらないはずの PR** (依存の更新・データの修正・リファクタリング): 影響しうる
+  ページの変更後を 1 枚貼ると、見た目が変わっていないことをレビューで確かめられる。
+  データの修正なら、直した開催回のページを撮る。
+- 貼らないのは、画面に一切関わらない変更 (ドキュメント・CI・Dev Container) だけ。
+
+画像は作業ブランチにコミットしない。置き場の **`pr-screenshots` ブランチ** (main とは
+無関係の履歴。マージしない) へ `<作業ブランチ名>/` のディレクトリで push し、
+**コミット SHA 入りの URL** で参照する (ブランチ名入りの URL だと、後の push で
+画像が差し替わったり消えたりする)。
+
+```bash
+branch=$(git branch --show-current)
+shots=$(mktemp -d)
+git fetch origin pr-screenshots && git worktree add --detach "$shots" FETCH_HEAD
+mkdir -p "$shots/$branch" && cp after.png after-mobile.png "$shots/$branch/"
+# pr-screenshots の作業ツリーには node_modules が無いので、pre-commit フックは外す
+git -C "$shots" add . && git -C "$shots" -c core.hooksPath=/dev/null commit -m "$branch: add screenshots"
+git -C "$shots" push origin HEAD:refs/heads/pr-screenshots
+sha=$(git -C "$shots" rev-parse HEAD)
+git worktree remove "$shots"
+echo "https://raw.githubusercontent.com/Uno-Takashi/magicalmirai-setlists/$sha/$branch/after.png"
+```
+
+```markdown
+![2025 のページ (変更後)](https://raw.githubusercontent.com/Uno-Takashi/magicalmirai-setlists/<sha>/<作業ブランチ名>/after.png)
+```
+
 ### React Bits の追加
 
 React Bits は shadcn 互換レジストリで配布されている。
