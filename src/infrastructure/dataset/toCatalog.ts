@@ -1,10 +1,16 @@
-/** YAML から読んだ生データをドメインモデルへ変換する。 */
+/**
+ * YAML から読んだ生データをドメインモデルへ変換する。
+ *
+ * 実行時には Zod の検証を通さないので (`datasetSchema.ts`)、未知の値はここで
+ * 落とすか `other` に寄せる。表示を壊さないための最後の防波堤で、データの誤りは
+ * CI の `pnpm test:dataset` が止める。
+ */
 
 import type { Catalog, EditionEntry } from '@/domain/catalog/Catalog'
 import type { Edition } from '@/domain/edition/Edition'
 import type { Performance } from '@/domain/edition/Performance'
 import { isRegion, type Region } from '@/domain/edition/Region'
-import { SESSIONS, type Session, type Show } from '@/domain/edition/Show'
+import { isSession, type Session, type Show } from '@/domain/edition/Show'
 import type { Setlist } from '@/domain/setlist/Setlist'
 import type { ShowRef, Track, TrackVariant } from '@/domain/setlist/Track'
 import { isTrackTag, type TrackTag } from '@/domain/setlist/TrackTag'
@@ -19,6 +25,7 @@ import type {
   RawShowRef,
   RawSongFile,
   RawTrack,
+  RawTrackVariant,
   RawVocaloidFile,
 } from './rawTypes'
 
@@ -27,9 +34,7 @@ function toRegion(value: string): Region {
 }
 
 function toSession(value: string | undefined): Session | undefined {
-  return value !== undefined && (SESSIONS as readonly string[]).includes(value)
-    ? (value as Session)
-    : undefined
+  return value !== undefined && isSession(value) ? value : undefined
 }
 
 function toTags(values: string[] | undefined): TrackTag[] {
@@ -52,7 +57,7 @@ function toPerformance(raw: RawPerformance): Performance {
   }
 }
 
-export function toEdition(raw: RawEdition): Edition {
+function toEdition(raw: RawEdition): Edition {
   return {
     year: raw.year,
     slug: raw.slug,
@@ -74,24 +79,20 @@ function toShowRef(raw: RawShowRef): ShowRef {
   return `${raw.performance}/day${raw.day}${session}`
 }
 
+function toVariant(raw: RawTrackVariant): TrackVariant {
+  return {
+    song: raw.song,
+    shows: raw.shows?.map(toShowRef) ?? [],
+    note: raw.note,
+    singers: raw.singers,
+  }
+}
+
+/** 固定曲 (`song`) は、候補が 1 つだけの枠として入れ替わる枠と同じ形にそろえる。 */
 function toTrack(raw: RawTrack): Track {
-  const variants: TrackVariant[] =
-    raw.variants?.map((variant) => ({
-      song: variant.song,
-      shows: variant.shows?.map(toShowRef) ?? [],
-      note: variant.note,
-      singers: variant.singers,
-    })) ??
-    (raw.song !== undefined
-      ? [
-          {
-            song: raw.song,
-            shows: raw.shows?.map(toShowRef) ?? [],
-            note: raw.note,
-            singers: raw.singers,
-          },
-        ]
-      : [])
+  const variants =
+    raw.variants?.map(toVariant) ??
+    (raw.song === undefined ? [] : [toVariant({ ...raw, song: raw.song })])
 
   return { order: raw.order, variants, tags: toTags(raw.tags) }
 }
@@ -100,11 +101,11 @@ function toSetlist(raw: RawSet): Setlist {
   return { performanceIds: raw.performances, tracks: raw.tracks.map(toTrack) }
 }
 
-export function toSetlists(raw: RawSetlistFile): Setlist[] {
+function toSetlists(raw: RawSetlistFile): Setlist[] {
   return (raw.sets ?? []).map(toSetlist)
 }
 
-export function toSongs(raw: RawSongFile): Map<string, Song> {
+function toSongs(raw: RawSongFile): Map<string, Song> {
   const songs = new Map<string, Song>()
   for (const [title, value] of Object.entries(raw)) {
     songs.set(title, {
@@ -121,7 +122,7 @@ export function toSongs(raw: RawSongFile): Map<string, Song> {
   return songs
 }
 
-export function toVocaloids(raw: RawVocaloidFile): Map<string, Vocaloid> {
+function toVocaloids(raw: RawVocaloidFile): Map<string, Vocaloid> {
   const vocaloids = new Map<string, Vocaloid>()
   for (const [id, value] of Object.entries(raw)) {
     vocaloids.set(id, { id, name: value.name, color: value.color })
@@ -134,8 +135,8 @@ export function toCatalog(
   songs: RawSongFile,
   vocaloids: RawVocaloidFile,
 ): Catalog {
-  const entries: EditionEntry[] = editions
-    .map(({ edition, setlist }) => ({
+  const entries = editions
+    .map(({ edition, setlist }): EditionEntry => ({
       edition: toEdition(edition),
       setlists: toSetlists(setlist),
     }))

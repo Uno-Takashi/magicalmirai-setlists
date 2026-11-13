@@ -5,7 +5,7 @@
 
 import { describe, expect, it } from 'vitest'
 import type { Song, SongLinks } from './Song'
-import { canEmbed, musicServiceLink, youtubeEmbedUrl, youtubeThumbnailUrl } from './musicServiceUrl'
+import { musicServiceLink, youtubeEmbedUrl, youtubeThumbnailUrl } from './musicServiceUrl'
 
 function song(links: SongLinks, producers: readonly string[] = ['サンプルP']): Song {
   return { title: 'ネオンの通学路', producers, singers: ['miku'], links }
@@ -78,16 +78,5 @@ describe('youtubeEmbedUrl', () => {
 describe('youtubeThumbnailUrl', () => {
   it('動画 ID からサムネイルの URL を組み立てる', () => {
     expect(youtubeThumbnailUrl('abc123')).toBe('https://i.ytimg.com/vi/abc123/hqdefault.jpg')
-  })
-})
-
-describe('canEmbed', () => {
-  it('YouTube の動画 ID がある曲だけ埋め込み再生できる', () => {
-    expect(canEmbed(song({ youtube: 'abc123' }))).toBe(true)
-    expect(canEmbed(song({}))).toBe(false)
-  })
-
-  it('Spotify だけがあっても埋め込み再生はできない', () => {
-    expect(canEmbed(song({ spotify: 'https://open.spotify.com/track/x' }))).toBe(false)
   })
 })

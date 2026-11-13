@@ -18,9 +18,12 @@ export interface SongSearchHit {
 interface IndexedSong {
   readonly song: Song
   readonly haystack: string
-  readonly editions: Edition[]
-  /** その曲を歌ったボーカロイドの和集合 (全開催回をまたぐ)。 */
-  readonly singers: Set<VocaloidId>
+  readonly editions: readonly Edition[]
+  /**
+   * その曲を歌ったボーカロイドの和集合 (全開催回をまたぐ)。
+   * 並びは dataset/vocaloids.yaml の順 (ミク → リン → レン → ルカ → MEIKO → KAITO)。
+   */
+  readonly singers: readonly VocaloidId[]
 }
 
 export interface SongSearchIndex {
@@ -32,16 +35,9 @@ export interface SongSearchIndex {
 /**
  * その曲を歌ったボーカロイドの和集合。
  * 年によって歌唱者が変わるので、1 つの公演の記録だけでは足りない。
- * 並びは dataset/vocaloids.yaml の順 (ミク → リン → レン → ルカ → MEIKO → KAITO)。
  */
-export function singersOfSong(
-  catalog: Catalog,
-  index: SongSearchIndex,
-  title: SongTitle,
-): readonly VocaloidId[] {
-  const found = index.byTitle.get(title)?.singers
-  if (found === undefined) return []
-  return [...catalog.vocaloids.keys()].filter((id) => found.has(id))
+export function singersOfSong(index: SongSearchIndex, title: SongTitle): readonly VocaloidId[] {
+  return index.byTitle.get(title)?.singers ?? []
 }
 
 /**
@@ -54,36 +50,45 @@ export function editionsOfSong(index: SongSearchIndex, title: SongTitle): readon
 
 /** カタログから検索インデックスを構築する。 */
 export function buildSongSearchIndex(catalog: Catalog): SongSearchIndex {
-  const byTitle = new Map<string, IndexedSong>()
-
-  for (const song of catalog.songs.values()) {
-    byTitle.set(song.title, {
-      song,
-      haystack: songSearchIndex(song),
-      editions: [],
-      singers: new Set(song.singers),
-    })
-  }
+  const editions = new Map<SongTitle, Edition[]>()
+  const singers = new Map<SongTitle, Set<VocaloidId>>()
 
   for (const { edition, setlists } of catalog.entries) {
-    const seen = new Set<string>()
     for (const setlist of setlists) {
       for (const track of setlist.tracks) {
         for (const variant of track.variants) {
-          const item = byTitle.get(variant.song)
-          if (item === undefined) continue
+          const song = catalog.songs.get(variant.song)
+          if (song === undefined) continue
+
           // 歌唱者は年ごとに変わるので、公演側の記録をすべて足し合わせる
-          for (const id of variantSingers(variant, item.song)) item.singers.add(id)
-          if (seen.has(variant.song)) continue
-          seen.add(variant.song)
-          item.editions.push(edition)
+          const sung = singers.get(song.title) ?? new Set(song.singers)
+          for (const id of variantSingers(variant, song)) sung.add(id)
+          singers.set(song.title, sung)
+
+          // 同じ回に何度出てきても、開催回は 1 度だけ数える
+          const appeared = editions.get(song.title) ?? []
+          if (appeared.at(-1) !== edition) appeared.push(edition)
+          editions.set(song.title, appeared)
         }
       }
     }
   }
 
-  // 一度も演奏されていない曲は検索結果に出さない
-  const items = [...byTitle.values()].filter((item) => item.editions.length > 0)
+  const vocaloidOrder = [...catalog.vocaloids.keys()]
+  // 一度も演奏されていない曲は検索結果に出さない (editions に載らない)
+  const items = [...catalog.songs.values()].flatMap((song): IndexedSong[] => {
+    const appeared = editions.get(song.title)
+    if (appeared === undefined) return []
+    const sung = singers.get(song.title) ?? new Set()
+    return [
+      {
+        song,
+        haystack: songSearchIndex(song),
+        editions: appeared,
+        singers: vocaloidOrder.filter((id) => sung.has(id)),
+      },
+    ]
+  })
   return { items, byTitle: new Map(items.map((item) => [item.song.title, item])) }
 }
 

@@ -9,11 +9,16 @@
  * ユースケースに混ざるため。
  */
 
-import type { Edition } from '@/domain/edition/Edition'
-import type { Performance } from '@/domain/edition/Performance'
-import { performedTracks, type Setlist } from '@/domain/setlist/Setlist'
-import { performanceIdOf, showIdOf, variantSingers, type Track } from '@/domain/setlist/Track'
 import type { Catalog } from '@/domain/catalog/Catalog'
+import { findPerformance, type Edition } from '@/domain/edition/Edition'
+import { performedTracks, type Setlist } from '@/domain/setlist/Setlist'
+import {
+  performanceIdOf,
+  showIdOf,
+  variantSingers,
+  type ShowRef,
+  type Track,
+} from '@/domain/setlist/Track'
 
 /** 候補ごとに 1 行。同じ枠に候補が複数あるときは、曲順が同じ行が並ぶ。 */
 export interface SetlistCsvRow {
@@ -29,10 +34,8 @@ export interface SetlistCsvRow {
 /** 1 つのセルの中で値を並べるときの区切り。カンマは CSV の区切りと紛らわしい。 */
 const VALUE_SEPARATOR = ' / '
 
-function showLabel(edition: Edition, ref: string): string {
-  const performance: Performance | undefined = edition.performances.find(
-    (candidate) => candidate.id === performanceIdOf(ref),
-  )
+function showLabel(edition: Edition, ref: ShowRef): string {
+  const performance = findPerformance(edition, performanceIdOf(ref))
   const show = performance?.shows.find((candidate) => candidate.id === showIdOf(ref))
   if (performance === undefined || show === undefined) return ref
   // 公演地は日本語表記で書き出す。ロケールに寄せると同じ公演が別の名前になり、

@@ -7,7 +7,7 @@
 
 import { useMemo } from 'react'
 import { defaultEntry } from '@/domain/catalog/Catalog'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
 import { useDocumentMeta, type DocumentMeta } from '@/presentation/hooks/useDocumentMeta'
 import { useCatalog } from '@/presentation/providers/CatalogProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'

@@ -1,5 +1,4 @@
-import type { SongSearchHit } from '@/application/searchSongs'
-import { singersOfSong } from '@/application/searchSongs'
+import { singersOfSong, type SongSearchHit } from '@/application/searchSongs'
 import { producerLabel, type Song } from '@/domain/song/Song'
 import { EditionYearBadge } from '@/presentation/components/edition/EditionYearBadge'
 import { FavoriteButton } from '@/presentation/components/song/FavoriteButton'
@@ -24,7 +23,7 @@ export function SongSearchResult({
   /** お気に入りのボタンの見せ方。一覧が「お気に入りそのもの」のときは削除にする。 */
   favoriteAppearance?: 'toggle' | 'remove'
 }) {
-  const { catalog, searchIndex } = useCatalog()
+  const { searchIndex } = useCatalog()
   const { t } = useLocale()
   const { song, editions } = hit
 
@@ -42,7 +41,7 @@ export function SongSearchResult({
             <span className="text-muted block text-xs">{producerLabel(song)}</span>
           ) : null}
           <span className="mt-1 block">
-            <VocaloidChips singers={singersOfSong(catalog, searchIndex, song.title)} />
+            <VocaloidChips singers={singersOfSong(searchIndex, song.title)} />
           </span>
         </button>
 

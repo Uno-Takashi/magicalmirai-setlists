@@ -1,8 +1,8 @@
 import { LuCalendarDays, LuInfo, LuMapPin } from 'react-icons/lu'
 import { showsByDate, type Performance } from '@/domain/edition/Performance'
-import { regionColorVar } from '@/domain/edition/Region'
 import { showDate } from '@/domain/edition/Show'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
+import { REGION_COLOR } from '@/presentation/components/edition/regionVisuals'
 import { SessionMark } from '@/presentation/components/edition/SessionMark'
 import { useDateFormatters } from '@/presentation/hooks/useFormatters'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
@@ -34,7 +34,7 @@ export function PerformanceRail({
           公演地ごとに日程の数が違うので、揃えないと下端がばらつく */}
       <ul className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3">
         {performances.map((performance) => {
-          const color = regionColorVar(performance.region)
+          const color = REGION_COLOR[performance.region]
           return (
             /*
               カードは幅を分け合って、行の全体でセットリストや公演情報のトグルと

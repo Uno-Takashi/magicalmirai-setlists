@@ -1,5 +1,5 @@
 import type { VocaloidId } from '@/domain/vocaloid/Vocaloid'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
 import { CollapsibleChip } from '@/presentation/components/ui/CollapsibleChip'
 import { useCatalog } from '@/presentation/providers/CatalogProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'

@@ -51,12 +51,3 @@ export interface Track {
   readonly variants: readonly TrackVariant[]
   readonly tags: readonly TrackTag[]
 }
-
-/** 候補が複数ある枠か。 */
-export function isVariable(track: Track): boolean {
-  return track.variants.length > 1
-}
-
-export function trackSongs(track: Track): readonly SongTitle[] {
-  return track.variants.map((variant) => variant.song)
-}
