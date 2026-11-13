@@ -1,68 +1,52 @@
 /**
  * 現在地から、検索結果に出る文言 (title / description / canonical) を決める。
  *
- * 静的ホスティングでは HTML が 1 種類しか無いので、HTML に埋めた meta は
- * サイト全体の既定値にしかならない。ページごとの文言はここで組み立てて、
- * `useDocumentMeta` が描画後に差し替える。
+ * ビルド時に書き出す HTML (`build/pageMeta.ts`) と同じ文言になるように組み立てる。
+ * 違うのは言語だけで、あちらは日本語に固定、こちらは表示中の言語に合わせる。
  */
 
 import { useMemo } from 'react'
 import { defaultEntry } from '@/domain/catalog/Catalog'
-import { localize } from '@/domain/vocaloid/Vocaloid'
-import type { TranslationKey } from '@/infrastructure/i18n/i18n'
+import { localize } from '@/domain/shared/LocalizedText'
 import { useDocumentMeta, type DocumentMeta } from '@/presentation/hooks/useDocumentMeta'
-import { rankingPath, STATISTICS_PATH, type RankingKind } from '@/presentation/hooks/useRoute'
 import { useCatalog } from '@/presentation/providers/CatalogProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 import { useNavigation } from '@/presentation/providers/NavigationProvider'
-
-/** 全体ランキングの各ページの見出し。画面の見出しと meta の title に使う。 */
-const RANKING_TITLE_KEYS = {
-  producers: 'statistics.producers.title',
-  songs: 'statistics.songs.title',
-  vocaloids: 'statistics.vocaloids.title',
-} as const satisfies Record<RankingKind, TranslationKey>
-
-export function rankingTitleKey(kind: RankingKind): TranslationKey {
-  return RANKING_TITLE_KEYS[kind]
-}
+import { RANKING_TITLE_KEYS, rankingPath, STATISTICS_PATH } from '@/presentation/routing/routes'
 
 /** 現在地に合わせて、ページの meta を書き換える。 */
 export function usePageMeta(): void {
   const { catalog } = useCatalog()
   const { route, entry } = useNavigation()
   const { t, locale } = useLocale()
-  const homeSlug = defaultEntry(catalog)?.edition.slug ?? ''
+  const homeSlug = defaultEntry(catalog)?.edition.slug
 
   const meta = useMemo<DocumentMeta>(() => {
-    if (route.kind === 'ranking') {
-      return {
-        title: t(rankingTitleKey(route.ranking)),
-        description: t('statistics.description'),
-        path: rankingPath(route.ranking),
-      }
+    switch (route.kind) {
+      case 'ranking':
+        return {
+          title: t(RANKING_TITLE_KEYS[route.ranking]),
+          description: t('statistics.description'),
+          path: rankingPath(route.ranking),
+        }
+      case 'statistics':
+        return {
+          title: t('statistics.title'),
+          description: t('statistics.description'),
+          path: STATISTICS_PATH,
+        }
+      case 'edition':
+        break
     }
-    if (route.kind === 'statistics') {
-      return {
-        title: t('statistics.title'),
-        description: t('statistics.description'),
-        path: STATISTICS_PATH,
-      }
-    }
-    if (entry === undefined) {
+
+    // ホームは既定の開催回を出すが、正規 URL は base 直下にまとめる。
+    // 説明もサイト全体のものにする。既定の開催回の説明にすると、年が変わるたびに
+    // 入口の説明文が変わってしまい、サイトが何であるかを説明しなくなる。
+    if (entry === undefined || entry.edition.slug === homeSlug) {
       return { description: t('app.description'), path: '' }
     }
 
     const name = localize(entry.edition.name, locale)
-    // ホームは既定の開催回を出すが、正規 URL は base 直下にまとめる。
-    // その URL はサイトの入口でもあるので、title には開催回を入れずサイト名だけにする。
-    const isHome = entry.edition.slug === homeSlug
-    if (isHome) {
-      // 説明はサイト全体のものにする。既定の開催回の説明にすると、年が変わるたびに
-      // 入口の説明文が変わってしまい、サイトが何であるかを説明しなくなる。
-      // ビルド時に書き出す HTML (build/pageMeta.ts) とも、ここで一致する。
-      return { description: t('app.description'), path: '' }
-    }
     return {
       title: t('meta.editionTitle', { name }),
       description: t('meta.editionDescription', { name }),
@@ -70,5 +54,5 @@ export function usePageMeta(): void {
     }
   }, [entry, homeSlug, locale, route, t])
 
-  useDocumentMeta({ siteName: t('app.title'), locale, ...meta })
+  useDocumentMeta({ siteName: t('app.title'), ...meta })
 }

@@ -8,15 +8,6 @@
 import type { Session } from '@/domain/edition/Show'
 import { performanceIdOf, showIdOf, type ShowRef, type Track, type TrackVariant } from './Track'
 
-export const TRACK_VARIATIONS = [
-  'fixed',
-  'venue',
-  'session',
-  'schedule',
-  'venue-and-schedule',
-  'daily',
-] as const
-
 /**
  * - `fixed`              候補が 1 つだけの固定曲
  * - `venue`              会場替わり (会場ごとに違う)
@@ -25,7 +16,13 @@ export const TRACK_VARIATIONS = [
  * - `venue-and-schedule` 会場替わりかつ日程替わり
  * - `daily`              上のどれでも言い表せない日替わり
  */
-export type TrackVariation = (typeof TRACK_VARIATIONS)[number]
+export type TrackVariation =
+  | 'fixed'
+  | 'venue'
+  | 'session'
+  | 'schedule'
+  | 'venue-and-schedule'
+  | 'daily'
 
 /** 候補の集合が「ある軸の値がそろえば全部含む」形になっているか。 */
 function partitionedBy(

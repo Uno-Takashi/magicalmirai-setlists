@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Show } from './Show'
-import { performancePeriod, showsByDate } from './Performance'
+import { showsByDate } from './Performance'
 import type { Performance } from './Performance'
 
 function show(id: string, date: string, session?: Show['session']): Show {
@@ -44,23 +44,5 @@ describe('showsByDate', () => {
 
   it('公演回が無ければ空', () => {
     expect(showsByDate(performance([]))).toEqual([])
-  })
-})
-
-describe('performancePeriod', () => {
-  it('その公演地の最初と最後の日を返す', () => {
-    const subject = performance([show('d2', '2023-08-27'), show('d1', '2023-08-25')])
-    expect(performancePeriod(subject)).toEqual({ from: '2023-08-25', to: '2023-08-27' })
-  })
-
-  it('1 日だけの公演は、始まりと終わりが同じ日になる', () => {
-    expect(performancePeriod(performance([show('d1', '2013-08-30')]))).toEqual({
-      from: '2013-08-30',
-      to: '2013-08-30',
-    })
-  })
-
-  it('日程が未発表なら期間を持たない', () => {
-    expect(performancePeriod(performance([]))).toBeNull()
   })
 })

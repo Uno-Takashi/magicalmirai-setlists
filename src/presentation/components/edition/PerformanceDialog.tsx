@@ -1,8 +1,8 @@
 import { LuMapPin } from 'react-icons/lu'
 import type { Performance } from '@/domain/edition/Performance'
-import { regionColorVar } from '@/domain/edition/Region'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
 import { PerformanceSchedule } from '@/presentation/components/edition/PerformanceSchedule'
+import { REGION_COLOR } from '@/presentation/components/edition/regionVisuals'
 import { VenueMap } from '@/presentation/components/edition/VenueMap'
 import { Modal, ModalHeader } from '@/presentation/components/ui/Modal'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
@@ -59,7 +59,7 @@ export function PerformanceDialog({
               <span className="flex items-center gap-2">
                 <span
                   className="size-2.5 shrink-0 rounded-full"
-                  style={{ backgroundColor: regionColorVar(performance.region) }}
+                  style={{ backgroundColor: REGION_COLOR[performance.region] }}
                 />
                 {city}
               </span>

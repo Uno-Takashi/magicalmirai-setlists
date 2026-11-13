@@ -4,7 +4,7 @@
  * 「年」ではなく「開催回」を単位にしている。
  */
 
-import type { LocalizedText } from '@/domain/vocaloid/Vocaloid'
+import type { LocalizedText } from '@/domain/shared/LocalizedText'
 import type { Performance } from './Performance'
 import type { Session } from './Show'
 
@@ -27,8 +27,8 @@ export interface Edition {
 /** 開催回全体の開催日 (最初と最後)。年をまたぐ回にも対応する。 */
 export function editionPeriod(edition: Edition): { from: string; to: string } | null {
   const dates = edition.performances.flatMap((p) => p.shows.map((s) => s.date)).sort()
-  if (dates.length === 0) return null
-  return { from: dates[0]!, to: dates[dates.length - 1]! }
+  const [from, to] = [dates[0], dates.at(-1)]
+  return from === undefined || to === undefined ? null : { from, to }
 }
 
 export function findPerformance(edition: Edition, performanceId: string): Performance | undefined {

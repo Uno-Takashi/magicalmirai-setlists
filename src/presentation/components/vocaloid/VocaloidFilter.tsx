@@ -1,4 +1,5 @@
-import { localize, type VocaloidId } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
+import type { VocaloidId } from '@/domain/vocaloid/Vocaloid'
 import { useCatalog } from '@/presentation/providers/CatalogProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 

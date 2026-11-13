@@ -10,44 +10,24 @@ import { type Catalog, validateCatalog } from '@/domain/catalog/Catalog'
 import type { RawEdition, RawSetlistFile, RawSongFile, RawVocaloidFile } from './rawTypes'
 import { toCatalog } from './toCatalog'
 
-type RawModules = Record<string, string>
-
-const editionFiles = import.meta.glob('/dataset/*/edition.yaml', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as RawModules
-
-const setlistFiles = import.meta.glob('/dataset/*/setlist.yaml', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as RawModules
-
-const songFile = import.meta.glob('/dataset/songs.yaml', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as RawModules
-
-const vocaloidFile = import.meta.glob('/dataset/vocaloids.yaml', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-}) as RawModules
+const SONG_FILE = '/dataset/songs.yaml'
+const VOCALOID_FILE = '/dataset/vocaloids.yaml'
 
 /**
  * dataset/ の YAML をパスごとに引ける形。
  *
- * CI の検証 (`dataset.node.test.ts`) が、上のグロブを書き写さずに全ファイルを
- * 走査するために使う。中身は上の 4 つと同じモジュールなので、バンドルは増えない。
+ * CI の検証 (`dataset.node.test.ts`) もこれを走査するので、読み込むファイルの範囲は
+ * このグロブ 1 か所で決まる。
  */
-export const datasetSources: Readonly<RawModules> = {
-  ...editionFiles,
-  ...setlistFiles,
-  ...songFile,
-  ...vocaloidFile,
-}
+export const datasetSources: Readonly<Record<string, string>> = import.meta.glob(
+  [
+    '/dataset/*/edition.yaml',
+    '/dataset/*/setlist.yaml',
+    '/dataset/songs.yaml',
+    '/dataset/vocaloids.yaml',
+  ],
+  { query: '?raw', import: 'default', eager: true },
+)
 
 function parseOne<T>(source: string, path: string): T {
   try {
@@ -57,12 +37,10 @@ function parseOne<T>(source: string, path: string): T {
   }
 }
 
-function requireSingle(modules: RawModules, path: string): string {
-  const source = modules[path]
-  if (source === undefined) {
-    throw new Error(`${path} が見つかりません`)
-  }
-  return source
+function parseRequired<T>(path: string): T {
+  const source = datasetSources[path]
+  if (source === undefined) throw new Error(`${path} が見つかりません`)
+  return parseOne<T>(source, path)
 }
 
 /** 年ディレクトリ名を取り出す。'/dataset/2023/edition.yaml' -> '2023' */
@@ -71,10 +49,12 @@ function directoryOf(path: string): string {
 }
 
 export function loadCatalog(): Catalog {
-  const editions = Object.entries(editionFiles).map(([path, source]) => {
-    const directory = directoryOf(path)
-    const setlistPath = `/dataset/${directory}/setlist.yaml`
-    const setlistSource = setlistFiles[setlistPath]
+  const editionFiles = Object.entries(datasetSources).filter(([path]) =>
+    path.endsWith('/edition.yaml'),
+  )
+  const editions = editionFiles.map(([path, source]) => {
+    const setlistPath = `/dataset/${directoryOf(path)}/setlist.yaml`
+    const setlistSource = datasetSources[setlistPath]
     return {
       edition: parseOne<RawEdition>(source, path),
       setlist:
@@ -86,11 +66,8 @@ export function loadCatalog(): Catalog {
 
   const catalog = toCatalog(
     editions,
-    parseOne<RawSongFile>(requireSingle(songFile, '/dataset/songs.yaml'), '/dataset/songs.yaml'),
-    parseOne<RawVocaloidFile>(
-      requireSingle(vocaloidFile, '/dataset/vocaloids.yaml'),
-      '/dataset/vocaloids.yaml',
-    ),
+    parseRequired<RawSongFile>(SONG_FILE),
+    parseRequired<RawVocaloidFile>(VOCALOID_FILE),
   )
 
   const errors = validateCatalog(catalog)

@@ -1,6 +1,6 @@
 import type { Performance } from '@/domain/edition/Performance'
 import { venueMapEmbedUrl } from '@/domain/edition/venueMapUrl'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 /**

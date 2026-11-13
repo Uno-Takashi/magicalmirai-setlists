@@ -1,12 +1,12 @@
 import { createContext, use, useCallback, useMemo, useState, type ReactNode } from 'react'
-import { readPlainDesign, writePlainDesign } from '@/infrastructure/preferences/plainDesign'
-import { readCompactTags, writeCompactTags } from '@/infrastructure/preferences/tagDisplay'
+import {
+  compactTagsPreference,
+  plainDesignPreference,
+} from '@/infrastructure/preferences/displayPreferences'
 
 /**
  * 見た目の好み。設定モーダルで切り替え、次に来たときも同じ見え方になるよう
  * 端末に覚えさせる。
- *
- * 増えるならここに足していく。
  */
 interface PreferencesValue {
   /**
@@ -31,17 +31,17 @@ interface PreferencesValue {
 const PreferencesContext = createContext<PreferencesValue | null>(null)
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
-  const [compactTags, setCompactTagsState] = useState(readCompactTags)
-  const [plainDesign, setPlainDesignState] = useState(readPlainDesign)
+  const [compactTags, setCompactTagsState] = useState(compactTagsPreference.read)
+  const [plainDesign, setPlainDesignState] = useState(plainDesignPreference.read)
 
   const setCompactTags = useCallback((compact: boolean) => {
     setCompactTagsState(compact)
-    writeCompactTags(compact)
+    compactTagsPreference.write(compact)
   }, [])
 
   const setPlainDesign = useCallback((plain: boolean) => {
     setPlainDesignState(plain)
-    writePlainDesign(plain)
+    plainDesignPreference.write(plain)
   }, [])
 
   const value = useMemo<PreferencesValue>(

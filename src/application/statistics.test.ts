@@ -18,7 +18,6 @@ import {
   producerRanking,
   songRanking,
   vocaloidRanking,
-  vocaloidSoloRanking,
   vocaloidTrend,
 } from './statistics'
 
@@ -203,16 +202,16 @@ describe('vocaloidRanking', () => {
   })
 })
 
-describe('vocaloidSoloRanking', () => {
+describe('vocaloidTrend (ソロに絞る)', () => {
   it('デュエットは誰にも数えない', () => {
     const subject = catalog(
       [entry('2024', 2024, [fixed(1, 'A'), fixed(2, 'B')])],
       [song('A', ['P1'], ['miku']), song('B', ['P2'], ['rin', 'len'])],
     )
-    const byId = new Map(vocaloidSoloRanking(subject).map((s) => [s.vocaloid.id, s.songCount]))
-    expect(byId.get('miku')).toBe(1)
-    expect(byId.get('rin')).toBe(0)
-    expect(byId.get('len')).toBe(0)
+    const [point] = vocaloidTrend(subject, true)
+    expect(point?.cumulative.get('miku')).toBe(1)
+    expect(point?.cumulative.has('rin')).toBe(false)
+    expect(point?.cumulative.has('len')).toBe(false)
   })
 })
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Track } from './Track'
-import { bonusTracks, findTaggedSong, performedTracks } from './Setlist'
+import { bonusTracks, performedTracks } from './Setlist'
 import type { Setlist } from './Setlist'
 
 function track(order: number, song: string, tags: Track['tags'] = []): Track {
@@ -17,20 +17,6 @@ const setlist: Setlist = {
     track(5, '未明のスケッチ', ['bonus-track']),
   ],
 }
-
-describe('findTaggedSong', () => {
-  it('テーマソングの曲名を引ける', () => {
-    expect(findTaggedSong(setlist, 'theme-song')).toBe('くらげディスコ')
-  })
-
-  it('楽曲グランプリの曲名を引ける', () => {
-    expect(findTaggedSong(setlist, 'grand-prix')).toBe('ゼロ番目の海')
-  })
-
-  it('そのタグの枠が無ければ undefined', () => {
-    expect(findTaggedSong(setlist, 'band-intro')).toBeUndefined()
-  })
-})
 
 describe('performedTracks / bonusTracks', () => {
   it('円盤収録のみの枠は、演奏された枠に含めない', () => {

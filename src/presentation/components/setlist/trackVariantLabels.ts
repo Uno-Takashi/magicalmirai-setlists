@@ -9,7 +9,7 @@
 import type { IconType } from 'react-icons'
 import { LuMapPin } from 'react-icons/lu'
 import { TbBrandDaysCounter } from 'react-icons/tb'
-import type { Edition } from '@/domain/edition/Edition'
+import { findPerformance, type Edition } from '@/domain/edition/Edition'
 import type { Performance } from '@/domain/edition/Performance'
 import type { Session } from '@/domain/edition/Show'
 import {
@@ -20,9 +20,9 @@ import {
   type TrackVariant,
 } from '@/domain/setlist/Track'
 import { variantScope } from '@/domain/setlist/TrackVariation'
-import { localize } from '@/domain/vocaloid/Vocaloid'
-import { SESSION_ICON } from '@/presentation/components/edition/sessionVisuals'
+import { localize } from '@/domain/shared/LocalizedText'
 import type { Locale, Translate } from '@/infrastructure/i18n/i18n'
+import { SESSION_ICON } from '@/presentation/components/edition/sessionVisuals'
 
 /**
  * 札に並べる「何日目のどの回か」。
@@ -97,8 +97,8 @@ export function variantLabels(
       {
         text: scope.performanceIds
           .map((id) => {
-            const performance = edition.performances.find((p) => p.id === id)
-            return performance ? localize(performance.city, locale) : id
+            const performance = findPerformance(edition, id)
+            return performance === undefined ? id : localize(performance.city, locale)
           })
           .join('・'),
         icon: LuMapPin,

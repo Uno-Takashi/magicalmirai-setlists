@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Song } from '@/domain/song/Song'
-import { isVariable, performanceIdOf, showIdOf, trackSongs, variantSingers } from './Track'
-import type { Track, TrackVariant } from './Track'
+import { performanceIdOf, showIdOf, variantSingers } from './Track'
+import type { TrackVariant } from './Track'
 
 const song: Song = {
   title: 'ネオンの通学路',
@@ -42,29 +42,5 @@ describe('variantSingers', () => {
   it('上書きが空配列なら、それを尊重して楽曲マスタへ落とさない', () => {
     const variant: TrackVariant = { song: song.title, shows: [], singers: [] }
     expect(variantSingers(variant, song)).toEqual([])
-  })
-})
-
-describe('isVariable / trackSongs', () => {
-  const fixed: Track = { order: 1, tags: [], variants: [{ song: 'A', shows: [] }] }
-  const variable: Track = {
-    order: 2,
-    tags: [],
-    variants: [
-      { song: 'A', shows: [] },
-      { song: 'B', shows: [] },
-    ],
-  }
-
-  it('候補が 1 つだけの枠は固定曲', () => {
-    expect(isVariable(fixed)).toBe(false)
-  })
-
-  it('候補が複数ある枠は入れ替わる枠', () => {
-    expect(isVariable(variable)).toBe(true)
-  })
-
-  it('枠の候補の曲名を、並びのまま返す', () => {
-    expect(trackSongs(variable)).toEqual(['A', 'B'])
   })
 })

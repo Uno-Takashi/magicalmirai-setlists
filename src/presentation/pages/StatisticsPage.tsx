@@ -1,7 +1,7 @@
 import { RankingView } from '@/presentation/components/statistics/RankingView'
 import { StatisticsView } from '@/presentation/components/statistics/StatisticsView'
 import { VocaloidStatsView } from '@/presentation/components/statistics/VocaloidStatsView'
-import type { Route } from '@/presentation/hooks/useRoute'
+import type { Route } from '@/presentation/routing/routes'
 
 /**
  * 統計のページ。全体の要約と、そこから掘り下げる各ランキングを振り分ける。

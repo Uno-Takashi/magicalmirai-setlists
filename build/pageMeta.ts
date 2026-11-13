@@ -2,32 +2,28 @@
  * サイトが持つページの一覧と、ページごとの検索向けの情報。
  *
  * **ビルド時にだけ使う。** 配信するバンドルには入らない。
- * `sitemap.xml` と、ページごとの HTML (prerender.ts) の両方がここを見る。
- * 2 か所で URL の並びがずれないよう、ページの定義はここ 1 か所に置く。
+ * `sitemap.xml` と、ページごとの HTML (vite.config.ts の `prerenderPages`) の両方が
+ * ここを見る。2 か所で URL の並びがずれないよう、ページの定義はここ 1 か所に置く。
  *
- * 文言は `src/infrastructure/i18n/locales/ja.ts` から取る。画面と検索結果で
- * 言い回しがずれないようにするため、ここに書き写さない。
+ * URL の形 (`routes.ts`) と文言 (`ja.ts`)、差し込みの規則 (`interpolate.ts`) は
+ * 画面と同じものを読む。画面と検索結果で URL や言い回しがずれないようにするため、
+ * ここに書き写さない。どれも Node から読めるよう、何も import しないファイルにしてある。
  */
 
 import fs from 'node:fs'
 import path from 'node:path'
 import { parse as parseYaml } from 'yaml'
+import { interpolate } from '../src/infrastructure/i18n/interpolate.ts'
 import { ja } from '../src/infrastructure/i18n/locales/ja.ts'
+import {
+  RANKING_TITLE_KEYS,
+  RANKINGS,
+  rankingPath,
+  STATISTICS_PATH,
+} from '../src/presentation/routing/routes.ts'
 
-/** 統計のページ。`useRoute.ts` の STATISTICS_PATH / RANKINGS と揃える。 */
-const STATISTICS_PATH = 'statics'
-const RANKINGS = ['producers', 'songs', 'vocaloids'] as const
-
-/** ランキングのページの見出し。`usePageMeta.ts` の RANKING_TITLE_KEYS と揃える。 */
-const RANKING_TITLE_KEYS = {
-  producers: 'statistics.producers.title',
-  songs: 'statistics.songs.title',
-  vocaloids: 'statistics.vocaloids.title',
-} as const satisfies Record<(typeof RANKINGS)[number], keyof typeof ja>
-
-/** `{name}` を差し込む。i18n の createTranslate と同じ規則。 */
 function t(key: keyof typeof ja, params: Record<string, string> = {}): string {
-  return ja[key].replace(/\{(\w+)\}/g, (match, name: string) => params[name] ?? match)
+  return interpolate(ja[key], params)
 }
 
 /** dataset/<年>/edition.yaml から読む、ページを組み立てるのに要るところだけ。 */
@@ -83,7 +79,7 @@ export function readEditions(datasetDir: string): EditionSummary[] {
         name: doc.name.ja,
         officialUrl: doc.officialUrl,
         from: dates[0],
-        to: dates[dates.length - 1],
+        to: dates.at(-1),
         venues,
       }
     })
@@ -193,7 +189,7 @@ export function sitePages(siteUrl: string, editions: readonly EditionSummary[]):
   return [
     {
       path: '',
-      description: ja['app.description'],
+      description: t('app.description'),
       jsonLd: [],
     },
     ...editions.map((edition) => ({
@@ -210,19 +206,19 @@ export function sitePages(siteUrl: string, editions: readonly EditionSummary[]):
     {
       path: STATISTICS_PATH,
       title: t('statistics.title'),
-      description: ja['statistics.description'],
+      description: t('statistics.description'),
       jsonLd: jsonLdOf(
         collectionJsonLd(siteUrl, STATISTICS_PATH, t('statistics.title')),
         breadcrumb(siteUrl, [statisticsTrail]),
       ),
     },
     ...RANKINGS.map((ranking) => {
-      const name = ja[RANKING_TITLE_KEYS[ranking]]
-      const pagePath = `${STATISTICS_PATH}/${ranking}`
+      const name = t(RANKING_TITLE_KEYS[ranking])
+      const pagePath = rankingPath(ranking)
       return {
         path: pagePath,
         title: name,
-        description: ja['statistics.description'],
+        description: t('statistics.description'),
         jsonLd: jsonLdOf(
           collectionJsonLd(siteUrl, pagePath, name),
           breadcrumb(siteUrl, [statisticsTrail, { name, path: pagePath }]),

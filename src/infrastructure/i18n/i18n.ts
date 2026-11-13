@@ -3,6 +3,7 @@
  * dataset 側の LocalizedText に任せる。
  */
 
+import { interpolate } from './interpolate'
 import { en } from './locales/en'
 import { ja, type TranslationKey, type Translations } from './locales/ja'
 import { ko } from './locales/ko'
@@ -49,11 +50,5 @@ export type Translate = (key: TranslationKey, params?: Record<string, string | n
 /** {name} 形式のプレースホルダを差し込む翻訳関数を作る。 */
 export function createTranslate(locale: Locale): Translate {
   const table = TRANSLATIONS[locale]
-  return (key, params) => {
-    const template = table[key] ?? ja[key]
-    if (params === undefined) return template
-    return template.replace(/\{(\w+)\}/g, (match, name: string) =>
-      name in params ? String(params[name]) : match,
-    )
-  }
+  return (key, params) => (params === undefined ? table[key] : interpolate(table[key], params))
 }

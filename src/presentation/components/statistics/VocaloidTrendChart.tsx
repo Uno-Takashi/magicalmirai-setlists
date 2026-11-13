@@ -1,7 +1,8 @@
 import { ResponsiveLine } from '@nivo/line'
 import { useMemo } from 'react'
 import type { VocaloidTrendPoint } from '@/application/statistics'
-import { localize, type Vocaloid } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
+import type { Vocaloid } from '@/domain/vocaloid/Vocaloid'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 export type TrendMode = 'perEdition' | 'cumulative'

@@ -1,9 +1,9 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { useId } from 'react'
-import type { Edition } from '@/domain/edition/Edition'
-import { regionColorVar } from '@/domain/edition/Region'
+import { findPerformance, type Edition } from '@/domain/edition/Edition'
 import type { Setlist } from '@/domain/setlist/Setlist'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
+import { REGION_COLOR } from '@/presentation/components/edition/regionVisuals'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 
 /**
@@ -14,7 +14,7 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
  */
 function setlistName(setlist: Setlist, edition: Edition, locale: string, fallback: string): string {
   const cities = setlist.performanceIds.flatMap((id) => {
-    const performance = edition.performances.find((p) => p.id === id)
+    const performance = findPerformance(edition, id)
     return performance === undefined ? [] : [localize(performance.city, locale)]
   })
   return cities.length === 0 ? fallback : cities.join('・')
@@ -57,10 +57,9 @@ export function SetlistSwitch({
           const selected = index === selectedIndex
           // 札の色は最初の適用先の公演地に合わせる。切り替え先が公演地カードの
           // どれにあたるのかを、色でも見分けられるようにする。
-          const region = edition.performances.find(
-            (performance) => performance.id === setlist.performanceIds[0],
-          )?.region
-          const color = region === undefined ? undefined : regionColorVar(region)
+          const first = setlist.performanceIds[0]
+          const region = first === undefined ? undefined : findPerformance(edition, first)?.region
+          const color = region === undefined ? undefined : REGION_COLOR[region]
 
           return (
             <button
