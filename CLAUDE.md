@@ -164,6 +164,8 @@ src/
     dataset/toCatalog.ts    生データ → ドメインモデルの変換
     dataset/dataset.node.test.ts dataset/ の検証 (CI で走る)
     i18n/                   多言語対応 (ja / en / zh-Hant / ko)
+    storage/                失敗しても止まらない localStorage の読み書き
+    preferences/            見た目の好み・お気に入りの永続化
     youtube/embedPlayer.ts  YouTube 埋め込みプレイヤーの状態購読
   presentation/           React
     App.tsx                 外枠 (ヘッダー・ページ・脚注・重なり) の組み立てだけ

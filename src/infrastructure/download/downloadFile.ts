@@ -5,6 +5,9 @@
  * サイトなので、中身はその場で組み立てて Blob から落とす。
  */
 
+/** UTF-8 の BOM。見えない文字なので、ソースにはエスケープで書く。 */
+const UTF8_BOM = '﻿'
+
 /**
  * @param bom 先頭に UTF-8 の BOM を付けるか。Excel は BOM が無いと日本語を
  *   Shift_JIS と見なして文字化けさせるため、CSV では付ける。
@@ -14,7 +17,7 @@ export function downloadText(
   text: string,
   { type = 'text/plain;charset=utf-8', bom = false }: { type?: string; bom?: boolean } = {},
 ): void {
-  const blob = new Blob([bom ? `﻿${text}` : text], { type })
+  const blob = new Blob([bom ? UTF8_BOM + text : text], { type })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
   anchor.href = url
