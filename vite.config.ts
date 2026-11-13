@@ -7,8 +7,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { defineConfig, loadEnv, type Plugin } from 'vite'
 import { readEditions, sitePages, type PageMeta } from './build/pageMeta.ts'
-import { ja } from './src/infrastructure/i18n/locales/ja.ts'
 import { renderNotFound, renderPage } from './build/renderPage.ts'
+import { ja } from './src/infrastructure/i18n/locales/ja.ts'
 
 /**
  * sitemap.xml と robots.txt をビルド時に作る。
@@ -36,14 +36,7 @@ function seoFiles(siteUrl: string, pages: readonly PageMeta[]): Plugin {
 }
 
 /**
- * ページごとの HTML を書き出す。
- *
- * **これが無いと、サイトの入口以外はすべて 404 で返る。** 静的ホスティングは
- * 実体の無いパスに 404.html を返すだけなので、`/2023` のような URL は
- * ブラウザでは動いても、検索エンジンからは存在しないページに見えていた。
- *
- * 実体を置くと 200 で返るようになり、JavaScript を実行しない収集器
- * (SNS のカード生成など) にもそのページの title / description / OGP が届く。
+ * ページごとの HTML を書き出す。なぜ要るかは build/renderPage.ts の冒頭を参照。
  *
  * 1 ページにつき 2 か所へ書くのは、ホスティングによって拡張子なしの URL の
  * 解決の仕方が違うため。`2023.html` を見るもの (GitHub Pages) と
@@ -86,19 +79,29 @@ const dirname = import.meta.dirname
 /** サイト名。title の後ろに付く。画面と揃えるため ja ロケールから取る。 */
 const SITE_NAME = ja['app.title']
 
-// https://vite.dev/config/
+/**
+ * .env の値を読む。欠けていたら止める。
+ *
+ * 黙って進むと canonical や sitemap に `undefined` が入った成果物がそのまま配信される。
+ */
+function requireEnv(env: Record<string, string>, key: 'VITE_SITE_URL' | 'VITE_BASE_PATH'): string {
+  const value = env[key]
+  if (value === undefined || value === '') throw new Error(`.env に ${key} がありません`)
+  return value
+}
+
 export default defineConfig(({ mode }) => {
   // 配信先に依存する値は .env に置く。設定ファイルからは import.meta.env を
   // 参照できないので loadEnv で読む。
   const env = loadEnv(mode, dirname, 'VITE_')
+  const siteUrl = requireEnv(env, 'VITE_SITE_URL')
 
   // ページの一覧は sitemap と、ページごとの HTML の両方が使う。
   // 並びがずれないよう、ここで 1 度だけ組み立てて両方へ渡す。
-  const editions = readEditions(path.resolve(dirname, 'dataset'))
-  const pages = sitePages(env.VITE_SITE_URL, editions)
+  const pages = sitePages(siteUrl, readEditions(path.resolve(dirname, 'dataset')))
 
   return {
-    base: env.VITE_BASE_PATH,
+    base: requireEnv(env, 'VITE_BASE_PATH'),
     server: {
       // すべてのアドレスで待ち受ける。既定の localhost は Node が ::1 (IPv6) に
       // 解決するため、devcontainer だと VS Code のポート転送 (127.0.0.1 へ繋ぐ) が
@@ -108,8 +111,8 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
-      prerenderPages(env.VITE_SITE_URL, SITE_NAME, pages),
-      seoFiles(env.VITE_SITE_URL, pages),
+      prerenderPages(siteUrl, SITE_NAME, pages),
+      seoFiles(siteUrl, pages),
     ],
     resolve: {
       alias: {
