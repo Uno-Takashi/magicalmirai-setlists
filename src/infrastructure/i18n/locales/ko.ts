@@ -45,9 +45,7 @@ export const ko: Translations = {
   'track.variation.session': '낮/밤',
   'track.variation.schedule': '일정별 교체',
   'track.variation.daily': '일자별 교체',
-  'track.singers': '보컬',
 
-  'song.preview': '미리보기',
   'song.playOnYoutube': 'YouTube에서 재생',
   'song.searchOnYoutube': 'YouTube에서 검색',
   'song.openSpotify': 'Spotify에서 열기',

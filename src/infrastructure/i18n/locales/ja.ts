@@ -44,9 +44,7 @@ export const ja = {
   'track.variation.session': '昼/夜',
   'track.variation.schedule': '日程替わり',
   'track.variation.daily': '日替わり',
-  'track.singers': '歌唱',
 
-  'song.preview': 'プレビュー',
   'song.playOnYoutube': 'YouTube で再生',
   'song.searchOnYoutube': 'YouTube で検索',
   'song.openSpotify': 'Spotify で開く',

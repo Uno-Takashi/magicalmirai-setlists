@@ -1,5 +1,4 @@
-import type { Performance } from '@/domain/edition/Performance'
-import { showsByDate } from '@/domain/edition/Performance'
+import { showsByDate, type Performance } from '@/domain/edition/Performance'
 import { parseEventDate } from '@/domain/edition/Show'
 import { SessionBadge } from '@/presentation/components/edition/SessionMark'
 import { useDateFormatters } from '@/presentation/hooks/useFormatters'

@@ -33,7 +33,7 @@ function MotifTile({ motif }: { motif: EditionMotif }) {
     <section
       className="relative h-96 overflow-hidden rounded-2xl"
       style={{
-        backgroundColor: theme?.colors[theme.colors.length - 1],
+        backgroundColor: theme?.colors.at(-1),
         backgroundImage:
           theme === undefined
             ? undefined

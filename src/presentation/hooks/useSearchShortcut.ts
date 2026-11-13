@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useEffectEvent } from 'react'
 
 /**
  * Ctrl+F (macOS は ⌘+F) で曲名検索を開く。
@@ -10,15 +10,16 @@ import { useEffect } from 'react'
  * 検索欄そのものにフォーカスがあっても効かせる。既に開いていれば開き直すだけで、
  * 標準の検索窓が重なって出るのを防げる。
  */
-export function useSearchShortcut(onOpen: () => void) {
+export function useSearchShortcut(onOpen: () => void): void {
+  const onKeyDown = useEffectEvent((event: KeyboardEvent) => {
+    if (event.key.toLowerCase() !== 'f') return
+    if (event.altKey || !(event.ctrlKey || event.metaKey)) return
+    event.preventDefault()
+    onOpen()
+  })
+
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'f' && event.key !== 'F') return
-      if (event.altKey || !(event.ctrlKey || event.metaKey)) return
-      event.preventDefault()
-      onOpen()
-    }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [onOpen])
+  }, [])
 }

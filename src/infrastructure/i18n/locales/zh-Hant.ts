@@ -45,9 +45,7 @@ export const zhHant: Translations = {
   'track.variation.session': '日場/夜場',
   'track.variation.schedule': '依日程而異',
   'track.variation.daily': '每日輪替',
-  'track.singers': '演唱',
 
-  'song.preview': '預覽',
   'song.playOnYoutube': '在 YouTube 播放',
   'song.searchOnYoutube': '在 YouTube 搜尋',
   'song.openSpotify': '在 Spotify 開啟',
