@@ -1,7 +1,5 @@
 import { useMemo } from 'react'
 import { producerRanking, songRanking } from '@/application/statistics'
-import { rankingTitleKey } from '@/presentation/hooks/usePageMeta'
-import type { RankingKind } from '@/presentation/hooks/useRoute'
 import { BackToStatistics } from '@/presentation/components/statistics/BackToStatistics'
 import { BarRanking } from '@/presentation/components/statistics/BarRanking'
 import { producerRows, songRows } from '@/presentation/components/statistics/rankingRows'
@@ -11,6 +9,7 @@ import { useCatalog } from '@/presentation/providers/CatalogProvider'
 import { useDialogs } from '@/presentation/providers/DialogsProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { RANKING_TITLE_KEYS, type RankingKind } from '@/presentation/routing/routes'
 
 /** 統計ページの上位だけでは足りないときに開く、ランキング全体のページ。 */
 export function RankingView({ ranking }: { ranking: Exclude<RankingKind, 'vocaloids'> }) {
@@ -38,7 +37,7 @@ export function RankingView({ ranking }: { ranking: Exclude<RankingKind, 'vocalo
     <div className="mx-auto w-full max-w-3xl px-4 pt-6 pb-16">
       <BackToStatistics onBack={openStatistics} />
       <h2 className="text-miku mt-1 flex items-center gap-2 text-2xl font-black sm:text-3xl">
-        {t(rankingTitleKey(ranking))}
+        {t(RANKING_TITLE_KEYS[ranking])}
         {ranking === 'songs' ? <HelpTip text={t('statistics.songs.help')} /> : null}
       </h2>
       <p className="text-muted mt-1 text-sm">{t('statistics.results', { count: rows.length })}</p>

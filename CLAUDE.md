@@ -168,7 +168,9 @@ src/
     App.tsx                 外枠 (ヘッダー・ページ・脚注・重なり) の組み立てだけ
     pages/                  現在地ごとのページ (開催回 / 統計)
     providers/              Catalog / Locale / Player / Navigation / Dialogs
-    hooks/                  ルーティング、キーボード操作、meta、日付整形
+    routing/routes.ts       URL の形 (build/ と共有するので何も import しない)
+    routing/useRoute.ts     History API の購読と遷移
+    hooks/                  キーボード操作、meta、日付整形、重なりのふるまい
     components/             UI コンポーネント + .stories.tsx (下記の区分ごと)
   fixtures/               Storybook と単体テスト用の作り物のカタログ (dataset は読まない)
   components/react-bits/  React Bits から取り込んだベンダーコード
@@ -464,8 +466,9 @@ Storybook にはストーリーがあるので、使いどころを探すとき�
 ### ページごとの HTML (SEO)
 
 **ページの一覧は `build/pageMeta.ts` が持ち、`sitemap.xml` と各ページの HTML の
-両方がそこから作られる。** ページを増やすときはここに足す (`useRoute.ts` の
-ルーティングと揃えること)。ビルド時にしか使わないので、配信するバンドルには入らない。
+両方がそこから作られる。** ページを増やすときはここに足す。URL の形
+(`STATISTICS_PATH` / `RANKINGS` / 見出しのキー) は `src/presentation/routing/routes.ts` を
+画面と共有しているので、書き写さない。ビルド時にしか使わないので、配信するバンドルには入らない。
 
 `vite.config.ts` の 2 つのプラグインが成果物を書き出す。
 
@@ -489,12 +492,16 @@ Storybook にはストーリーがあるので、使いどころを探すとき�
 - 書き出す HTML はビルド済みの `index.html` の head を差し替えて作る
   (`build/renderPage.ts`)。中身 (`<div id="root">`) は空のままで、描画は今までどおり
   ブラウザが行う。**React を1 度も実行しないので、dataset が壊れていてもビルドは通る。**
-- 文言は `src/infrastructure/i18n/locales/ja.ts` から取る。画面と検索結果で言い回しが
+- 文言は `src/infrastructure/i18n/locales/ja.ts` から、差し込みの規則は
+  `src/infrastructure/i18n/interpolate.ts` から取る。画面と検索結果で言い回しが
   ずれないよう、`build/` 側に書き写さない。
+- **`build/` から読む `src/` のファイル (`routes.ts` / `interpolate.ts` / `ja.ts`) は
+  何も import しない。** ビルド設定は Node の `nodenext` で型検査するので、`@/` の
+  エイリアスも拡張子なしの相対 import も解決できない。
 - 書き出す HTML は**日本語だけ**。ページごとに URL は 1 つで、言語は表示時に切り替わる
   (`hreflang` は URL が言語ごとに分かれていないと使えないので付けない)。
 - 描画後は `useDocumentMeta` が同じ文言で `title` / `description` / canonical を
-  差し替え、`<html lang>` を表示中の言語に合わせる。
+  差し替える。`<html lang>` は `LocaleProvider` が表示中の言語に合わせる。
   **ビルド時と実行時で同じ文言になるようにしておくこと** (ホームの説明文だけは
   既定の開催回ではなくサイト全体の説明を使う。年が変わるたびに入口の説明が
   変わってしまうため)。

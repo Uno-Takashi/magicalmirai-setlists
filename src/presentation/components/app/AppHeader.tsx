@@ -1,11 +1,11 @@
 import type { IconType } from 'react-icons'
 import { LuBox, LuChartColumn, LuInfo, LuSearch, LuSettings } from 'react-icons/lu'
 import type { TranslationKey } from '@/infrastructure/i18n/i18n'
-import { HOME_URL } from '@/presentation/hooks/useRoute'
 import { useDialogs } from '@/presentation/providers/DialogsProvider'
 import { useLocale } from '@/presentation/providers/LocaleProvider'
 import { useFavorites } from '@/presentation/providers/FavoritesProvider'
 import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { HOME_URL } from '@/presentation/routing/useRoute'
 import { AppLogo } from './AppLogo'
 
 const ICON_BUTTON = 'surface-card rounded-lg p-2 transition hover:-translate-y-0.5 hover:shadow-md'

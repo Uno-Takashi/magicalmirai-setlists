@@ -1,14 +1,14 @@
 import { createContext, use, useCallback, useMemo, useState, type ReactNode } from 'react'
 import { defaultEntry, findEntry, type EditionEntry } from '@/domain/catalog/Catalog'
 import type { SongTitle } from '@/domain/song/Song'
+import { useCatalog } from '@/presentation/providers/CatalogProvider'
 import {
   rankingPath,
   STATISTICS_PATH,
-  useRoute,
   type RankingKind,
   type Route,
-} from '@/presentation/hooks/useRoute'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
+} from '@/presentation/routing/routes'
+import { useRoute } from '@/presentation/routing/useRoute'
 
 /**
  * 「いま画面のどこを見ているか」をまとめて持つ。
