@@ -412,6 +412,8 @@ pnpm dlx shadcn@latest add https://reactbits.dev/r/<ComponentName>-TS-TW
 - 取り込み後は `pnpm format` を実行してからコミットする。
 - ベンダーコードなので原則手を入れない。`pnpm lint` は `SplitText.tsx` で警告を 3 件
   出すが、上流由来の警告なので CI は落ちない。
+- 例外として、`noUncheckedIndexedAccess` で型が通らない箇所だけは最小限に直す
+  (`SplitText.tsx` の `marginMatch[1] ?? '0'`)。取り込み直したら同じ箇所を見ること。
 
 **`src/components/react-bits/` の `SplitText` と `ShinyText` は、現在アプリ本体から
 参照されていない。** どちらも一度は組み込んだが、デザイン調整で外した経緯がある

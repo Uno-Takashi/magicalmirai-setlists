@@ -23,7 +23,6 @@
     "@gsap/react": "^2.1.2",
     "@heroui/react": "^3.2.4",
     "@heroui/styles": "^3.2.4",
-    "@nivo/core": "^0.99.0",
     "@nivo/line": "^0.99.0",
     "@react-aria/i18n": "^3.13.1",
     "@react-aria/ssr": "^3.10.1",
