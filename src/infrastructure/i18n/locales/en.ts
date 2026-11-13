@@ -45,9 +45,7 @@ export const en: Translations = {
   'track.variation.session': 'Matinee / Evening',
   'track.variation.schedule': 'Varies by date',
   'track.variation.daily': 'Rotating',
-  'track.singers': 'Vocals',
 
-  'song.preview': 'Preview',
   'song.playOnYoutube': 'Play on YouTube',
   'song.searchOnYoutube': 'Search on YouTube',
   'song.openSpotify': 'Open in Spotify',

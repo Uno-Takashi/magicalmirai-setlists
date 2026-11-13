@@ -6,8 +6,8 @@ import { FavoritesOverlay } from '@/presentation/components/song/FavoritesOverla
 import { FloatingPlayer } from '@/presentation/components/song/FloatingPlayer'
 import { SearchOverlay } from '@/presentation/components/song/SearchOverlay'
 import { SongDialog } from '@/presentation/components/song/SongDialog'
-import { useDialogs, useDialogsState } from '@/presentation/providers/DialogsProvider'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useDialogs, useDialogsState } from '@/presentation/providers/DialogsContext'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 
 /**
  * 画面に重ねるものをまとめて描く。どのページでも同じように重なるので、

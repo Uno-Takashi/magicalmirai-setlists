@@ -5,9 +5,9 @@ import { BarRanking } from '@/presentation/components/statistics/BarRanking'
 import { vocaloidRows } from '@/presentation/components/statistics/rankingRows'
 import { StatsPanel } from '@/presentation/components/statistics/StatsPanel'
 import { VocaloidTrendSection } from '@/presentation/components/statistics/VocaloidTrendSection'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 
 /** ボーカロイド別の曲数を掘り下げるページ。統計ページの「もっと見る」から来る。 */
 export function VocaloidStatsView() {

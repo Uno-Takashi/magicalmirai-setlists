@@ -6,9 +6,9 @@ import { ProducerChips } from '@/presentation/components/song/ProducerChips'
 import { TrackVariantLabelChip } from '@/presentation/components/setlist/TrackVariantLabelChip'
 import { variantLabels } from '@/presentation/components/setlist/trackVariantLabels'
 import { VocaloidChips } from '@/presentation/components/vocaloid/VocaloidChips'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { usePreferences } from '@/presentation/providers/PreferencesProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { usePreferences } from '@/presentation/providers/PreferencesContext'
 
 /**
  * 曲順の枠に入る候補 1 つ分の行。押すとその曲の詳細を開く。

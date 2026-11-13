@@ -3,7 +3,7 @@ import { TbSwitchHorizontal } from 'react-icons/tb'
 import type { VariationAxis } from '@/domain/setlist/TrackVariation'
 import { MUTED_CHIP } from '@/presentation/components/ui/chipStyles'
 import { CollapsibleChip } from '@/presentation/components/ui/CollapsibleChip'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /** 入れ替わりの軸ごとのアイコン。会場・昼夜・日程・日替わりを見分ける目印。 */
 const VARIATION_ICON = {

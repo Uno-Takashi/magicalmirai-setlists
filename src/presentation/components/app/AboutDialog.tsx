@@ -1,7 +1,7 @@
 import { FaGithub, FaXTwitter } from 'react-icons/fa6'
 import { ExternalLink } from '@/presentation/components/ui/ExternalLink'
 import { Modal, ModalHeader, ModalSection } from '@/presentation/components/ui/Modal'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 import type { TranslationKey } from '@/infrastructure/i18n/i18n'
 
 /** サイトの管理者。 */

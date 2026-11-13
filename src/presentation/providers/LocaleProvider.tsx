@@ -1,22 +1,7 @@
-import {
-  createContext,
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react'
-import { createTranslate, type Locale, type Translate } from '@/infrastructure/i18n/i18n'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createTranslate, type Locale } from '@/infrastructure/i18n/i18n'
 import { preferredLocale, writeStoredLocale } from '@/infrastructure/i18n/localePreference'
-
-interface LocaleContextValue {
-  readonly locale: Locale
-  readonly setLocale: (locale: Locale) => void
-  readonly t: Translate
-}
-
-const LocaleContext = createContext<LocaleContextValue | null>(null)
+import { LocaleContext, type LocaleContextValue } from './LocaleContext'
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(preferredLocale)
@@ -26,6 +11,8 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     writeStoredLocale(next)
   }, [])
 
+  // 読み上げソフトの発音と検索エンジンの言語判定は <html lang> を見る。
+  // HTML に書いた lang は既定値 (ja) なので、言語を切り替えたら追従させる。
   useEffect(() => {
     document.documentElement.lang = locale
   }, [locale])
@@ -36,10 +23,4 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   )
 
   return <LocaleContext value={value}>{children}</LocaleContext>
-}
-
-export function useLocale(): LocaleContextValue {
-  const value = use(LocaleContext)
-  if (value === null) throw new Error('LocaleProvider の外で useLocale を呼び出しています')
-  return value
 }

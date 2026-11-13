@@ -1,9 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type CSSProperties } from 'react'
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
-import type { CSSProperties } from 'react'
 import type { EditionEntry } from '@/domain/catalog/Catalog'
 import { useScrollEdges } from '@/presentation/hooks/useScrollEdges'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 年の切り替え。矢印ボタンと、全年度を並べた横スクロールのタブ。
@@ -12,19 +11,22 @@ import { useLocale } from '@/presentation/providers/LocaleProvider'
 export function YearNavigator({
   entries,
   currentSlug,
+  canGoNewer,
+  canGoOlder,
   onSelect,
   onNewer,
   onOlder,
 }: {
   entries: readonly EditionEntry[]
   currentSlug: string
+  canGoNewer: boolean
+  canGoOlder: boolean
   onSelect: (slug: string) => void
   onNewer: () => void
   onOlder: () => void
 }) {
   const { t } = useLocale()
   const listRef = useRef<HTMLUListElement>(null)
-  const index = entries.findIndex((entry) => entry.edition.slug === currentSlug)
 
   // まだ表示できていない年がどちら側にあるか。端のフェード幅に使う。
   const [overflow, measure] = useScrollEdges(listRef, entries)
@@ -44,7 +46,7 @@ export function YearNavigator({
         <button
           type="button"
           onClick={onNewer}
-          disabled={index <= 0}
+          disabled={!canGoNewer}
           aria-label={t('nav.newerEdition')}
           className="shrink-0 rounded-lg p-2 transition enabled:hover:bg-black/5 disabled:opacity-30"
         >
@@ -86,7 +88,7 @@ export function YearNavigator({
         <button
           type="button"
           onClick={onOlder}
-          disabled={index < 0 || index >= entries.length - 1}
+          disabled={!canGoOlder}
           aria-label={t('nav.olderEdition')}
           className="shrink-0 rounded-lg p-2 transition enabled:hover:bg-black/5 disabled:opacity-30"
         >

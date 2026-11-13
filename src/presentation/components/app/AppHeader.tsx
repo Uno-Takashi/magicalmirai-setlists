@@ -1,10 +1,10 @@
 import type { IconType } from 'react-icons'
 import { LuBox, LuChartColumn, LuInfo, LuSearch, LuSettings } from 'react-icons/lu'
 import type { TranslationKey } from '@/infrastructure/i18n/i18n'
-import { useDialogs } from '@/presentation/providers/DialogsProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { useFavorites } from '@/presentation/providers/FavoritesProvider'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useDialogs } from '@/presentation/providers/DialogsContext'
+import { useFavorites } from '@/presentation/providers/FavoritesContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 import { HOME_URL } from '@/presentation/routing/useRoute'
 import { AppLogo } from './AppLogo'
 
@@ -48,7 +48,7 @@ export function AppHeader() {
   const { t } = useLocale()
   const { selectEdition, openStatistics } = useNavigation()
   const { openSearch, openFavorites, openAbout, openSettings } = useDialogs()
-  const { count } = useFavorites()
+  const { titles: favorites } = useFavorites()
 
   // アイコンだけのボタンなので、読み上げ用の名前を必ず持たせる。
   const actions: {
@@ -59,7 +59,7 @@ export function AppHeader() {
     badge?: number
   }[] = [
     { key: 'search.open', icon: LuSearch, onClick: () => openSearch() },
-    { key: 'favorites.open', icon: LuBox, onClick: openFavorites, badge: count },
+    { key: 'favorites.open', icon: LuBox, onClick: openFavorites, badge: favorites.length },
     { key: 'statistics.open', icon: LuChartColumn, onClick: openStatistics },
     { key: 'about.open', icon: LuInfo, onClick: openAbout },
     { key: 'settings.open', icon: LuSettings, onClick: openSettings },

@@ -4,8 +4,8 @@ import { setlistCsvFilename, setlistCsvRows, toCsv } from '@/application/exportS
 import type { Edition } from '@/domain/edition/Edition'
 import type { Setlist } from '@/domain/setlist/Setlist'
 import { downloadText } from '@/infrastructure/download/downloadFile'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /** 見出しの文言。並びは application 側の列と揃える。 */
 const HEADER_KEYS = [

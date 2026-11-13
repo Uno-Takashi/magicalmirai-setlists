@@ -1,7 +1,7 @@
 import { LuCheck, LuPlus, LuX } from 'react-icons/lu'
 import type { SongTitle } from '@/domain/song/Song'
-import { useFavorites } from '@/presentation/providers/FavoritesProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useFavorites } from '@/presentation/providers/FavoritesContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 const BUTTON = 'grid size-7 shrink-0 place-items-center rounded-lg transition'
 

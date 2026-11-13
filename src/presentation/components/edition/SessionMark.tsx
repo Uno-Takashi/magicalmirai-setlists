@@ -1,6 +1,6 @@
 import type { Session } from '@/domain/edition/Show'
 import { SESSION_COLOR, SESSION_ICON } from '@/presentation/components/edition/sessionVisuals'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 昼夜をアイコンだけで示す。日付の後ろに並べる公演地カード向けで、

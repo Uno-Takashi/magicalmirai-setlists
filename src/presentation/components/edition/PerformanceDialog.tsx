@@ -5,7 +5,7 @@ import { PerformanceSchedule } from '@/presentation/components/edition/Performan
 import { REGION_COLOR } from '@/presentation/components/edition/regionVisuals'
 import { VenueMap } from '@/presentation/components/edition/VenueMap'
 import { Modal, ModalHeader } from '@/presentation/components/ui/Modal'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /** 会場で使った施設。公式サイトが会場名しか出していない年は施設名を持たない。 */
 function VenueSection({ performance }: { performance: Performance }) {

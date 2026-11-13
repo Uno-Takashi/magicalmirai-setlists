@@ -1,8 +1,8 @@
 import { Switch } from '@heroui/react'
 import { LOCALE_LABELS, LOCALES } from '@/infrastructure/i18n/i18n'
 import { Modal, ModalHeader, ModalSection } from '@/presentation/components/ui/Modal'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { usePreferences } from '@/presentation/providers/PreferencesProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { usePreferences } from '@/presentation/providers/PreferencesContext'
 
 /** 見た目の好みを 1 つ切り替える行。説明はスイッチの下に小さく添える。 */
 function SettingRow({
@@ -35,7 +35,7 @@ function SettingRow({
 }
 
 /**
- * 表示の設定をまとめたモーダル。今は言語だけだが、設定はここに足していく。
+ * 表示の設定をまとめたモーダル。言語と見た目の好みを切り替える。
  *
  * 言語は select ではなく候補を並べたボタンにする。選べる言語がその場で全部見え、
  * それぞれの名前がその言語自身の表記で読めるため。

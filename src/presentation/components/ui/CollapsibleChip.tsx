@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { usePreferences } from '@/presentation/providers/PreferencesProvider'
+import type { CSSProperties, ReactNode } from 'react'
+import { usePreferences } from '@/presentation/providers/PreferencesContext'
 
 /**
  * 畳めるタグ。
@@ -21,7 +21,7 @@ export function CollapsibleChip({
   /** 畳んだときに残す目印。色の丸やアイコン。 */
   mark: ReactNode
   className?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
   /** 開いたときに出る文言。 */
   children: ReactNode
 }) {

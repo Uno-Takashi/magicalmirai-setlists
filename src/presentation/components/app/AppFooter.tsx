@@ -1,4 +1,4 @@
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 export function AppFooter() {
   const { t } = useLocale()

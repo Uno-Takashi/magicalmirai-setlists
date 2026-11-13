@@ -1,8 +1,8 @@
 import type { VocaloidId } from '@/domain/vocaloid/Vocaloid'
 import { localize } from '@/domain/shared/LocalizedText'
 import { CollapsibleChip } from '@/presentation/components/ui/CollapsibleChip'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /** 歌唱ボーカロイドをテーマカラーのチップで並べる。 */
 export function VocaloidChips({ singers }: { singers: readonly VocaloidId[] }) {

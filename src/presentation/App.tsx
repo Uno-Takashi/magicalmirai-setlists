@@ -5,9 +5,9 @@ import { usePageMeta } from '@/presentation/hooks/usePageMeta'
 import { useSearchShortcut } from '@/presentation/hooks/useSearchShortcut'
 import { EditionPage } from '@/presentation/pages/EditionPage'
 import { StatisticsPage } from '@/presentation/pages/StatisticsPage'
-import { useDialogs } from '@/presentation/providers/DialogsProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useDialogs } from '@/presentation/providers/DialogsContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 
 /** 現在地に応じたページ。開催回が 1 つも無いときだけ、空状態を出す。 */
 function CurrentPage() {

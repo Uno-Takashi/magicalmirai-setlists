@@ -1,4 +1,4 @@
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 開催回を西暦の小さな札で示すボタン。押すとその年のセットリストへ移る。

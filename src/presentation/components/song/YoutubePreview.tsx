@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 import { LuPlay } from 'react-icons/lu'
 import type { Song } from '@/domain/song/Song'
 import { youtubeThumbnailUrl } from '@/domain/song/musicServiceUrl'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { usePlayer } from '@/presentation/providers/PlayerProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { usePlayer } from '@/presentation/providers/PlayerContext'
 
 /**
  * YouTube はクリックされるまで iframe を作らない (初期表示を軽く保つため)。
