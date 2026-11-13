@@ -1,5 +1,5 @@
-import type { CSSProperties } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
+import type { CSSProperties } from 'react'
 import { EditionMotifArt } from './EditionMotifArt'
 import type { EditionTheme } from './editionThemes'
 
@@ -18,11 +18,13 @@ const veil = (color: string) => `color-mix(in srgb, ${color} 55%, transparent)`
  */
 function backdropStyle(theme: EditionTheme): CSSProperties {
   const common = { backgroundSize: '100% 60rem', backgroundRepeat: 'no-repeat' } as const
+  const [first] = theme.colors
+  const last = theme.colors.at(-1) ?? first
 
   if (theme.layout === 'spotlight') {
     return {
       ...common,
-      backgroundColor: theme.colors[theme.colors.length - 1],
+      backgroundColor: last,
       // 白を薄く 2 枚重ねる。1 枚だと光の縁がはっきり出て、輪郭のある円に見える
       backgroundImage: [
         'radial-gradient(70rem 26rem at 50% -4rem, rgb(255 255 255 / 0.26), transparent 72%)',
@@ -32,20 +34,18 @@ function backdropStyle(theme: EditionTheme): CSSProperties {
   }
 
   if (theme.layout === 'sides') {
-    const left = theme.colors[0]
-    const right = theme.colors[theme.colors.length - 1]!
     return {
       ...common,
       backgroundImage: [
-        `radial-gradient(52rem 44rem at -12% 18%, ${veil(left)}, transparent 64%)`,
-        `radial-gradient(52rem 44rem at 112% 42%, ${veil(right)}, transparent 64%)`,
+        `radial-gradient(52rem 44rem at -12% 18%, ${veil(first)}, transparent 64%)`,
+        `radial-gradient(52rem 44rem at 112% 42%, ${veil(last)}, transparent 64%)`,
       ].join(', '),
     }
   }
 
   return {
     ...common,
-    backgroundColor: theme.colors[theme.colors.length - 1],
+    backgroundColor: last,
     backgroundImage: `linear-gradient(to bottom, ${theme.colors.join(', ')})`,
   }
 }

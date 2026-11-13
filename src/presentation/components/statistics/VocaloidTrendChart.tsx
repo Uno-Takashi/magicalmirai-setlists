@@ -97,7 +97,7 @@ export function VocaloidTrendChart({
               <p className="mb-1 font-bold tabular-nums">{String(slice.points[0]?.data.x ?? '')}</p>
               <ul className="grid gap-0.5">
                 {/* 既定では系列の逆順に来るので、凡例と同じ曲数の多い順に戻す */}
-                {[...slice.points].reverse().map((point) => (
+                {slice.points.toReversed().map((point) => (
                   <li key={point.id} className="flex items-center gap-1.5 whitespace-nowrap">
                     <span
                       className="size-2 shrink-0 rounded-full"

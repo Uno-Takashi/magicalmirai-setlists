@@ -26,6 +26,8 @@ export function EditionPage({ entry }: { entry: EditionEntry }) {
       <YearNavigator
         entries={entries}
         currentSlug={entry.edition.slug}
+        canGoNewer={canGoNewer}
+        canGoOlder={canGoOlder}
         onSelect={selectEdition}
         onNewer={goNewer}
         onOlder={goOlder}
