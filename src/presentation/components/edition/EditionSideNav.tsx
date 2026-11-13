@@ -1,5 +1,5 @@
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 画面の左右端に固定した年送りボタン。

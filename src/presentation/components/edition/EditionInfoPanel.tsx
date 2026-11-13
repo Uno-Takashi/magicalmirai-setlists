@@ -5,7 +5,7 @@ import { editionPeriod, type Edition } from '@/domain/edition/Edition'
 import type { Performance } from '@/domain/edition/Performance'
 import { PerformanceRail } from '@/presentation/components/edition/PerformanceRail'
 import { formatDateRange, useDateFormatters } from '@/presentation/hooks/useFormatters'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /** 開け閉めの動き。高さは中身の分だけ伸び縮みする。 */
 const EXPAND = { duration: 0.28, ease: [0.22, 1, 0.36, 1] } as const

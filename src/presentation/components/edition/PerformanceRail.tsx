@@ -5,7 +5,7 @@ import { localize } from '@/domain/shared/LocalizedText'
 import { REGION_COLOR } from '@/presentation/components/edition/regionVisuals'
 import { SessionMark } from '@/presentation/components/edition/SessionMark'
 import { useDateFormatters } from '@/presentation/hooks/useFormatters'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 1 年に行われた公演を並べる。各カードがその公演地の日程(昼夜含む)を持つので、

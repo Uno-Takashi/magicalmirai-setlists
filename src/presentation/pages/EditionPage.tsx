@@ -7,7 +7,7 @@ import { EditionView } from '@/presentation/components/edition/EditionView'
 import { useEditionTheme } from '@/presentation/components/edition/useEditionTheme'
 import { YearNavigator } from '@/presentation/components/edition/YearNavigator'
 import { useKeyboardNavigation } from '@/presentation/hooks/useKeyboardNavigation'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 
 /**
  * 開催回 1 つ分のページ。年を送る仕掛け (上のタブ・左右の矢印・横スワイプ) で

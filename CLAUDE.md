@@ -170,9 +170,10 @@ src/
   presentation/           React
     App.tsx                 外枠 (ヘッダー・ページ・脚注・重なり) の組み立てだけ
     pages/                  現在地ごとのページ (開催回 / 統計)
-    providers/              Catalog / Locale / Player / Navigation / Dialogs
     routing/routes.ts       URL の形 (build/ と共有するので何も import しない)
     routing/useRoute.ts     History API の購読と遷移
+    providers/              文脈。`XxxProvider.tsx` が部品、`XxxContext.ts` が文脈とフック
+    providers/AppProviders.tsx 全 Provider を正しい順で重ねる (main.tsx と Storybook が共有)
     hooks/                  キーボード操作、meta、日付整形、重なりのふるまい
     components/             UI コンポーネント + .stories.tsx (下記の区分ごと)
   fixtures/               Storybook と単体テスト用の作り物のカタログ (dataset は読まない)
@@ -200,8 +201,8 @@ src/
 | 何                               | どこ                                   |
 | -------------------------------- | -------------------------------------- |
 | 現在地・開催回の送り・focusSong  | `NavigationProvider` (`useNavigation`) |
-| 検索 / 曲の詳細 / About / 設定   | `DialogsProvider`                      |
-| 再生中の 1 曲と動画の置き場所    | `PlayerProvider`                       |
+| 検索 / 曲の詳細 / About / 設定   | `DialogsProvider` (`useDialogs`)       |
+| 再生中の 1 曲と動画の置き場所    | `PlayerProvider` (`usePlayer`)         |
 | セットリストの選択・会場モーダル | それを出す画面の `useState`            |
 
 `DialogsProvider` は**状態と操作を別の文脈に分けている** (`useDialogsState` /

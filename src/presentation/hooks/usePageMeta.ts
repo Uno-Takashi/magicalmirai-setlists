@@ -9,9 +9,9 @@ import { useMemo } from 'react'
 import { defaultEntry } from '@/domain/catalog/Catalog'
 import { localize } from '@/domain/shared/LocalizedText'
 import { useDocumentMeta, type DocumentMeta } from '@/presentation/hooks/useDocumentMeta'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 import { RANKING_TITLE_KEYS, rankingPath, STATISTICS_PATH } from '@/presentation/routing/routes'
 
 /** 現在地に合わせて、ページの meta を書き換える。 */

@@ -1,4 +1,4 @@
-import { usePreferences } from '@/presentation/providers/PreferencesProvider'
+import { usePreferences } from '@/presentation/providers/PreferencesContext'
 import { editionThemeOf, type EditionTheme } from './editionThemes'
 
 /**

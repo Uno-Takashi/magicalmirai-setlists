@@ -4,9 +4,9 @@ import { editionsOfSong } from '@/application/searchSongs'
 import type { Song } from '@/domain/song/Song'
 import { SongSearchResult } from '@/presentation/components/song/SongSearchResult'
 import { useOverlay } from '@/presentation/hooks/useOverlay'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useFavorites } from '@/presentation/providers/FavoritesProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useFavorites } from '@/presentation/providers/FavoritesContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * お気に入りに入れた曲だけを並べる。ヘッダーの箱のアイコンから開く。
@@ -27,7 +27,7 @@ export function FavoritesOverlay({
 }) {
   const { t } = useLocale()
   const { catalog, searchIndex } = useCatalog()
-  const { titles, count } = useFavorites()
+  const { titles } = useFavorites()
   useOverlay(open, onClose)
 
   // 曲名しか覚えていないので、中身はカタログから引く。
@@ -54,7 +54,9 @@ export function FavoritesOverlay({
             <div className="min-w-0 flex-1">
               <h2 className="text-miku text-lg font-black">{t('favorites.title')}</h2>
               <p className="text-muted mt-0.5 text-xs">
-                {count > 0 ? t('favorites.count', { count }) : t('favorites.description')}
+                {hits.length > 0
+                  ? t('favorites.count', { count: hits.length })
+                  : t('favorites.description')}
               </p>
             </div>
             <button

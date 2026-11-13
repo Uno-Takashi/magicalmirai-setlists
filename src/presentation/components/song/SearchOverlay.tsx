@@ -7,8 +7,8 @@ import { SongSearchResult } from '@/presentation/components/song/SongSearchResul
 import { VocaloidFilter } from '@/presentation/components/vocaloid/VocaloidFilter'
 import { useVocaloidFilter } from '@/presentation/components/vocaloid/useVocaloidFilter'
 import { useOverlay } from '@/presentation/hooks/useOverlay'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 曲名の逐次検索。1 文字ごとに結果を出す。

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { LuPlus } from 'react-icons/lu'
 import { HelpTip } from '@/presentation/components/ui/HelpTip'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 統計のひとかたまり。見出し・中身・「もっと見る」を同じ形で囲う。

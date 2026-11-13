@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { parseEventDate } from '@/domain/edition/Show'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 export type DateFormatters = ReturnType<typeof useDateFormatters>
 

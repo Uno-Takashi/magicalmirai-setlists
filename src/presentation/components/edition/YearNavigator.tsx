@@ -3,7 +3,7 @@ import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 import type { CSSProperties } from 'react'
 import type { EditionEntry } from '@/domain/catalog/Catalog'
 import { useScrollEdges } from '@/presentation/hooks/useScrollEdges'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 年の切り替え。矢印ボタンと、全年度を並べた横スクロールのタブ。

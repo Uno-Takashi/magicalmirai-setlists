@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import type { VocaloidId } from '@/domain/vocaloid/Vocaloid'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
 
 /**
  * ボーカロイドでの絞り込みの状態。

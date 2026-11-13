@@ -4,8 +4,8 @@ import type { Song } from '@/domain/song/Song'
 import { youtubeEmbedUrl } from '@/domain/song/musicServiceUrl'
 import { listenToPlayerStatus } from '@/infrastructure/youtube/embedPlayer'
 import { useFloatingPlayerBox } from '@/presentation/components/song/useFloatingPlayerBox'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { usePlayer } from '@/presentation/providers/PlayerProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { usePlayer } from '@/presentation/providers/PlayerContext'
 
 /** 右下に縮んでいるときだけ出す帯。曲名と、広げる・閉じるの操作を載せる。 */
 function MiniBar({

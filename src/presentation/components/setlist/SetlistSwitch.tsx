@@ -4,7 +4,7 @@ import { findPerformance, type Edition } from '@/domain/edition/Edition'
 import type { Setlist } from '@/domain/setlist/Setlist'
 import { localize } from '@/domain/shared/LocalizedText'
 import { REGION_COLOR } from '@/presentation/components/edition/regionVisuals'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * セットリストの名前。適用先の公演地を並べて「大阪・東京」のように呼ぶ。

@@ -4,7 +4,7 @@ import type { Vocaloid } from '@/domain/vocaloid/Vocaloid'
 import { StatsPanel } from '@/presentation/components/statistics/StatsPanel'
 import type { TrendMode } from '@/presentation/components/statistics/VocaloidTrendChart'
 import { SegmentedControl } from '@/presentation/components/ui/SegmentedControl'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 const MODES: readonly TrendMode[] = ['perEdition', 'cumulative']
 

@@ -2,7 +2,7 @@ import { SiApplemusic, SiSpotify, SiYoutube } from 'react-icons/si'
 import type { Song } from '@/domain/song/Song'
 import { musicServiceLink, type MusicServiceKind } from '@/domain/song/musicServiceUrl'
 import { ExternalLink } from '@/presentation/components/ui/ExternalLink'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 const SERVICE_ICON = {
   youtube: SiYoutube,

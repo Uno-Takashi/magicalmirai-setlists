@@ -1,7 +1,7 @@
 import { localize } from '@/domain/shared/LocalizedText'
 import type { VocaloidId } from '@/domain/vocaloid/Vocaloid'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * ボーカロイドでの絞り込み。既定は全員 on (= 絞り込みなし)。

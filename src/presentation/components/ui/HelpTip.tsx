@@ -1,6 +1,6 @@
 import { Tooltip } from '@heroui/react'
 import { LuCircleHelp } from 'react-icons/lu'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 見出しの横に置く「?」。マウスオーバーで説明を出す。

@@ -1,5 +1,5 @@
 import { LuChevronLeft } from 'react-icons/lu'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 掘り下げのページから統計の全体へ戻る導線。

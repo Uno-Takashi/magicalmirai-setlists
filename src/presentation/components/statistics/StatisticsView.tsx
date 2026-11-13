@@ -13,10 +13,10 @@ import {
 } from '@/presentation/components/statistics/rankingRows'
 import { StatsPanel } from '@/presentation/components/statistics/StatsPanel'
 import { StatTile } from '@/presentation/components/statistics/StatTile'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useDialogs } from '@/presentation/providers/DialogsProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useDialogs } from '@/presentation/providers/DialogsContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 
 /** 統計ページに出す上位の件数。続きは掘り下げのページで見せる。 */
 const RANKING_LIMIT = 5

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { usePreferences } from '@/presentation/providers/PreferencesProvider'
+import { usePreferences } from '@/presentation/providers/PreferencesContext'
 
 /**
  * 畳めるタグ。

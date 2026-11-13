@@ -11,7 +11,7 @@ import { PerformanceDialog } from '@/presentation/components/edition/Performance
 import { SetlistDownloadButton } from '@/presentation/components/setlist/SetlistDownloadButton'
 import { SetlistSwitch } from '@/presentation/components/setlist/SetlistSwitch'
 import { SetlistTimeline } from '@/presentation/components/setlist/SetlistTimeline'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /** 開催回の見出し。タイトル画像があれば画像を出し、見出しは読み上げ専用にする。 */
 function EditionHeading({ edition }: { edition: Edition }) {

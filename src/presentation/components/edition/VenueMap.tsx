@@ -1,7 +1,7 @@
 import type { Performance } from '@/domain/edition/Performance'
 import { venueMapEmbedUrl } from '@/domain/edition/venueMapUrl'
 import { localize } from '@/domain/shared/LocalizedText'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 会場の場所。地図は開いたときだけ読み込ませたいので、この中で iframe を作る。

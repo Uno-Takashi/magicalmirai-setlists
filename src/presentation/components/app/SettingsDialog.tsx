@@ -1,8 +1,8 @@
 import { Switch } from '@heroui/react'
 import { LOCALE_LABELS, LOCALES } from '@/infrastructure/i18n/i18n'
 import { Modal, ModalHeader, ModalSection } from '@/presentation/components/ui/Modal'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { usePreferences } from '@/presentation/providers/PreferencesProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { usePreferences } from '@/presentation/providers/PreferencesContext'
 
 /** 見た目の好みを 1 つ切り替える行。説明はスイッチの下に小さく添える。 */
 function SettingRow({

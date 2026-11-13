@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import type { VocaloidTrendPoint } from '@/application/statistics'
 import { localize } from '@/domain/shared/LocalizedText'
 import type { Vocaloid } from '@/domain/vocaloid/Vocaloid'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 export type TrendMode = 'perEdition' | 'cumulative'
 

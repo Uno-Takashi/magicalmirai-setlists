@@ -6,9 +6,9 @@ import { MusicServiceLinks } from '@/presentation/components/song/MusicServiceLi
 import { YoutubePreview } from '@/presentation/components/song/YoutubePreview'
 import { Modal, ModalHeader, ModalIconButton } from '@/presentation/components/ui/Modal'
 import { VocaloidChips } from '@/presentation/components/vocaloid/VocaloidChips'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { usePlayer } from '@/presentation/providers/PlayerProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { usePlayer } from '@/presentation/providers/PlayerContext'
 
 /** その曲を歌ったボーカロイド。年ごとに違うことがあるので、全公演の和集合を出す。 */
 function SongSingers({ song }: { song: Song }) {

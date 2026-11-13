@@ -4,9 +4,9 @@ import { bonusTracks, performedTracks, type Setlist } from '@/domain/setlist/Set
 import type { Track } from '@/domain/setlist/Track'
 import type { Song } from '@/domain/song/Song'
 import { TrackRow } from '@/presentation/components/setlist/TrackRow'
-import { useDialogs } from '@/presentation/providers/DialogsProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
-import { useNavigation } from '@/presentation/providers/NavigationProvider'
+import { useDialogs } from '@/presentation/providers/DialogsContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
+import { useNavigation } from '@/presentation/providers/NavigationContext'
 
 function TrackList({
   tracks,

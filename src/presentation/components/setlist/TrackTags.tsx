@@ -3,7 +3,7 @@ import { BsFire, BsFlagFill } from 'react-icons/bs'
 import { LuCrown, LuDisc3, LuGuitar } from 'react-icons/lu'
 import type { TrackTag } from '@/domain/setlist/TrackTag'
 import { CollapsibleChip } from '@/presentation/components/ui/CollapsibleChip'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 const TAG_STYLE: Record<TrackTag, string> = {
   encore: 'bg-meiko/20 text-meiko',

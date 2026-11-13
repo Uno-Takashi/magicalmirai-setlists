@@ -3,8 +3,8 @@ import { producerLabel, type Song } from '@/domain/song/Song'
 import { EditionYearBadge } from '@/presentation/components/edition/EditionYearBadge'
 import { FavoriteButton } from '@/presentation/components/song/FavoriteButton'
 import { VocaloidChips } from '@/presentation/components/vocaloid/VocaloidChips'
-import { useCatalog } from '@/presentation/providers/CatalogProvider'
-import { useLocale } from '@/presentation/providers/LocaleProvider'
+import { useCatalog } from '@/presentation/providers/CatalogContext'
+import { useLocale } from '@/presentation/providers/LocaleContext'
 
 /**
  * 検索結果の 1 曲。曲名を押すと詳細、年の札を押すとその年のセットリストへ移る。
