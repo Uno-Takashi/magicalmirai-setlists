@@ -48,8 +48,3 @@ export function musicServiceLink(song: Song, kind: MusicServiceKind): MusicServi
         : { kind, url: `https://music.apple.com/jp/search?term=${query(song)}`, exact: false }
   }
 }
-
-/** 埋め込み再生できるか。できない曲は検索リンクだけを出す。 */
-export function canEmbed(song: Song): boolean {
-  return Boolean(song.links.youtube)
-}

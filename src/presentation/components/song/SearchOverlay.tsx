@@ -29,7 +29,7 @@ export function SearchOverlay({
   onSelectEdition: (slug: string) => void
 }) {
   const { t } = useLocale()
-  const { catalog, searchIndex } = useCatalog()
+  const { searchIndex } = useCatalog()
   const [query, setQuery] = useState(initialQuery)
   const inputRef = useRef<HTMLInputElement>(null)
   const { selected, toggle, reset, filtering } = useVocaloidFilter()
@@ -41,9 +41,9 @@ export function SearchOverlay({
     const found = searchSongs(searchIndex, deferredQuery)
     if (!filtering) return found
     return found.filter((hit) =>
-      singersOfSong(catalog, searchIndex, hit.song.title).some((id) => selected.has(id)),
+      singersOfSong(searchIndex, hit.song.title).some((id) => selected.has(id)),
     )
-  }, [catalog, searchIndex, deferredQuery, filtering, selected])
+  }, [searchIndex, deferredQuery, filtering, selected])
   const stale = deferredQuery !== query
 
   // 開いた瞬間だけ初期状態へ戻す。initialQuery を入れ、絞り込みは全員 on に戻して

@@ -141,13 +141,14 @@ pnpm format:check     # oxfmt --check .  (CI と pre-commit で実行される)
 dataset/                  データの正 (source of truth)。README.md に編集方法。
 src/
   domain/                 ドメイン層。純粋な型とルールのみ
-    vocaloid/Vocaloid.ts    ボーカロイド、LocalizedText
+    shared/LocalizedText.ts ロケールごとの表示文字列 (開催回・会場・ボーカロイドの名前)
+    vocaloid/Vocaloid.ts    ボーカロイド
     song/Song.ts            楽曲 (曲名が自然キー、作曲者は合作があるので配列)
     song/musicServiceUrl.ts 各音楽サービスへの導線を決めるポリシー
     edition/Edition.ts      開催回
     edition/Performance.ts  公演地ごとの公演
     edition/Show.ts         1 回の公演 (昼/夜)
-    edition/Region.ts       公演地の区分とテーマカラー
+    edition/Region.ts       公演地の区分 (色は presentation の regionVisuals.ts)
     setlist/Setlist.ts      セットリスト
     setlist/Track.ts        曲順の枠 (候補と、演奏された公演回の参照を持つ)
     setlist/TrackVariation.ts 会場替わり/昼夜入れ替え/日程替わりの判定 (shows から計算)

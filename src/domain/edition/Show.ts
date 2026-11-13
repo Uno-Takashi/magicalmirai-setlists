@@ -1,8 +1,13 @@
 /** 1 回の公演(昼/夜それぞれ)。 */
 
+/** 昼公演 / 夜公演。この並びが同じ日の公演回の順にもなる。 */
 export const SESSIONS = ['matinee', 'evening'] as const
-/** 昼公演 / 夜公演。区別が無い(または不明な)公演は undefined。 */
+/** 区別が無い (または不明な) 公演回は、Session を持たない (undefined)。 */
 export type Session = (typeof SESSIONS)[number]
+
+export function isSession(value: string): value is Session {
+  return (SESSIONS as readonly string[]).includes(value)
+}
 
 export interface Show {
   readonly id: string

@@ -147,7 +147,7 @@ describe('singersOfSong', () => {
       SONGS,
     )
     const index = buildSongSearchIndex(subject)
-    expect(singersOfSong(subject, index, 'ネオンの通学路')).toEqual(['miku', 'rin'])
+    expect(singersOfSong(index, 'ネオンの通学路')).toEqual(['miku', 'rin'])
   })
 
   it('並びは dataset のボーカロイドの順に従う', () => {
@@ -156,10 +156,10 @@ describe('singersOfSong', () => {
       SONGS,
     )
     const index = buildSongSearchIndex(subject)
-    expect(singersOfSong(subject, index, 'ネオンの通学路')).toEqual(['miku', 'len'])
+    expect(singersOfSong(index, 'ネオンの通学路')).toEqual(['miku', 'len'])
   })
 
   it('索引に無い曲は空', () => {
-    expect(singersOfSong(SUBJECT, INDEX, '一度も歌われない曲')).toEqual([])
+    expect(singersOfSong(INDEX, '一度も歌われない曲')).toEqual([])
   })
 })

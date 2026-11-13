@@ -181,14 +181,6 @@ export function vocaloidRanking(catalog: Catalog): VocaloidStat[] {
   return toRanking(catalog, unionByVocaloid(songsByVocaloidPerEdition(catalog)))
 }
 
-/**
- * そのボーカロイド 1 人だけで歌った曲の数。
- * デュエットやユニゾンの曲は誰にも数えない。
- */
-export function vocaloidSoloRanking(catalog: Catalog): VocaloidStat[] {
-  return toRanking(catalog, unionByVocaloid(songsByVocaloidPerEdition(catalog, true)))
-}
-
 function unionByVocaloid(
   byEdition: readonly { songs: Map<VocaloidId, Set<SongTitle>> }[],
 ): Map<VocaloidId, Set<SongTitle>> {
@@ -214,7 +206,7 @@ export interface VocaloidTrendPoint {
 
 /**
  * 開催回ごとのボーカロイド別曲数の推移。年代順 (昇順)。
- * onlySolo を立てると、1 人だけで歌った曲に絞る。
+ * onlySolo を立てると、1 人だけで歌った曲に絞る (デュエットやユニゾンは誰にも数えない)。
  */
 export function vocaloidTrend(catalog: Catalog, onlySolo = false): VocaloidTrendPoint[] {
   const byEdition = songsByVocaloidPerEdition(catalog, onlySolo).filter(

@@ -25,15 +25,6 @@ export function findEntry(catalog: Catalog, slug: string): EditionEntry | undefi
   return catalog.entries.find((entry) => entry.edition.slug === slug)
 }
 
-export function entryIndex(catalog: Catalog, slug: string): number {
-  return catalog.entries.findIndex((entry) => entry.edition.slug === slug)
-}
-
-/** 最新の開催回。 */
-export function latestEntry(catalog: Catalog): EditionEntry | undefined {
-  return catalog.entries[catalog.entries.length - 1]
-}
-
 /**
  * 初期表示に使う開催回。
  *
@@ -41,15 +32,7 @@ export function latestEntry(catalog: Catalog): EditionEntry | undefined {
  * 空のページから始まってしまう。セットリストがある最新の回を優先する。
  */
 export function defaultEntry(catalog: Catalog): EditionEntry | undefined {
-  for (let i = catalog.entries.length - 1; i >= 0; i -= 1) {
-    const entry = catalog.entries[i]
-    if (entry !== undefined && entry.setlists.length > 0) return entry
-  }
-  return latestEntry(catalog)
-}
-
-export function getSong(catalog: Catalog, title: SongTitle): Song | undefined {
-  return catalog.songs.get(title)
+  return catalog.entries.findLast((entry) => entry.setlists.length > 0) ?? catalog.entries.at(-1)
 }
 
 /** セットリストが参照する曲がすべて楽曲マスタにあるかを検証する。 */

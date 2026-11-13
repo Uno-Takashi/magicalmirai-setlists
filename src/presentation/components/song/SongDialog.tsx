@@ -12,8 +12,8 @@ import { usePlayer } from '@/presentation/providers/PlayerProvider'
 
 /** その曲を歌ったボーカロイド。年ごとに違うことがあるので、全公演の和集合を出す。 */
 function SongSingers({ song }: { song: Song }) {
-  const { catalog, searchIndex } = useCatalog()
-  return <VocaloidChips singers={singersOfSong(catalog, searchIndex, song.title)} />
+  const { searchIndex } = useCatalog()
+  return <VocaloidChips singers={singersOfSong(searchIndex, song.title)} />
 }
 
 /** その曲が演奏された開催回。年が並ぶだけで意味が通るので見出しは置かない。 */

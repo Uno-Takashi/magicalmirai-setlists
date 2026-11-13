@@ -7,7 +7,7 @@
 
 import type { ProducerStat, SongStat, VocaloidStat } from '@/application/statistics'
 import { producerLabel, type Song } from '@/domain/song/Song'
-import { localize } from '@/domain/vocaloid/Vocaloid'
+import { localize } from '@/domain/shared/LocalizedText'
 import type { BarRankingRow } from '@/presentation/components/statistics/BarRanking'
 import type { Locale, Translate } from '@/infrastructure/i18n/i18n'
 
